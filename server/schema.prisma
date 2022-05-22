@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider           = "typegraphql-prisma"
+  output             = "./prisma/generated/type-graphql"
+  emitTranspiledCode = true
+
+}
+
+model Student {
+  id        Int      @id @default(autoincrement())
+  email     String
+  firstName String
+  lastName  String
+  /// TypeGraphQL.omit(output: true)
+  password  String
+  createdAt DateTime @default(now())
+  lastLogin DateTime @default(now())
+
+  // Student Attributes
+  studentId   String
+  passesUsed  Int
+  ipAddresses IPAddress[]
+  // Add Classes With Many To Many Relationship
+  classrooms  Classroom[]
+  passes      Pass[]
+}
+
+model IPAddress {
+  owner     Student  @relation(fields: [ownerId], references: [id])
+  ownerId   Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  address   String
+}
+
+model Teacher {
+  id        Int      @id @default(autoincrement())
+  email     String
+  firstName String
+  lastName  String
+  /// TypeGraphQL.omit(output: true)
+  password  String
+  createdAt DateTime @default(now())
+  lastLogin DateTime @default(now())
+
+  classrooms   Classroom[]
+  issuedPasses Pass[]
+}
+
+model Classroom {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime  @default(now())
+  startTime   DateTime
+  endTime     DateTime
+  classCode   String
+  students    Student[]
+  teacher     Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId   Int
+  passes      Pass[]
+}
+
+model Pass {
+  id        Int       @id @default(autoincrement())
+  student   Student   @relation(fields: [studentId], references: [id])
+  studentId Int
+  classroom Classroom @relation(fields: [classId], references: [id])
+  classId   Int
+
+  createdAt DateTime @default(now())
+  startTime DateTime
+  endTime   DateTime
+  duration  Int
+  issuer    Teacher  @relation(fields: [issuerId], references: [id])
+  issuerId  Int
+}

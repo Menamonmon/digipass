@@ -2,23 +2,28 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import "reflect-metadata";
-import { buildSchema, Query, Resolver } from "type-graphql";
+import { buildSchema } from "type-graphql";
+import { resolvers } from "../prisma/generated/type-graphql";
+import { PrismaClient } from "@prisma/client";
 
-@Resolver()
-class HelloResolver {
-  @Query(() => String)
-  async hello() {
-    return "Hello World";
-  }
+interface GraphQLContext {
+  prisma: PrismaClient;
 }
 
 const main = async () => {
+  const prisma = new PrismaClient();
+  await prisma.$connect();
+
   const schema = await buildSchema({
-    resolvers: [HelloResolver],
+    resolvers,
+    validate: false,
   });
   const apolloServer = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    context: {
+      prisma,
+    },
   });
   await apolloServer.start();
   const app = express();

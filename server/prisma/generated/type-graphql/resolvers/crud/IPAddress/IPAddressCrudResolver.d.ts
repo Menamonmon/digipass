@@ -1,0 +1,31 @@
+import { GraphQLResolveInfo } from "graphql";
+import { AggregateIPAddressArgs } from "./args/AggregateIPAddressArgs";
+import { CreateIPAddressArgs } from "./args/CreateIPAddressArgs";
+import { CreateManyIPAddressArgs } from "./args/CreateManyIPAddressArgs";
+import { DeleteIPAddressArgs } from "./args/DeleteIPAddressArgs";
+import { DeleteManyIPAddressArgs } from "./args/DeleteManyIPAddressArgs";
+import { FindFirstIPAddressArgs } from "./args/FindFirstIPAddressArgs";
+import { FindManyIPAddressArgs } from "./args/FindManyIPAddressArgs";
+import { FindUniqueIPAddressArgs } from "./args/FindUniqueIPAddressArgs";
+import { GroupByIPAddressArgs } from "./args/GroupByIPAddressArgs";
+import { UpdateIPAddressArgs } from "./args/UpdateIPAddressArgs";
+import { UpdateManyIPAddressArgs } from "./args/UpdateManyIPAddressArgs";
+import { UpsertIPAddressArgs } from "./args/UpsertIPAddressArgs";
+import { IPAddress } from "../../../models/IPAddress";
+import { AffectedRowsOutput } from "../../outputs/AffectedRowsOutput";
+import { AggregateIPAddress } from "../../outputs/AggregateIPAddress";
+import { IPAddressGroupBy } from "../../outputs/IPAddressGroupBy";
+export declare class IPAddressCrudResolver {
+    iPAddress(ctx: any, info: GraphQLResolveInfo, args: FindUniqueIPAddressArgs): Promise<IPAddress | null>;
+    findFirstIPAddress(ctx: any, info: GraphQLResolveInfo, args: FindFirstIPAddressArgs): Promise<IPAddress | null>;
+    iPAddresses(ctx: any, info: GraphQLResolveInfo, args: FindManyIPAddressArgs): Promise<IPAddress[]>;
+    createIPAddress(ctx: any, info: GraphQLResolveInfo, args: CreateIPAddressArgs): Promise<IPAddress>;
+    createManyIPAddress(ctx: any, info: GraphQLResolveInfo, args: CreateManyIPAddressArgs): Promise<AffectedRowsOutput>;
+    deleteIPAddress(ctx: any, info: GraphQLResolveInfo, args: DeleteIPAddressArgs): Promise<IPAddress | null>;
+    updateIPAddress(ctx: any, info: GraphQLResolveInfo, args: UpdateIPAddressArgs): Promise<IPAddress | null>;
+    deleteManyIPAddress(ctx: any, info: GraphQLResolveInfo, args: DeleteManyIPAddressArgs): Promise<AffectedRowsOutput>;
+    updateManyIPAddress(ctx: any, info: GraphQLResolveInfo, args: UpdateManyIPAddressArgs): Promise<AffectedRowsOutput>;
+    upsertIPAddress(ctx: any, info: GraphQLResolveInfo, args: UpsertIPAddressArgs): Promise<IPAddress>;
+    aggregateIPAddress(ctx: any, info: GraphQLResolveInfo, args: AggregateIPAddressArgs): Promise<AggregateIPAddress>;
+    groupByIPAddress(ctx: any, info: GraphQLResolveInfo, args: GroupByIPAddressArgs): Promise<IPAddressGroupBy[]>;
+}
