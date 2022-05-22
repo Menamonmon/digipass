@@ -10,7 +10,6 @@ export default class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link rel="stylesheet" href={SITE_CONSTANTS.GOOGLE_FONT_URL} />
-
           <meta name="description" content={SITE_CONSTANTS.DESCRIPTION} />
 
           {/* Open Graph */}
@@ -33,37 +32,17 @@ export default class MyDocument extends Document {
           />
           <meta name="twitter:image" content={SITE_CONSTANTS.IMAGE_URL} />
 
-          <meta
-            name="facebook-domain-verification"
-            content="o7yyph0r34xnt8365dmmidj7xp8z8k"
-          />
-
           {/* Favicon */}
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
           {/* Fonts */}
           <link rel="stylesheet" href={SITE_CONSTANTS.GOOGLE_FONT_URL} />
-
-          {/* Environment variables */}
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <script src="/__ENV.js" />
         </Head>
         <body>
           <Main />
           <div id="form-modal" />
           <NextScript />
-
-          {/**<!-- Google Tag Manager (noscript) -->**/}
-          <noscript>
-            <iframe
-              src="https://www.googletagmanager.com/ns.html?id=GTM-W3GMC7X"
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            ></iframe>
-          </noscript>
-          {/**<<!-- End Google Tag Manager (noscript) -->**/}
         </body>
       </Html>
     );
