@@ -5,7 +5,9 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-  <div>Welcome to digipass!</div>
+    <div>
+      <img src="/images/full-logo.png"></img>
+    </div>
   );
 };
 
