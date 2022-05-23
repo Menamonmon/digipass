@@ -2,13 +2,13 @@ import { PassCreateNestedManyWithoutClassroomInput } from "../inputs/PassCreateN
 import { StudentCreateNestedManyWithoutClassroomsInput } from "../inputs/StudentCreateNestedManyWithoutClassroomsInput";
 import { TeacherCreateNestedOneWithoutClassroomsInput } from "../inputs/TeacherCreateNestedOneWithoutClassroomsInput";
 export declare class ClassroomCreateInput {
-    title: string;
-    description: string;
+    title?: string | undefined;
+    description?: string | undefined;
     createdAt?: Date | undefined;
-    startTime: Date;
-    endTime: Date;
-    classCode: string;
+    startTime?: Date | undefined;
+    endTime?: Date | undefined;
+    classCode?: string | undefined;
     students?: StudentCreateNestedManyWithoutClassroomsInput | undefined;
-    teacher: TeacherCreateNestedOneWithoutClassroomsInput;
+    teacher?: TeacherCreateNestedOneWithoutClassroomsInput | undefined;
     passes?: PassCreateNestedManyWithoutClassroomInput | undefined;
 }

@@ -1,7 +1,8 @@
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { PassListRelationFilter } from "../inputs/PassListRelationFilter";
-import { StringFilter } from "../inputs/StringFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { StudentListRelationFilter } from "../inputs/StudentListRelationFilter";
 import { TeacherRelationFilter } from "../inputs/TeacherRelationFilter";
 export declare class ClassroomWhereInput {
@@ -9,14 +10,14 @@ export declare class ClassroomWhereInput {
     OR?: ClassroomWhereInput[] | undefined;
     NOT?: ClassroomWhereInput[] | undefined;
     id?: IntFilter | undefined;
-    title?: StringFilter | undefined;
-    description?: StringFilter | undefined;
-    createdAt?: DateTimeFilter | undefined;
-    startTime?: DateTimeFilter | undefined;
-    endTime?: DateTimeFilter | undefined;
-    classCode?: StringFilter | undefined;
+    title?: StringNullableFilter | undefined;
+    description?: StringNullableFilter | undefined;
+    createdAt?: DateTimeNullableFilter | undefined;
+    startTime?: DateTimeNullableFilter | undefined;
+    endTime?: DateTimeNullableFilter | undefined;
+    classCode?: StringNullableFilter | undefined;
     students?: StudentListRelationFilter | undefined;
     teacher?: TeacherRelationFilter | undefined;
-    teacherId?: IntFilter | undefined;
+    teacherId?: IntNullableFilter | undefined;
     passes?: PassListRelationFilter | undefined;
 }

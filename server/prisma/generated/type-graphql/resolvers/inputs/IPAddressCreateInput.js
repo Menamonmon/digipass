@@ -8,7 +8,7 @@ let IPAddressCreateInput = class IPAddressCreateInput {
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => StudentCreateNestedOneWithoutIpAddressesInput_1.StudentCreateNestedOneWithoutIpAddressesInput, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", StudentCreateNestedOneWithoutIpAddressesInput_1.StudentCreateNestedOneWithoutIpAddressesInput)
 ], IPAddressCreateInput.prototype, "owner", void 0);
@@ -20,7 +20,7 @@ tslib_1.__decorate([
 ], IPAddressCreateInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], IPAddressCreateInput.prototype, "address", void 0);

@@ -8,25 +8,25 @@ let TeacherCreateWithoutIssuedPassesInput = class TeacherCreateWithoutIssuedPass
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], TeacherCreateWithoutIssuedPassesInput.prototype, "email", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], TeacherCreateWithoutIssuedPassesInput.prototype, "firstName", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], TeacherCreateWithoutIssuedPassesInput.prototype, "lastName", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], TeacherCreateWithoutIssuedPassesInput.prototype, "password", void 0);

@@ -1,6 +1,6 @@
 import { StudentCreateNestedOneWithoutIpAddressesInput } from "../inputs/StudentCreateNestedOneWithoutIpAddressesInput";
 export declare class IPAddressCreateInput {
-    owner: StudentCreateNestedOneWithoutIpAddressesInput;
+    owner?: StudentCreateNestedOneWithoutIpAddressesInput | undefined;
     createdAt?: Date | undefined;
-    address: string;
+    address?: string | undefined;
 }

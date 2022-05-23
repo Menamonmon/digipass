@@ -1,15 +1,15 @@
-import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
-import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
+import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 export declare class TeacherScalarWhereWithAggregatesInput {
     AND?: TeacherScalarWhereWithAggregatesInput[] | undefined;
     OR?: TeacherScalarWhereWithAggregatesInput[] | undefined;
     NOT?: TeacherScalarWhereWithAggregatesInput[] | undefined;
     id?: IntWithAggregatesFilter | undefined;
-    email?: StringWithAggregatesFilter | undefined;
-    firstName?: StringWithAggregatesFilter | undefined;
-    lastName?: StringWithAggregatesFilter | undefined;
-    password?: StringWithAggregatesFilter | undefined;
-    createdAt?: DateTimeWithAggregatesFilter | undefined;
-    lastLogin?: DateTimeWithAggregatesFilter | undefined;
+    email?: StringNullableWithAggregatesFilter | undefined;
+    firstName?: StringNullableWithAggregatesFilter | undefined;
+    lastName?: StringNullableWithAggregatesFilter | undefined;
+    password?: StringNullableWithAggregatesFilter | undefined;
+    createdAt?: DateTimeNullableWithAggregatesFilter | undefined;
+    lastLogin?: DateTimeNullableWithAggregatesFilter | undefined;
 }

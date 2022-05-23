@@ -4,8 +4,8 @@ import { IPAddressMaxOrderByAggregateInput } from "../inputs/IPAddressMaxOrderBy
 import { IPAddressMinOrderByAggregateInput } from "../inputs/IPAddressMinOrderByAggregateInput";
 import { IPAddressSumOrderByAggregateInput } from "../inputs/IPAddressSumOrderByAggregateInput";
 export declare class IPAddressOrderByWithAggregationInput {
-    ownerId?: "asc" | "desc" | undefined;
     id?: "asc" | "desc" | undefined;
+    ownerId?: "asc" | "desc" | undefined;
     createdAt?: "asc" | "desc" | undefined;
     address?: "asc" | "desc" | undefined;
     _count?: IPAddressCountOrderByAggregateInput | undefined;

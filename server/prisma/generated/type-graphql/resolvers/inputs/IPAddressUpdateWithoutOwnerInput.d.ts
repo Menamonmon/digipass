@@ -1,6 +1,6 @@
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 export declare class IPAddressUpdateWithoutOwnerInput {
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    address?: StringFieldUpdateOperationsInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    address?: NullableStringFieldUpdateOperationsInput | undefined;
 }

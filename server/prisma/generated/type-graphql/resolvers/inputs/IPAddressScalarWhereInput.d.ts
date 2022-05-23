@@ -1,12 +1,13 @@
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { StringFilter } from "../inputs/StringFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 export declare class IPAddressScalarWhereInput {
     AND?: IPAddressScalarWhereInput[] | undefined;
     OR?: IPAddressScalarWhereInput[] | undefined;
     NOT?: IPAddressScalarWhereInput[] | undefined;
-    ownerId?: IntFilter | undefined;
     id?: IntFilter | undefined;
-    createdAt?: DateTimeFilter | undefined;
-    address?: StringFilter | undefined;
+    ownerId?: IntNullableFilter | undefined;
+    createdAt?: DateTimeNullableFilter | undefined;
+    address?: StringNullableFilter | undefined;
 }

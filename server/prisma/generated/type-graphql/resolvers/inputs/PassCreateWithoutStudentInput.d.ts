@@ -1,10 +1,10 @@
 import { ClassroomCreateNestedOneWithoutPassesInput } from "../inputs/ClassroomCreateNestedOneWithoutPassesInput";
 import { TeacherCreateNestedOneWithoutIssuedPassesInput } from "../inputs/TeacherCreateNestedOneWithoutIssuedPassesInput";
 export declare class PassCreateWithoutStudentInput {
-    classroom: ClassroomCreateNestedOneWithoutPassesInput;
+    classroom?: ClassroomCreateNestedOneWithoutPassesInput | undefined;
     createdAt?: Date | undefined;
-    startTime: Date;
-    endTime: Date;
-    duration: number;
-    issuer: TeacherCreateNestedOneWithoutIssuedPassesInput;
+    startTime?: Date | undefined;
+    endTime?: Date | undefined;
+    duration?: number | undefined;
+    issuer?: TeacherCreateNestedOneWithoutIssuedPassesInput | undefined;
 }

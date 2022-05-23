@@ -3,47 +3,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PassUpdateWithoutStudentInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
-const ClassroomUpdateOneRequiredWithoutPassesInput_1 = require("../inputs/ClassroomUpdateOneRequiredWithoutPassesInput");
-const DateTimeFieldUpdateOperationsInput_1 = require("../inputs/DateTimeFieldUpdateOperationsInput");
-const IntFieldUpdateOperationsInput_1 = require("../inputs/IntFieldUpdateOperationsInput");
-const TeacherUpdateOneRequiredWithoutIssuedPassesInput_1 = require("../inputs/TeacherUpdateOneRequiredWithoutIssuedPassesInput");
+const ClassroomUpdateOneWithoutPassesInput_1 = require("../inputs/ClassroomUpdateOneWithoutPassesInput");
+const NullableDateTimeFieldUpdateOperationsInput_1 = require("../inputs/NullableDateTimeFieldUpdateOperationsInput");
+const NullableIntFieldUpdateOperationsInput_1 = require("../inputs/NullableIntFieldUpdateOperationsInput");
+const TeacherUpdateOneWithoutIssuedPassesInput_1 = require("../inputs/TeacherUpdateOneWithoutIssuedPassesInput");
 let PassUpdateWithoutStudentInput = class PassUpdateWithoutStudentInput {
 };
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => ClassroomUpdateOneRequiredWithoutPassesInput_1.ClassroomUpdateOneRequiredWithoutPassesInput, {
+    TypeGraphQL.Field(_type => ClassroomUpdateOneWithoutPassesInput_1.ClassroomUpdateOneWithoutPassesInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", ClassroomUpdateOneRequiredWithoutPassesInput_1.ClassroomUpdateOneRequiredWithoutPassesInput)
+    tslib_1.__metadata("design:type", ClassroomUpdateOneWithoutPassesInput_1.ClassroomUpdateOneWithoutPassesInput)
 ], PassUpdateWithoutStudentInput.prototype, "classroom", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput, {
+    TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput)
+    tslib_1.__metadata("design:type", NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput)
 ], PassUpdateWithoutStudentInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput, {
+    TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput)
+    tslib_1.__metadata("design:type", NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput)
 ], PassUpdateWithoutStudentInput.prototype, "startTime", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput, {
+    TypeGraphQL.Field(_type => NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFieldUpdateOperationsInput_1.DateTimeFieldUpdateOperationsInput)
+    tslib_1.__metadata("design:type", NullableDateTimeFieldUpdateOperationsInput_1.NullableDateTimeFieldUpdateOperationsInput)
 ], PassUpdateWithoutStudentInput.prototype, "endTime", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput_1.IntFieldUpdateOperationsInput, {
+    TypeGraphQL.Field(_type => NullableIntFieldUpdateOperationsInput_1.NullableIntFieldUpdateOperationsInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", IntFieldUpdateOperationsInput_1.IntFieldUpdateOperationsInput)
+    tslib_1.__metadata("design:type", NullableIntFieldUpdateOperationsInput_1.NullableIntFieldUpdateOperationsInput)
 ], PassUpdateWithoutStudentInput.prototype, "duration", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => TeacherUpdateOneRequiredWithoutIssuedPassesInput_1.TeacherUpdateOneRequiredWithoutIssuedPassesInput, {
+    TypeGraphQL.Field(_type => TeacherUpdateOneWithoutIssuedPassesInput_1.TeacherUpdateOneWithoutIssuedPassesInput, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", TeacherUpdateOneRequiredWithoutIssuedPassesInput_1.TeacherUpdateOneRequiredWithoutIssuedPassesInput)
+    tslib_1.__metadata("design:type", TeacherUpdateOneWithoutIssuedPassesInput_1.TeacherUpdateOneWithoutIssuedPassesInput)
 ], PassUpdateWithoutStudentInput.prototype, "issuer", void 0);
 PassUpdateWithoutStudentInput = tslib_1.__decorate([
     TypeGraphQL.InputType("PassUpdateWithoutStudentInput", {

@@ -13,13 +13,13 @@ tslib_1.__decorate([
 ], ClassroomCreateManyTeacherInput.prototype, "id", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateManyTeacherInput.prototype, "title", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateManyTeacherInput.prototype, "description", void 0);
@@ -31,19 +31,19 @@ tslib_1.__decorate([
 ], ClassroomCreateManyTeacherInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], ClassroomCreateManyTeacherInput.prototype, "startTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], ClassroomCreateManyTeacherInput.prototype, "endTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateManyTeacherInput.prototype, "classCode", void 0);

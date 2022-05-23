@@ -1,6 +1,7 @@
 import { ClassroomRelationFilter } from "../inputs/ClassroomRelationFilter";
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
 import { StudentRelationFilter } from "../inputs/StudentRelationFilter";
 import { TeacherRelationFilter } from "../inputs/TeacherRelationFilter";
 export declare class PassWhereInput {
@@ -9,13 +10,13 @@ export declare class PassWhereInput {
     NOT?: PassWhereInput[] | undefined;
     id?: IntFilter | undefined;
     student?: StudentRelationFilter | undefined;
-    studentId?: IntFilter | undefined;
+    studentId?: IntNullableFilter | undefined;
     classroom?: ClassroomRelationFilter | undefined;
-    classId?: IntFilter | undefined;
-    createdAt?: DateTimeFilter | undefined;
-    startTime?: DateTimeFilter | undefined;
-    endTime?: DateTimeFilter | undefined;
-    duration?: IntFilter | undefined;
+    classId?: IntNullableFilter | undefined;
+    createdAt?: DateTimeNullableFilter | undefined;
+    startTime?: DateTimeNullableFilter | undefined;
+    endTime?: DateTimeNullableFilter | undefined;
+    duration?: IntNullableFilter | undefined;
     issuer?: TeacherRelationFilter | undefined;
-    issuerId?: IntFilter | undefined;
+    issuerId?: IntNullableFilter | undefined;
 }

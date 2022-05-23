@@ -1,6 +1,6 @@
 export declare class IPAddressCountAggregate {
-    ownerId: number;
     id: number;
+    ownerId: number;
     createdAt: number;
     address: number;
     _all: number;

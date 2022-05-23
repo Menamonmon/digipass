@@ -1,4 +1,4 @@
 export declare class IPAddressCreateWithoutOwnerInput {
     createdAt?: Date | undefined;
-    address: string;
+    address?: string | undefined;
 }

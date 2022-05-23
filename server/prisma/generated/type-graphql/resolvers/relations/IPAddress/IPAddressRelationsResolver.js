@@ -17,7 +17,7 @@ let IPAddressRelationsResolver = class IPAddressRelationsResolver {
 };
 tslib_1.__decorate([
     TypeGraphQL.FieldResolver(_type => Student_1.Student, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__param(0, TypeGraphQL.Root()),
     tslib_1.__param(1, TypeGraphQL.Ctx()),

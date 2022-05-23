@@ -1,8 +1,8 @@
 import { Student } from "../models/Student";
 export declare class IPAddress {
-    owner?: Student;
-    ownerId: number;
     id: number;
-    createdAt: Date;
-    address: string;
+    owner?: Student | null;
+    ownerId?: number | null;
+    createdAt?: Date | null;
+    address?: string | null;
 }

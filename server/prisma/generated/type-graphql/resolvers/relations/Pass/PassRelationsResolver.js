@@ -33,7 +33,7 @@ let PassRelationsResolver = class PassRelationsResolver {
 };
 tslib_1.__decorate([
     TypeGraphQL.FieldResolver(_type => Student_1.Student, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__param(0, TypeGraphQL.Root()),
     tslib_1.__param(1, TypeGraphQL.Ctx()),
@@ -43,7 +43,7 @@ tslib_1.__decorate([
 ], PassRelationsResolver.prototype, "student", null);
 tslib_1.__decorate([
     TypeGraphQL.FieldResolver(_type => Classroom_1.Classroom, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__param(0, TypeGraphQL.Root()),
     tslib_1.__param(1, TypeGraphQL.Ctx()),
@@ -53,7 +53,7 @@ tslib_1.__decorate([
 ], PassRelationsResolver.prototype, "classroom", null);
 tslib_1.__decorate([
     TypeGraphQL.FieldResolver(_type => Teacher_1.Teacher, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__param(0, TypeGraphQL.Root()),
     tslib_1.__param(1, TypeGraphQL.Ctx()),

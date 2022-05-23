@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.IPAddressScalarWhereInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
-const DateTimeFilter_1 = require("../inputs/DateTimeFilter");
+const DateTimeNullableFilter_1 = require("../inputs/DateTimeNullableFilter");
 const IntFilter_1 = require("../inputs/IntFilter");
-const StringFilter_1 = require("../inputs/StringFilter");
+const IntNullableFilter_1 = require("../inputs/IntNullableFilter");
+const StringNullableFilter_1 = require("../inputs/StringNullableFilter");
 let IPAddressScalarWhereInput = IPAddressScalarWhereInput_1 = class IPAddressScalarWhereInput {
 };
 tslib_1.__decorate([
@@ -32,24 +33,24 @@ tslib_1.__decorate([
         nullable: true
     }),
     tslib_1.__metadata("design:type", IntFilter_1.IntFilter)
-], IPAddressScalarWhereInput.prototype, "ownerId", void 0);
-tslib_1.__decorate([
-    TypeGraphQL.Field(_type => IntFilter_1.IntFilter, {
-        nullable: true
-    }),
-    tslib_1.__metadata("design:type", IntFilter_1.IntFilter)
 ], IPAddressScalarWhereInput.prototype, "id", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFilter_1.DateTimeFilter, {
+    TypeGraphQL.Field(_type => IntNullableFilter_1.IntNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFilter_1.DateTimeFilter)
+    tslib_1.__metadata("design:type", IntNullableFilter_1.IntNullableFilter)
+], IPAddressScalarWhereInput.prototype, "ownerId", void 0);
+tslib_1.__decorate([
+    TypeGraphQL.Field(_type => DateTimeNullableFilter_1.DateTimeNullableFilter, {
+        nullable: true
+    }),
+    tslib_1.__metadata("design:type", DateTimeNullableFilter_1.DateTimeNullableFilter)
 ], IPAddressScalarWhereInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+    TypeGraphQL.Field(_type => StringNullableFilter_1.StringNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+    tslib_1.__metadata("design:type", StringNullableFilter_1.StringNullableFilter)
 ], IPAddressScalarWhereInput.prototype, "address", void 0);
 IPAddressScalarWhereInput = IPAddressScalarWhereInput_1 = tslib_1.__decorate([
     TypeGraphQL.InputType("IPAddressScalarWhereInput", {

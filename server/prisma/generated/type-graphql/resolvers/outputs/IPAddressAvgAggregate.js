@@ -10,13 +10,13 @@ tslib_1.__decorate([
         nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressAvgAggregate.prototype, "ownerId", void 0);
+], IPAddressAvgAggregate.prototype, "id", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Float, {
         nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressAvgAggregate.prototype, "id", void 0);
+], IPAddressAvgAggregate.prototype, "ownerId", void 0);
 IPAddressAvgAggregate = tslib_1.__decorate([
     TypeGraphQL.ObjectType("IPAddressAvgAggregate", {
         isAbstract: true

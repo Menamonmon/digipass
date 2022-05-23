@@ -5,10 +5,10 @@ exports.TeacherWhereInput = void 0;
 const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 const ClassroomListRelationFilter_1 = require("../inputs/ClassroomListRelationFilter");
-const DateTimeFilter_1 = require("../inputs/DateTimeFilter");
+const DateTimeNullableFilter_1 = require("../inputs/DateTimeNullableFilter");
 const IntFilter_1 = require("../inputs/IntFilter");
 const PassListRelationFilter_1 = require("../inputs/PassListRelationFilter");
-const StringFilter_1 = require("../inputs/StringFilter");
+const StringNullableFilter_1 = require("../inputs/StringNullableFilter");
 let TeacherWhereInput = TeacherWhereInput_1 = class TeacherWhereInput {
 };
 tslib_1.__decorate([
@@ -36,40 +36,40 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", IntFilter_1.IntFilter)
 ], TeacherWhereInput.prototype, "id", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+    TypeGraphQL.Field(_type => StringNullableFilter_1.StringNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+    tslib_1.__metadata("design:type", StringNullableFilter_1.StringNullableFilter)
 ], TeacherWhereInput.prototype, "email", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+    TypeGraphQL.Field(_type => StringNullableFilter_1.StringNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+    tslib_1.__metadata("design:type", StringNullableFilter_1.StringNullableFilter)
 ], TeacherWhereInput.prototype, "firstName", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+    TypeGraphQL.Field(_type => StringNullableFilter_1.StringNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+    tslib_1.__metadata("design:type", StringNullableFilter_1.StringNullableFilter)
 ], TeacherWhereInput.prototype, "lastName", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => StringFilter_1.StringFilter, {
+    TypeGraphQL.Field(_type => StringNullableFilter_1.StringNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", StringFilter_1.StringFilter)
+    tslib_1.__metadata("design:type", StringNullableFilter_1.StringNullableFilter)
 ], TeacherWhereInput.prototype, "password", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFilter_1.DateTimeFilter, {
+    TypeGraphQL.Field(_type => DateTimeNullableFilter_1.DateTimeNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFilter_1.DateTimeFilter)
+    tslib_1.__metadata("design:type", DateTimeNullableFilter_1.DateTimeNullableFilter)
 ], TeacherWhereInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
-    TypeGraphQL.Field(_type => DateTimeFilter_1.DateTimeFilter, {
+    TypeGraphQL.Field(_type => DateTimeNullableFilter_1.DateTimeNullableFilter, {
         nullable: true
     }),
-    tslib_1.__metadata("design:type", DateTimeFilter_1.DateTimeFilter)
+    tslib_1.__metadata("design:type", DateTimeNullableFilter_1.DateTimeNullableFilter)
 ], TeacherWhereInput.prototype, "lastLogin", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => ClassroomListRelationFilter_1.ClassroomListRelationFilter, {

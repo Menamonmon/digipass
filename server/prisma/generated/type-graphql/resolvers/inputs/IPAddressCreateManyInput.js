@@ -7,16 +7,16 @@ let IPAddressCreateManyInput = class IPAddressCreateManyInput {
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressCreateManyInput.prototype, "ownerId", void 0);
+], IPAddressCreateManyInput.prototype, "id", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Int, {
         nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressCreateManyInput.prototype, "id", void 0);
+], IPAddressCreateManyInput.prototype, "ownerId", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
         nullable: true
@@ -25,7 +25,7 @@ tslib_1.__decorate([
 ], IPAddressCreateManyInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], IPAddressCreateManyInput.prototype, "address", void 0);

@@ -9,13 +9,13 @@ let PassCreateWithoutIssuerInput = class PassCreateWithoutIssuerInput {
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => StudentCreateNestedOneWithoutPassesInput_1.StudentCreateNestedOneWithoutPassesInput, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", StudentCreateNestedOneWithoutPassesInput_1.StudentCreateNestedOneWithoutPassesInput)
 ], PassCreateWithoutIssuerInput.prototype, "student", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => ClassroomCreateNestedOneWithoutPassesInput_1.ClassroomCreateNestedOneWithoutPassesInput, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", ClassroomCreateNestedOneWithoutPassesInput_1.ClassroomCreateNestedOneWithoutPassesInput)
 ], PassCreateWithoutIssuerInput.prototype, "classroom", void 0);
@@ -27,19 +27,19 @@ tslib_1.__decorate([
 ], PassCreateWithoutIssuerInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], PassCreateWithoutIssuerInput.prototype, "startTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], PassCreateWithoutIssuerInput.prototype, "endTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
 ], PassCreateWithoutIssuerInput.prototype, "duration", void 0);

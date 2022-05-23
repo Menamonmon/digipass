@@ -1,6 +1,6 @@
 export declare enum IPAddressScalarFieldEnum {
-    ownerId = "ownerId",
     id = "id",
+    ownerId = "ownerId",
     createdAt = "createdAt",
     address = "address"
 }

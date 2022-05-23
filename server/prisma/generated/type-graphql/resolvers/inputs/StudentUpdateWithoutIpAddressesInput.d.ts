@@ -1,17 +1,18 @@
 import { ClassroomUpdateManyWithoutStudentsInput } from "../inputs/ClassroomUpdateManyWithoutStudentsInput";
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { PassUpdateManyWithoutStudentInput } from "../inputs/PassUpdateManyWithoutStudentInput";
 import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
 export declare class StudentUpdateWithoutIpAddressesInput {
-    email?: StringFieldUpdateOperationsInput | undefined;
-    firstName?: StringFieldUpdateOperationsInput | undefined;
-    lastName?: StringFieldUpdateOperationsInput | undefined;
+    email?: NullableStringFieldUpdateOperationsInput | undefined;
+    firstName?: NullableStringFieldUpdateOperationsInput | undefined;
+    lastName?: NullableStringFieldUpdateOperationsInput | undefined;
     password?: StringFieldUpdateOperationsInput | undefined;
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    lastLogin?: DateTimeFieldUpdateOperationsInput | undefined;
-    studentId?: StringFieldUpdateOperationsInput | undefined;
-    passesUsed?: IntFieldUpdateOperationsInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    studentId?: NullableStringFieldUpdateOperationsInput | undefined;
+    passesUsed?: NullableIntFieldUpdateOperationsInput | undefined;
     classrooms?: ClassroomUpdateManyWithoutStudentsInput | undefined;
     passes?: PassUpdateManyWithoutStudentInput | undefined;
 }

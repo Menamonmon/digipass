@@ -1,9 +1,9 @@
 export declare class ClassroomCreateManyTeacherInput {
     id?: number | undefined;
-    title: string;
-    description: string;
+    title?: string | undefined;
+    description?: string | undefined;
     createdAt?: Date | undefined;
-    startTime: Date;
-    endTime: Date;
-    classCode: string;
+    startTime?: Date | undefined;
+    endTime?: Date | undefined;
+    classCode?: string | undefined;
 }

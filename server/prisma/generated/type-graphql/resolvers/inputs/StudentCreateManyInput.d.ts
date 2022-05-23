@@ -1,11 +1,11 @@
 export declare class StudentCreateManyInput {
     id?: number | undefined;
-    email: string;
-    firstName: string;
-    lastName: string;
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
     password: string;
     createdAt?: Date | undefined;
     lastLogin?: Date | undefined;
-    studentId: string;
-    passesUsed: number;
+    studentId?: string | undefined;
+    passesUsed?: number | undefined;
 }

@@ -9,13 +9,13 @@ let ClassroomCreateWithoutPassesInput = class ClassroomCreateWithoutPassesInput 
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateWithoutPassesInput.prototype, "title", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateWithoutPassesInput.prototype, "description", void 0);
@@ -27,19 +27,19 @@ tslib_1.__decorate([
 ], ClassroomCreateWithoutPassesInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], ClassroomCreateWithoutPassesInput.prototype, "startTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Date)
 ], ClassroomCreateWithoutPassesInput.prototype, "endTime", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], ClassroomCreateWithoutPassesInput.prototype, "classCode", void 0);
@@ -51,7 +51,7 @@ tslib_1.__decorate([
 ], ClassroomCreateWithoutPassesInput.prototype, "students", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TeacherCreateNestedOneWithoutClassroomsInput_1.TeacherCreateNestedOneWithoutClassroomsInput, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", TeacherCreateNestedOneWithoutClassroomsInput_1.TeacherCreateNestedOneWithoutClassroomsInput)
 ], ClassroomCreateWithoutPassesInput.prototype, "teacher", void 0);

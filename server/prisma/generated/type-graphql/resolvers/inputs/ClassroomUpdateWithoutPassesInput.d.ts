@@ -1,14 +1,14 @@
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 import { StudentUpdateManyWithoutClassroomsInput } from "../inputs/StudentUpdateManyWithoutClassroomsInput";
-import { TeacherUpdateOneRequiredWithoutClassroomsInput } from "../inputs/TeacherUpdateOneRequiredWithoutClassroomsInput";
+import { TeacherUpdateOneWithoutClassroomsInput } from "../inputs/TeacherUpdateOneWithoutClassroomsInput";
 export declare class ClassroomUpdateWithoutPassesInput {
-    title?: StringFieldUpdateOperationsInput | undefined;
-    description?: StringFieldUpdateOperationsInput | undefined;
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    startTime?: DateTimeFieldUpdateOperationsInput | undefined;
-    endTime?: DateTimeFieldUpdateOperationsInput | undefined;
-    classCode?: StringFieldUpdateOperationsInput | undefined;
+    title?: NullableStringFieldUpdateOperationsInput | undefined;
+    description?: NullableStringFieldUpdateOperationsInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    classCode?: NullableStringFieldUpdateOperationsInput | undefined;
     students?: StudentUpdateManyWithoutClassroomsInput | undefined;
-    teacher?: TeacherUpdateOneRequiredWithoutClassroomsInput | undefined;
+    teacher?: TeacherUpdateOneWithoutClassroomsInput | undefined;
 }

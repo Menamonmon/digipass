@@ -4,10 +4,10 @@ import { IPAddressMaxAggregate } from "../outputs/IPAddressMaxAggregate";
 import { IPAddressMinAggregate } from "../outputs/IPAddressMinAggregate";
 import { IPAddressSumAggregate } from "../outputs/IPAddressSumAggregate";
 export declare class IPAddressGroupBy {
-    ownerId: number;
     id: number;
-    createdAt: Date;
-    address: string;
+    ownerId: number | null;
+    createdAt: Date | null;
+    address: string | null;
     _count: IPAddressCountAggregate | null;
     _avg: IPAddressAvgAggregate | null;
     _sum: IPAddressSumAggregate | null;

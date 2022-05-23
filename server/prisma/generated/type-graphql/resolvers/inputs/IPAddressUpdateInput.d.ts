@@ -1,8 +1,8 @@
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
-import { StudentUpdateOneRequiredWithoutIpAddressesInput } from "../inputs/StudentUpdateOneRequiredWithoutIpAddressesInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
+import { StudentUpdateOneWithoutIpAddressesInput } from "../inputs/StudentUpdateOneWithoutIpAddressesInput";
 export declare class IPAddressUpdateInput {
-    owner?: StudentUpdateOneRequiredWithoutIpAddressesInput | undefined;
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    address?: StringFieldUpdateOperationsInput | undefined;
+    owner?: StudentUpdateOneWithoutIpAddressesInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    address?: NullableStringFieldUpdateOperationsInput | undefined;
 }

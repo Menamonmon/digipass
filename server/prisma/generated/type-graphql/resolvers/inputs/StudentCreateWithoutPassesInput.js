@@ -9,19 +9,19 @@ let StudentCreateWithoutPassesInput = class StudentCreateWithoutPassesInput {
 };
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], StudentCreateWithoutPassesInput.prototype, "email", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], StudentCreateWithoutPassesInput.prototype, "firstName", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], StudentCreateWithoutPassesInput.prototype, "lastName", void 0);
@@ -45,13 +45,13 @@ tslib_1.__decorate([
 ], StudentCreateWithoutPassesInput.prototype, "lastLogin", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], StudentCreateWithoutPassesInput.prototype, "studentId", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
 ], StudentCreateWithoutPassesInput.prototype, "passesUsed", void 0);

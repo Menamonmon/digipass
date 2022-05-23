@@ -10,13 +10,13 @@ tslib_1.__decorate([
         nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressMinAggregate.prototype, "ownerId", void 0);
+], IPAddressMinAggregate.prototype, "id", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => TypeGraphQL.Int, {
         nullable: true
     }),
     tslib_1.__metadata("design:type", Number)
-], IPAddressMinAggregate.prototype, "id", void 0);
+], IPAddressMinAggregate.prototype, "ownerId", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => Date, {
         nullable: true

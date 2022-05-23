@@ -13,7 +13,7 @@ tslib_1.__decorate([
 ], IPAddressCreateWithoutOwnerInput.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     TypeGraphQL.Field(_type => String, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__metadata("design:type", String)
 ], IPAddressCreateWithoutOwnerInput.prototype, "address", void 0);

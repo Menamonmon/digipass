@@ -7,5 +7,5 @@ export declare class FindFirstIPAddressArgs {
     cursor?: IPAddressWhereUniqueInput | undefined;
     take?: number | undefined;
     skip?: number | undefined;
-    distinct?: Array<"ownerId" | "id" | "createdAt" | "address"> | undefined;
+    distinct?: Array<"id" | "ownerId" | "createdAt" | "address"> | undefined;
 }

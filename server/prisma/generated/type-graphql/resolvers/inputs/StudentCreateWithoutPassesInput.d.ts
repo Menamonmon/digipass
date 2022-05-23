@@ -1,14 +1,14 @@
 import { ClassroomCreateNestedManyWithoutStudentsInput } from "../inputs/ClassroomCreateNestedManyWithoutStudentsInput";
 import { IPAddressCreateNestedManyWithoutOwnerInput } from "../inputs/IPAddressCreateNestedManyWithoutOwnerInput";
 export declare class StudentCreateWithoutPassesInput {
-    email: string;
-    firstName: string;
-    lastName: string;
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
     password: string;
     createdAt?: Date | undefined;
     lastLogin?: Date | undefined;
-    studentId: string;
-    passesUsed: number;
+    studentId?: string | undefined;
+    passesUsed?: number | undefined;
     ipAddresses?: IPAddressCreateNestedManyWithoutOwnerInput | undefined;
     classrooms?: ClassroomCreateNestedManyWithoutStudentsInput | undefined;
 }

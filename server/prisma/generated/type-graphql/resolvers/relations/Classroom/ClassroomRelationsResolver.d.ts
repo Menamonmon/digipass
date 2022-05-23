@@ -6,6 +6,6 @@ import { ClassroomPassesArgs } from "./args/ClassroomPassesArgs";
 import { ClassroomStudentsArgs } from "./args/ClassroomStudentsArgs";
 export declare class ClassroomRelationsResolver {
     students(classroom: Classroom, ctx: any, args: ClassroomStudentsArgs): Promise<Student[]>;
-    teacher(classroom: Classroom, ctx: any): Promise<Teacher>;
+    teacher(classroom: Classroom, ctx: any): Promise<Teacher | null>;
     passes(classroom: Classroom, ctx: any, args: ClassroomPassesArgs): Promise<Pass[]>;
 }

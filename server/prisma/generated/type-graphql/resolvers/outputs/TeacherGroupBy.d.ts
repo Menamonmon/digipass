@@ -5,12 +5,12 @@ import { TeacherMinAggregate } from "../outputs/TeacherMinAggregate";
 import { TeacherSumAggregate } from "../outputs/TeacherSumAggregate";
 export declare class TeacherGroupBy {
     id: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    createdAt: Date;
-    lastLogin: Date;
+    email: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    password: string | null;
+    createdAt: Date | null;
+    lastLogin: Date | null;
     _count: TeacherCountAggregate | null;
     _avg: TeacherAvgAggregate | null;
     _sum: TeacherSumAggregate | null;

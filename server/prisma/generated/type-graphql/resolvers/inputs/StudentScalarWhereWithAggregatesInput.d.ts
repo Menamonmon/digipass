@@ -1,17 +1,19 @@
-import { DateTimeWithAggregatesFilter } from "../inputs/DateTimeWithAggregatesFilter";
+import { DateTimeNullableWithAggregatesFilter } from "../inputs/DateTimeNullableWithAggregatesFilter";
+import { IntNullableWithAggregatesFilter } from "../inputs/IntNullableWithAggregatesFilter";
 import { IntWithAggregatesFilter } from "../inputs/IntWithAggregatesFilter";
+import { StringNullableWithAggregatesFilter } from "../inputs/StringNullableWithAggregatesFilter";
 import { StringWithAggregatesFilter } from "../inputs/StringWithAggregatesFilter";
 export declare class StudentScalarWhereWithAggregatesInput {
     AND?: StudentScalarWhereWithAggregatesInput[] | undefined;
     OR?: StudentScalarWhereWithAggregatesInput[] | undefined;
     NOT?: StudentScalarWhereWithAggregatesInput[] | undefined;
     id?: IntWithAggregatesFilter | undefined;
-    email?: StringWithAggregatesFilter | undefined;
-    firstName?: StringWithAggregatesFilter | undefined;
-    lastName?: StringWithAggregatesFilter | undefined;
+    email?: StringNullableWithAggregatesFilter | undefined;
+    firstName?: StringNullableWithAggregatesFilter | undefined;
+    lastName?: StringNullableWithAggregatesFilter | undefined;
     password?: StringWithAggregatesFilter | undefined;
-    createdAt?: DateTimeWithAggregatesFilter | undefined;
-    lastLogin?: DateTimeWithAggregatesFilter | undefined;
-    studentId?: StringWithAggregatesFilter | undefined;
-    passesUsed?: IntWithAggregatesFilter | undefined;
+    createdAt?: DateTimeNullableWithAggregatesFilter | undefined;
+    lastLogin?: DateTimeNullableWithAggregatesFilter | undefined;
+    studentId?: StringNullableWithAggregatesFilter | undefined;
+    passesUsed?: IntNullableWithAggregatesFilter | undefined;
 }

@@ -1,14 +1,14 @@
-import { ClassroomUpdateOneRequiredWithoutPassesInput } from "../inputs/ClassroomUpdateOneRequiredWithoutPassesInput";
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { IntFieldUpdateOperationsInput } from "../inputs/IntFieldUpdateOperationsInput";
-import { StudentUpdateOneRequiredWithoutPassesInput } from "../inputs/StudentUpdateOneRequiredWithoutPassesInput";
-import { TeacherUpdateOneRequiredWithoutIssuedPassesInput } from "../inputs/TeacherUpdateOneRequiredWithoutIssuedPassesInput";
+import { ClassroomUpdateOneWithoutPassesInput } from "../inputs/ClassroomUpdateOneWithoutPassesInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableIntFieldUpdateOperationsInput } from "../inputs/NullableIntFieldUpdateOperationsInput";
+import { StudentUpdateOneWithoutPassesInput } from "../inputs/StudentUpdateOneWithoutPassesInput";
+import { TeacherUpdateOneWithoutIssuedPassesInput } from "../inputs/TeacherUpdateOneWithoutIssuedPassesInput";
 export declare class PassUpdateInput {
-    student?: StudentUpdateOneRequiredWithoutPassesInput | undefined;
-    classroom?: ClassroomUpdateOneRequiredWithoutPassesInput | undefined;
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    startTime?: DateTimeFieldUpdateOperationsInput | undefined;
-    endTime?: DateTimeFieldUpdateOperationsInput | undefined;
-    duration?: IntFieldUpdateOperationsInput | undefined;
-    issuer?: TeacherUpdateOneRequiredWithoutIssuedPassesInput | undefined;
+    student?: StudentUpdateOneWithoutPassesInput | undefined;
+    classroom?: ClassroomUpdateOneWithoutPassesInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    duration?: NullableIntFieldUpdateOperationsInput | undefined;
+    issuer?: TeacherUpdateOneWithoutIssuedPassesInput | undefined;
 }

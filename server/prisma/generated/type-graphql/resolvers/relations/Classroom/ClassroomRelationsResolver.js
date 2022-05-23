@@ -46,7 +46,7 @@ tslib_1.__decorate([
 ], ClassroomRelationsResolver.prototype, "students", null);
 tslib_1.__decorate([
     TypeGraphQL.FieldResolver(_type => Teacher_1.Teacher, {
-        nullable: false
+        nullable: true
     }),
     tslib_1.__param(0, TypeGraphQL.Root()),
     tslib_1.__param(1, TypeGraphQL.Ctx()),

@@ -5,8 +5,8 @@ const tslib_1 = require("tslib");
 const TypeGraphQL = tslib_1.__importStar(require("type-graphql"));
 var IPAddressScalarFieldEnum;
 (function (IPAddressScalarFieldEnum) {
-    IPAddressScalarFieldEnum["ownerId"] = "ownerId";
     IPAddressScalarFieldEnum["id"] = "id";
+    IPAddressScalarFieldEnum["ownerId"] = "ownerId";
     IPAddressScalarFieldEnum["createdAt"] = "createdAt";
     IPAddressScalarFieldEnum["address"] = "address";
 })(IPAddressScalarFieldEnum = exports.IPAddressScalarFieldEnum || (exports.IPAddressScalarFieldEnum = {}));

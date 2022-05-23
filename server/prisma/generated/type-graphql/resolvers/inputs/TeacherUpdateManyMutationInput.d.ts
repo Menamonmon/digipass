@@ -1,10 +1,10 @@
-import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
-import { StringFieldUpdateOperationsInput } from "../inputs/StringFieldUpdateOperationsInput";
+import { NullableDateTimeFieldUpdateOperationsInput } from "../inputs/NullableDateTimeFieldUpdateOperationsInput";
+import { NullableStringFieldUpdateOperationsInput } from "../inputs/NullableStringFieldUpdateOperationsInput";
 export declare class TeacherUpdateManyMutationInput {
-    email?: StringFieldUpdateOperationsInput | undefined;
-    firstName?: StringFieldUpdateOperationsInput | undefined;
-    lastName?: StringFieldUpdateOperationsInput | undefined;
-    password?: StringFieldUpdateOperationsInput | undefined;
-    createdAt?: DateTimeFieldUpdateOperationsInput | undefined;
-    lastLogin?: DateTimeFieldUpdateOperationsInput | undefined;
+    email?: NullableStringFieldUpdateOperationsInput | undefined;
+    firstName?: NullableStringFieldUpdateOperationsInput | undefined;
+    lastName?: NullableStringFieldUpdateOperationsInput | undefined;
+    password?: NullableStringFieldUpdateOperationsInput | undefined;
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | undefined;
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | undefined;
 }

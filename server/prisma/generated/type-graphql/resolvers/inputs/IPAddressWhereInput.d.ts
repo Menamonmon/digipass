@@ -1,14 +1,15 @@
-import { DateTimeFilter } from "../inputs/DateTimeFilter";
+import { DateTimeNullableFilter } from "../inputs/DateTimeNullableFilter";
 import { IntFilter } from "../inputs/IntFilter";
-import { StringFilter } from "../inputs/StringFilter";
+import { IntNullableFilter } from "../inputs/IntNullableFilter";
+import { StringNullableFilter } from "../inputs/StringNullableFilter";
 import { StudentRelationFilter } from "../inputs/StudentRelationFilter";
 export declare class IPAddressWhereInput {
     AND?: IPAddressWhereInput[] | undefined;
     OR?: IPAddressWhereInput[] | undefined;
     NOT?: IPAddressWhereInput[] | undefined;
-    owner?: StudentRelationFilter | undefined;
-    ownerId?: IntFilter | undefined;
     id?: IntFilter | undefined;
-    createdAt?: DateTimeFilter | undefined;
-    address?: StringFilter | undefined;
+    owner?: StudentRelationFilter | undefined;
+    ownerId?: IntNullableFilter | undefined;
+    createdAt?: DateTimeNullableFilter | undefined;
+    address?: StringNullableFilter | undefined;
 }
