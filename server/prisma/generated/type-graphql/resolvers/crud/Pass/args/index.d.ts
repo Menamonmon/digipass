@@ -1,0 +1,12 @@
+export { AggregatePassArgs } from "./AggregatePassArgs";
+export { CreateManyPassArgs } from "./CreateManyPassArgs";
+export { CreatePassArgs } from "./CreatePassArgs";
+export { DeleteManyPassArgs } from "./DeleteManyPassArgs";
+export { DeletePassArgs } from "./DeletePassArgs";
+export { FindFirstPassArgs } from "./FindFirstPassArgs";
+export { FindManyPassArgs } from "./FindManyPassArgs";
+export { FindUniquePassArgs } from "./FindUniquePassArgs";
+export { GroupByPassArgs } from "./GroupByPassArgs";
+export { UpdateManyPassArgs } from "./UpdateManyPassArgs";
+export { UpdatePassArgs } from "./UpdatePassArgs";
+export { UpsertPassArgs } from "./UpsertPassArgs";

@@ -1,0 +1,12 @@
+export { AggregateTeacherArgs } from "./AggregateTeacherArgs";
+export { CreateManyTeacherArgs } from "./CreateManyTeacherArgs";
+export { CreateTeacherArgs } from "./CreateTeacherArgs";
+export { DeleteManyTeacherArgs } from "./DeleteManyTeacherArgs";
+export { DeleteTeacherArgs } from "./DeleteTeacherArgs";
+export { FindFirstTeacherArgs } from "./FindFirstTeacherArgs";
+export { FindManyTeacherArgs } from "./FindManyTeacherArgs";
+export { FindUniqueTeacherArgs } from "./FindUniqueTeacherArgs";
+export { GroupByTeacherArgs } from "./GroupByTeacherArgs";
+export { UpdateManyTeacherArgs } from "./UpdateManyTeacherArgs";
+export { UpdateTeacherArgs } from "./UpdateTeacherArgs";
+export { UpsertTeacherArgs } from "./UpsertTeacherArgs";
