@@ -6,10 +6,6 @@ import { buildSchema } from "type-graphql";
 import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
 
-interface GraphQLContext {
-  prisma: PrismaClient;
-}
-
 const main = async () => {
   const prisma = new PrismaClient();
   await prisma.$connect();
