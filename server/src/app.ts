@@ -24,9 +24,11 @@ const main = async () => {
   const app = express();
   apolloServer.applyMiddleware({ app });
 
-  app.listen(4000, () => {
+  const PORT = 4000;
+
+  app.listen(PORT, () => {
     console.log(
-      "Apollo Server up and running at http://localhost:4000/graphql"
+      `Apollo Server up and running at http://localhost:${PORT}/graphql`
     );
   });
 };
