@@ -6,6 +6,9 @@ import { buildSchema } from "type-graphql";
 import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
 import authRouter from "./routes/auth-router";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const main = async () => {
   const prisma = new PrismaClient();
@@ -27,6 +30,9 @@ const main = async () => {
   const app = express();
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  app.use(helmet());
+  app.use(cors());
+  app.use(cookieParser());
   app.use("/auth", authRouter);
 
   apolloServer.applyMiddleware({ app });
