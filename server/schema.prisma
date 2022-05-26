@@ -16,6 +16,7 @@ generator typegraphql {
 
 model Student {
   id        Int       @id @default(autoincrement())
+  googleId  String
   email     String?
   firstName String?
   lastName  String?
@@ -43,10 +44,8 @@ model IPAddress {
 
 model Teacher {
   id        Int       @id @default(autoincrement())
+  googleId  String
   email     String?
-  firstName String?
-  lastName  String?
-  /// TypeGraphQL.omit(output: true)
   password  String?
   createdAt DateTime? @default(now())
   lastLogin DateTime? @default(now())
