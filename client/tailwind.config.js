@@ -4,10 +4,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontFamily: {
-      sans: ["Varela Round"],
-    },
     extend: {
+      fontFamily: {
+        sans: ["Varela Round"],
+        serif: ["Roboto Slab"],
+      },
       colors: {
         primary: "#3490DE",
         secondary: "#E1E2EF",
