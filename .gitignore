@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 */server/prisma/generated/**
+
+*client_secret*
