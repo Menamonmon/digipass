@@ -5,6 +5,7 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
+import authRouter from "./routes/auth-router";
 
 const main = async () => {
   const prisma = new PrismaClient();
@@ -21,8 +22,13 @@ const main = async () => {
       prisma,
     },
   });
+
   await apolloServer.start();
   const app = express();
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
+  app.use("/auth", authRouter);
+
   apolloServer.applyMiddleware({ app });
 
   const PORT = 4000;

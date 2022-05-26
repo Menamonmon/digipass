@@ -1,8 +1,9 @@
-import { oauth2Client } from "./google-oauth-client";
-const express = require("express");
-const router = express.Router();
+import { oauth2Client } from "../auth/google-oauth-client";
+import  express from "express";
 
-router.get(
+const authRouter = express.Router();
+
+authRouter.post(
   "/google",
   async (
     req: {
@@ -22,3 +23,5 @@ router.get(
     res.json({ name, email, picture });
   }
 );
+
+export default authRouter;
