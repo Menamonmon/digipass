@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
-import LogInButton from "../../Navbar/LogInButton";
-import SignUpButton from "../../Navbar/SignUpButton";
+import LogInButton from "../Navbar/LogInButton";
+import SignUpButton from "../Navbar/SignUpButton";
 import Header from "./Header";
 
 const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {

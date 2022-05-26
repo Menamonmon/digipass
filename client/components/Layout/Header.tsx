@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
-import LinkComponent from "../../LinkComponent/LinkComponent";
+import LinkComponent from "../LinkComponent/LinkComponent";
 
 const Header: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
