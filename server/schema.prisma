@@ -15,19 +15,17 @@ generator typegraphql {
 }
 
 model Student {
-  id        Int       @id @default(autoincrement())
-  googleId  String
-  email     String?
-  firstName String?
-  lastName  String?
-  /// TypeGraphQL.omit(output: true)
-  password  String
-  createdAt DateTime? @default(now())
-  lastLogin DateTime? @default(now())
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  firstName  String?
+  lastName   String?
+  pictureUrl String?
+  createdAt  DateTime? @default(now())
+  lastLogin  DateTime? @default(now())
 
   // Student Attributes
   studentId   String?
-  passesUsed  Int?
+  passesUsed  Int?        @default(0)
   ipAddresses IPAddress[]
   // Add Classes With Many To Many Relationship
   classrooms  Classroom[]
@@ -44,9 +42,10 @@ model IPAddress {
 
 model Teacher {
   id        Int       @id @default(autoincrement())
-  googleId  String
-  email     String?
-  password  String?
+  email     String @unique
+  firstName      String?
+  lastName      String?
+  pictureUrl     String?
   createdAt DateTime? @default(now())
   lastLogin DateTime? @default(now())
 

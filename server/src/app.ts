@@ -5,45 +5,46 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
-import authRouter from "./routes/auth-router";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import { authResolvers } from "./auth/resolvers";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const main = async () => {
-  const prisma = new PrismaClient();
-  await prisma.$connect();
+    const prisma = new PrismaClient();
+    await prisma.$connect();
 
-  const schema = await buildSchema({
-    resolvers,
-    validate: false,
-  });
-  const apolloServer = new ApolloServer({
-    schema,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    context: {
-      prisma,
-    },
-  });
+    const schema = await buildSchema({
+        resolvers: [...resolvers, ...authResolvers],
+        validate: false,
+    });
+    const apolloServer = new ApolloServer({
+        schema,
+        plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+        context: {
+            prisma,
+        },
+    });
 
-  await apolloServer.start();
-  const app = express();
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
-  app.use(helmet());
-  app.use(cors());
-  app.use(cookieParser());
-  app.use("/auth", authRouter);
+    await apolloServer.start();
+    const app = express();
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    app.use(cors());
+    app.use(cookieParser());
 
-  apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app });
 
-  const PORT = 4000;
+    const PORT = 4000;
 
-  app.listen(PORT, () => {
-    console.log(
-      `Apollo Server up and running at http://localhost:${PORT}/graphql`
-    );
-  });
+    app.listen(PORT, () => {
+        console.log(
+            `Apollo Server up and running at http://localhost:${PORT}/graphql`
+        );
+    });
 };
 
 main();
