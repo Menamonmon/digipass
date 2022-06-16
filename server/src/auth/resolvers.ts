@@ -37,7 +37,6 @@ export class RegisterResolver {
         email: email,
       } = ticket.getPayload();
       if (identifyEmailType(email) !== "student") {
-        console.log("invalid email", email);
         return null;
       }
 

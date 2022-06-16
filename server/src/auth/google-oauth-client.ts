@@ -41,20 +41,3 @@ export const getGoogleUser = async ({ code }) => {
 
   return googleUser;
 };
-
-export const googleAuth = async (input: { code: string }, context) => {
-  const googleUser = await getGoogleUser({ code: input.code });
-  
-  console.log(googleUser);
-  // Query db for user and find if it's there
-  let user = await context.getUserByGoogleId()
-  
-  // Add another piece of logic to make sure that the user is within the domain (otherwise unauthorize access)
-  if (!user) {
-    // Create the user in the database
-  }
-
-  // Generate a JWT, add it as a cookie
-
-  return user;
-};

@@ -7,7 +7,6 @@ import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import helmet from "helmet";
 import { authResolvers } from "./auth/resolvers";
 import dotenv from "dotenv";
 
