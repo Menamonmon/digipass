@@ -7,3 +7,10 @@ export const SITE_CONSTANTS = {
   IMAGE_URL: "/images/full-logo.png",
   ICON_URL: "/images/standalone-icon.png",
 };
+
+
+export const consts = {
+  serverInformation: {
+    googleOAuthEndpoint: `${process.env.BACKEND_URL}/auth/google` 
+  }
+}

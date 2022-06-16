@@ -1,16 +1,14 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React, { useEffect } from "react";
-import GoogleLogin from "react-google-login";
+import React from "react";
 import AuthFormContainer from "../components/Auth/AuthFormContainer";
 import Title from "../components/Auth/Title";
-import Button from "../components/Button";
 import Layout from "../components/Layout/Layout";
-import { FcGoogle } from "react-icons/fc";
+import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
+import useAuth from "../hooks/useAuth";
 
 const LoginPage: NextPage<{}> = () => {
-  const handleLogin = async () => {};
-
+  const { isAuthenticated } = useAuth();
   return (
     <>
       <Head>
@@ -22,23 +20,8 @@ const LoginPage: NextPage<{}> = () => {
             header="Login to digipass"
             subtitle="Please make sure to use a school account with the jcpsnj.org domain for students and jcboe.org domain for teachers!"
           />
-          <div className="h-5" />
-          <GoogleLogin
-            clientId={process.env.GOOGLE_OAUTH_CLIENT_ID!}
-            buttonText="Log in with Google"
-            onSuccess={handleLogin}
-            onFailure={handleLogin}
-            cookiePolicy={"single_host_origin"}
-            render={({ onClick, disabled }) => (
-              <Button
-                leftIcon={<FcGoogle />}
-                onClick={onClick}
-                disabled={disabled}
-              >
-                Login with Google
-              </Button>
-            )}
-          />
+          <div className="text-center h-5" />
+          <GoogleLoginButton />
         </AuthFormContainer>
       </Layout>
     </>
