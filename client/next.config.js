@@ -4,6 +4,9 @@ const nextConfig = {
   env: {
     GOOGLE_OAUTH_CLIENT_ID: process.env.GOOGLE_OAUTH_CLIENT_ID,
   },
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
 };
 
 module.exports = nextConfig;
