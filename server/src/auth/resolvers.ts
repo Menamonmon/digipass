@@ -167,7 +167,7 @@ class CurrentUserResolver {
   ): Promise<CurrentUser | null> {
     if (jwtUserInfo) {
       const { userType } = jwtUserInfo;
-      const userId = parseInt(jwtUserInfo.id);
+      const userId = jwtUserInfo.id;
       let user = null;
       if (userType === "student") {
         user = await prisma.student.findUnique({ where: { id: userId } });

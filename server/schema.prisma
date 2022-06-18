@@ -15,7 +15,7 @@ generator typegraphql {
 }
 
 model Student {
-  id         Int       @id @default(autoincrement())
+  id         String       @id @default(uuid())
   email      String    @unique
   firstName  String?
   lastName   String?
@@ -33,15 +33,15 @@ model Student {
 }
 
 model IPAddress {
-  id        Int       @id @default(autoincrement())
+  id         String       @id @default(uuid())
   owner     Student?  @relation(fields: [ownerId], references: [id])
-  ownerId   Int?
+  ownerId   String?
   createdAt DateTime? @default(now())
   address   String?
 }
 
 model Teacher {
-  id        Int       @id @default(autoincrement())
+  id         String       @id @default(uuid())
   email     String @unique
   firstName      String?
   lastName      String?
@@ -54,7 +54,7 @@ model Teacher {
 }
 
 model Classroom {
-  id          Int       @id @default(autoincrement())
+  id         String       @id @default(uuid())
   title       String?
   description String?
   createdAt   DateTime? @default(now())
@@ -63,23 +63,23 @@ model Classroom {
   classCode   String? @unique
   students    Student[]
   teacher     Teacher  @relation(fields: [teacherId], references: [id])
-  teacherId   Int
+  teacherId  String 
   passes      Pass[]
 }
 
 model Pass {
-  id        Int        @id @default(autoincrement())
+  id          String       @id @default(uuid())
   student   Student?   @relation(fields: [studentId], references: [id])
-  studentId Int?
+  studentId String?
   classroom Classroom? @relation(fields: [classId], references: [id])
-  classId   Int?
+  classId   String?
 
   createdAt DateTime? @default(now())
   startTime DateTime?
   endTime   DateTime?
   duration  Int? // In minutes 
   issuer    Teacher?  @relation(fields: [issuerId], references: [id])
-  issuerId  Int?
+  issuerId  String?
   approved Boolean @default(false)
   reason String @default("")
 }

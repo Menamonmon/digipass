@@ -19,7 +19,7 @@ class PassMutationsResolver {
     // Ensure that the teacher of that classroom is the same as the teacher making the mutaiton
 
     const pass = await prisma.pass.findUnique({
-      where: { id: parseInt(passId) },
+      where: { id: passId },
     });
 
     const { id: teacherId } = user;
@@ -31,7 +31,7 @@ class PassMutationsResolver {
       if (associatedClassroom) {
         if (
           associatedClassroom.teacherId === issuerId &&
-          associatedClassroom.teacherId === parseInt(teacherId)
+          associatedClassroom.teacherId === teacherId
         ) {
           // Update the pass if its valid with the value that the teacher requested
           const updatedPass = await prisma.pass.update({
@@ -57,9 +57,9 @@ class PassMutationsResolver {
     @Arg("reason") reason: string
   ): Promise<Pass | null> {
     const { id } = user;
-    const studentId = parseInt(id);
+    const studentId = id;
     const classroom = await prisma.classroom.findUnique({
-      where: { id: parseInt(classroomId) },
+      where: { id: classroomId },
     });
 
     if (classroom) {
