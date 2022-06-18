@@ -4,7 +4,6 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { resolvers } from "../prisma/generated/type-graphql";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
 import cookieParser from "cookie-parser";
