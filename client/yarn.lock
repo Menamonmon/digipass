@@ -1910,7 +1910,7 @@
   "resolved" "https://registry.npmjs.org/relay-compiler/-/relay-compiler-14.0.0.tgz"
   "version" "14.0.0"
 
-"relay-runtime@14.0.0":
+"relay-runtime@^14.0.0", "relay-runtime@14.0.0":
   "integrity" "sha512-Rnf6EgCl3QY85il/gTEh6GHAR9hoRkjYWgMR2Y3Afugb8qLR0vL6m/GBYqol8W3L8B+XqZ2U04/g624DRpEqAw=="
   "resolved" "https://registry.npmjs.org/relay-runtime/-/relay-runtime-14.0.0.tgz"
   "version" "14.0.0"

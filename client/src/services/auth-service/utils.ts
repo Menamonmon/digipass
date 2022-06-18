@@ -1,5 +1,5 @@
 import { GoogleLoginResponse } from "react-google-login";
-import { config } from "../../config";
+import { config } from "../../../config";
 
 const calcRefreshTime = (expiresIn?: number) =>
   (expiresIn || 3600 - 5 * 60) * 1000;

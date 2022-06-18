@@ -1,0 +1,2457 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type AffectedRowsOutput {
+  count: Int!
+}
+
+type AggregateClassroom {
+  _count: ClassroomCountAggregate
+  _avg: ClassroomAvgAggregate
+  _sum: ClassroomSumAggregate
+  _min: ClassroomMinAggregate
+  _max: ClassroomMaxAggregate
+}
+
+type AggregateIPAddress {
+  _count: IPAddressCountAggregate
+  _avg: IPAddressAvgAggregate
+  _sum: IPAddressSumAggregate
+  _min: IPAddressMinAggregate
+  _max: IPAddressMaxAggregate
+}
+
+type AggregatePass {
+  _count: PassCountAggregate
+  _avg: PassAvgAggregate
+  _sum: PassSumAggregate
+  _min: PassMinAggregate
+  _max: PassMaxAggregate
+}
+
+type AggregateStudent {
+  _count: StudentCountAggregate
+  _avg: StudentAvgAggregate
+  _sum: StudentSumAggregate
+  _min: StudentMinAggregate
+  _max: StudentMaxAggregate
+}
+
+type AggregateTeacher {
+  _count: TeacherCountAggregate
+  _avg: TeacherAvgAggregate
+  _sum: TeacherSumAggregate
+  _min: TeacherMinAggregate
+  _max: TeacherMaxAggregate
+}
+
+type Classroom {
+  id: Int!
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacherId: Int
+  _count: ClassroomCount
+  students(where: StudentWhereInput, orderBy: [StudentOrderByWithRelationInput!], cursor: StudentWhereUniqueInput, take: Int, skip: Int, distinct: [StudentScalarFieldEnum!]): [Student!]!
+  teacher: Teacher
+  passes(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): [Pass!]!
+}
+
+type ClassroomAvgAggregate {
+  id: Float
+  teacherId: Float
+}
+
+input ClassroomAvgOrderByAggregateInput {
+  id: SortOrder
+  teacherId: SortOrder
+}
+
+type ClassroomCount {
+  students: Int!
+  passes: Int!
+}
+
+type ClassroomCountAggregate {
+  id: Int!
+  title: Int!
+  description: Int!
+  createdAt: Int!
+  startTime: Int!
+  endTime: Int!
+  classCode: Int!
+  teacherId: Int!
+  _all: Int!
+}
+
+input ClassroomCountOrderByAggregateInput {
+  id: SortOrder
+  title: SortOrder
+  description: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  classCode: SortOrder
+  teacherId: SortOrder
+}
+
+input ClassroomCreateInput {
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  students: StudentCreateNestedManyWithoutClassroomsInput
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput
+  passes: PassCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomCreateManyInput {
+  id: Int
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacherId: Int
+}
+
+input ClassroomCreateManyTeacherInput {
+  id: Int
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+}
+
+input ClassroomCreateManyTeacherInputEnvelope {
+  data: [ClassroomCreateManyTeacherInput!]!
+  skipDuplicates: Boolean
+}
+
+input ClassroomCreateNestedManyWithoutStudentsInput {
+  create: [ClassroomCreateWithoutStudentsInput!]
+  connectOrCreate: [ClassroomCreateOrConnectWithoutStudentsInput!]
+  connect: [ClassroomWhereUniqueInput!]
+}
+
+input ClassroomCreateNestedManyWithoutTeacherInput {
+  create: [ClassroomCreateWithoutTeacherInput!]
+  connectOrCreate: [ClassroomCreateOrConnectWithoutTeacherInput!]
+  createMany: ClassroomCreateManyTeacherInputEnvelope
+  connect: [ClassroomWhereUniqueInput!]
+}
+
+input ClassroomCreateNestedOneWithoutPassesInput {
+  create: ClassroomCreateWithoutPassesInput
+  connectOrCreate: ClassroomCreateOrConnectWithoutPassesInput
+  connect: ClassroomWhereUniqueInput
+}
+
+input ClassroomCreateOrConnectWithoutPassesInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutPassesInput!
+}
+
+input ClassroomCreateOrConnectWithoutStudentsInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutStudentsInput!
+}
+
+input ClassroomCreateOrConnectWithoutTeacherInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutTeacherInput!
+}
+
+input ClassroomCreateWithoutPassesInput {
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  students: StudentCreateNestedManyWithoutClassroomsInput
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput
+}
+
+input ClassroomCreateWithoutStudentsInput {
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput
+  passes: PassCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomCreateWithoutTeacherInput {
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  students: StudentCreateNestedManyWithoutClassroomsInput
+  passes: PassCreateNestedManyWithoutClassroomInput
+}
+
+type ClassroomGroupBy {
+  id: Int!
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacherId: Int
+  _count: ClassroomCountAggregate
+  _avg: ClassroomAvgAggregate
+  _sum: ClassroomSumAggregate
+  _min: ClassroomMinAggregate
+  _max: ClassroomMaxAggregate
+}
+
+input ClassroomListRelationFilter {
+  every: ClassroomWhereInput
+  some: ClassroomWhereInput
+  none: ClassroomWhereInput
+}
+
+type ClassroomMaxAggregate {
+  id: Int
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacherId: Int
+}
+
+input ClassroomMaxOrderByAggregateInput {
+  id: SortOrder
+  title: SortOrder
+  description: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  classCode: SortOrder
+  teacherId: SortOrder
+}
+
+type ClassroomMinAggregate {
+  id: Int
+  title: String
+  description: String
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  classCode: String
+  teacherId: Int
+}
+
+input ClassroomMinOrderByAggregateInput {
+  id: SortOrder
+  title: SortOrder
+  description: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  classCode: SortOrder
+  teacherId: SortOrder
+}
+
+input ClassroomOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ClassroomOrderByWithAggregationInput {
+  id: SortOrder
+  title: SortOrder
+  description: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  classCode: SortOrder
+  teacherId: SortOrder
+  _count: ClassroomCountOrderByAggregateInput
+  _avg: ClassroomAvgOrderByAggregateInput
+  _max: ClassroomMaxOrderByAggregateInput
+  _min: ClassroomMinOrderByAggregateInput
+  _sum: ClassroomSumOrderByAggregateInput
+}
+
+input ClassroomOrderByWithRelationInput {
+  id: SortOrder
+  title: SortOrder
+  description: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  classCode: SortOrder
+  students: StudentOrderByRelationAggregateInput
+  teacher: TeacherOrderByWithRelationInput
+  teacherId: SortOrder
+  passes: PassOrderByRelationAggregateInput
+}
+
+input ClassroomRelationFilter {
+  is: ClassroomWhereInput
+  isNot: ClassroomWhereInput
+}
+
+enum ClassroomScalarFieldEnum {
+  id
+  title
+  description
+  createdAt
+  startTime
+  endTime
+  classCode
+  teacherId
+}
+
+input ClassroomScalarWhereInput {
+  AND: [ClassroomScalarWhereInput!]
+  OR: [ClassroomScalarWhereInput!]
+  NOT: [ClassroomScalarWhereInput!]
+  id: IntFilter
+  title: StringNullableFilter
+  description: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  startTime: DateTimeNullableFilter
+  endTime: DateTimeNullableFilter
+  classCode: StringNullableFilter
+  teacherId: IntNullableFilter
+}
+
+input ClassroomScalarWhereWithAggregatesInput {
+  AND: [ClassroomScalarWhereWithAggregatesInput!]
+  OR: [ClassroomScalarWhereWithAggregatesInput!]
+  NOT: [ClassroomScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  title: StringNullableWithAggregatesFilter
+  description: StringNullableWithAggregatesFilter
+  createdAt: DateTimeNullableWithAggregatesFilter
+  startTime: DateTimeNullableWithAggregatesFilter
+  endTime: DateTimeNullableWithAggregatesFilter
+  classCode: StringNullableWithAggregatesFilter
+  teacherId: IntNullableWithAggregatesFilter
+}
+
+type ClassroomSumAggregate {
+  id: Int
+  teacherId: Int
+}
+
+input ClassroomSumOrderByAggregateInput {
+  id: SortOrder
+  teacherId: SortOrder
+}
+
+input ClassroomUpdateInput {
+  title: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  classCode: NullableStringFieldUpdateOperationsInput
+  students: StudentUpdateManyWithoutClassroomsInput
+  teacher: TeacherUpdateOneWithoutClassroomsInput
+  passes: PassUpdateManyWithoutClassroomInput
+}
+
+input ClassroomUpdateManyMutationInput {
+  title: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  classCode: NullableStringFieldUpdateOperationsInput
+}
+
+input ClassroomUpdateManyWithoutStudentsInput {
+  create: [ClassroomCreateWithoutStudentsInput!]
+  connectOrCreate: [ClassroomCreateOrConnectWithoutStudentsInput!]
+  upsert: [ClassroomUpsertWithWhereUniqueWithoutStudentsInput!]
+  set: [ClassroomWhereUniqueInput!]
+  disconnect: [ClassroomWhereUniqueInput!]
+  delete: [ClassroomWhereUniqueInput!]
+  connect: [ClassroomWhereUniqueInput!]
+  update: [ClassroomUpdateWithWhereUniqueWithoutStudentsInput!]
+  updateMany: [ClassroomUpdateManyWithWhereWithoutStudentsInput!]
+  deleteMany: [ClassroomScalarWhereInput!]
+}
+
+input ClassroomUpdateManyWithoutTeacherInput {
+  create: [ClassroomCreateWithoutTeacherInput!]
+  connectOrCreate: [ClassroomCreateOrConnectWithoutTeacherInput!]
+  upsert: [ClassroomUpsertWithWhereUniqueWithoutTeacherInput!]
+  createMany: ClassroomCreateManyTeacherInputEnvelope
+  set: [ClassroomWhereUniqueInput!]
+  disconnect: [ClassroomWhereUniqueInput!]
+  delete: [ClassroomWhereUniqueInput!]
+  connect: [ClassroomWhereUniqueInput!]
+  update: [ClassroomUpdateWithWhereUniqueWithoutTeacherInput!]
+  updateMany: [ClassroomUpdateManyWithWhereWithoutTeacherInput!]
+  deleteMany: [ClassroomScalarWhereInput!]
+}
+
+input ClassroomUpdateManyWithWhereWithoutStudentsInput {
+  where: ClassroomScalarWhereInput!
+  data: ClassroomUpdateManyMutationInput!
+}
+
+input ClassroomUpdateManyWithWhereWithoutTeacherInput {
+  where: ClassroomScalarWhereInput!
+  data: ClassroomUpdateManyMutationInput!
+}
+
+input ClassroomUpdateOneWithoutPassesInput {
+  create: ClassroomCreateWithoutPassesInput
+  connectOrCreate: ClassroomCreateOrConnectWithoutPassesInput
+  upsert: ClassroomUpsertWithoutPassesInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: ClassroomWhereUniqueInput
+  update: ClassroomUpdateWithoutPassesInput
+}
+
+input ClassroomUpdateWithoutPassesInput {
+  title: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  classCode: NullableStringFieldUpdateOperationsInput
+  students: StudentUpdateManyWithoutClassroomsInput
+  teacher: TeacherUpdateOneWithoutClassroomsInput
+}
+
+input ClassroomUpdateWithoutStudentsInput {
+  title: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  classCode: NullableStringFieldUpdateOperationsInput
+  teacher: TeacherUpdateOneWithoutClassroomsInput
+  passes: PassUpdateManyWithoutClassroomInput
+}
+
+input ClassroomUpdateWithoutTeacherInput {
+  title: NullableStringFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  classCode: NullableStringFieldUpdateOperationsInput
+  students: StudentUpdateManyWithoutClassroomsInput
+  passes: PassUpdateManyWithoutClassroomInput
+}
+
+input ClassroomUpdateWithWhereUniqueWithoutStudentsInput {
+  where: ClassroomWhereUniqueInput!
+  data: ClassroomUpdateWithoutStudentsInput!
+}
+
+input ClassroomUpdateWithWhereUniqueWithoutTeacherInput {
+  where: ClassroomWhereUniqueInput!
+  data: ClassroomUpdateWithoutTeacherInput!
+}
+
+input ClassroomUpsertWithoutPassesInput {
+  update: ClassroomUpdateWithoutPassesInput!
+  create: ClassroomCreateWithoutPassesInput!
+}
+
+input ClassroomUpsertWithWhereUniqueWithoutStudentsInput {
+  where: ClassroomWhereUniqueInput!
+  update: ClassroomUpdateWithoutStudentsInput!
+  create: ClassroomCreateWithoutStudentsInput!
+}
+
+input ClassroomUpsertWithWhereUniqueWithoutTeacherInput {
+  where: ClassroomWhereUniqueInput!
+  update: ClassroomUpdateWithoutTeacherInput!
+  create: ClassroomCreateWithoutTeacherInput!
+}
+
+input ClassroomWhereInput {
+  AND: [ClassroomWhereInput!]
+  OR: [ClassroomWhereInput!]
+  NOT: [ClassroomWhereInput!]
+  id: IntFilter
+  title: StringNullableFilter
+  description: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  startTime: DateTimeNullableFilter
+  endTime: DateTimeNullableFilter
+  classCode: StringNullableFilter
+  students: StudentListRelationFilter
+  teacher: TeacherRelationFilter
+  teacherId: IntNullableFilter
+  passes: PassListRelationFilter
+}
+
+input ClassroomWhereUniqueInput {
+  id: Int
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input DateTimeNullableWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedDateTimeNullableFilter
+  _max: NestedDateTimeNullableFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input IntNullableWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _avg: NestedFloatNullableFilter
+  _sum: NestedIntNullableFilter
+  _min: NestedIntNullableFilter
+  _max: NestedIntNullableFilter
+}
+
+input IntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+type IPAddress {
+  id: Int!
+  ownerId: Int
+  createdAt: DateTime
+  address: String
+  owner: Student
+}
+
+type IPAddressAvgAggregate {
+  id: Float
+  ownerId: Float
+}
+
+input IPAddressAvgOrderByAggregateInput {
+  id: SortOrder
+  ownerId: SortOrder
+}
+
+type IPAddressCountAggregate {
+  id: Int!
+  ownerId: Int!
+  createdAt: Int!
+  address: Int!
+  _all: Int!
+}
+
+input IPAddressCountOrderByAggregateInput {
+  id: SortOrder
+  ownerId: SortOrder
+  createdAt: SortOrder
+  address: SortOrder
+}
+
+input IPAddressCreateInput {
+  owner: StudentCreateNestedOneWithoutIpAddressesInput
+  createdAt: DateTime
+  address: String
+}
+
+input IPAddressCreateManyInput {
+  id: Int
+  ownerId: Int
+  createdAt: DateTime
+  address: String
+}
+
+input IPAddressCreateManyOwnerInput {
+  id: Int
+  createdAt: DateTime
+  address: String
+}
+
+input IPAddressCreateManyOwnerInputEnvelope {
+  data: [IPAddressCreateManyOwnerInput!]!
+  skipDuplicates: Boolean
+}
+
+input IPAddressCreateNestedManyWithoutOwnerInput {
+  create: [IPAddressCreateWithoutOwnerInput!]
+  connectOrCreate: [IPAddressCreateOrConnectWithoutOwnerInput!]
+  createMany: IPAddressCreateManyOwnerInputEnvelope
+  connect: [IPAddressWhereUniqueInput!]
+}
+
+input IPAddressCreateOrConnectWithoutOwnerInput {
+  where: IPAddressWhereUniqueInput!
+  create: IPAddressCreateWithoutOwnerInput!
+}
+
+input IPAddressCreateWithoutOwnerInput {
+  createdAt: DateTime
+  address: String
+}
+
+type IPAddressGroupBy {
+  id: Int!
+  ownerId: Int
+  createdAt: DateTime
+  address: String
+  _count: IPAddressCountAggregate
+  _avg: IPAddressAvgAggregate
+  _sum: IPAddressSumAggregate
+  _min: IPAddressMinAggregate
+  _max: IPAddressMaxAggregate
+}
+
+input IPAddressListRelationFilter {
+  every: IPAddressWhereInput
+  some: IPAddressWhereInput
+  none: IPAddressWhereInput
+}
+
+type IPAddressMaxAggregate {
+  id: Int
+  ownerId: Int
+  createdAt: DateTime
+  address: String
+}
+
+input IPAddressMaxOrderByAggregateInput {
+  id: SortOrder
+  ownerId: SortOrder
+  createdAt: SortOrder
+  address: SortOrder
+}
+
+type IPAddressMinAggregate {
+  id: Int
+  ownerId: Int
+  createdAt: DateTime
+  address: String
+}
+
+input IPAddressMinOrderByAggregateInput {
+  id: SortOrder
+  ownerId: SortOrder
+  createdAt: SortOrder
+  address: SortOrder
+}
+
+input IPAddressOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input IPAddressOrderByWithAggregationInput {
+  id: SortOrder
+  ownerId: SortOrder
+  createdAt: SortOrder
+  address: SortOrder
+  _count: IPAddressCountOrderByAggregateInput
+  _avg: IPAddressAvgOrderByAggregateInput
+  _max: IPAddressMaxOrderByAggregateInput
+  _min: IPAddressMinOrderByAggregateInput
+  _sum: IPAddressSumOrderByAggregateInput
+}
+
+input IPAddressOrderByWithRelationInput {
+  id: SortOrder
+  owner: StudentOrderByWithRelationInput
+  ownerId: SortOrder
+  createdAt: SortOrder
+  address: SortOrder
+}
+
+enum IPAddressScalarFieldEnum {
+  id
+  ownerId
+  createdAt
+  address
+}
+
+input IPAddressScalarWhereInput {
+  AND: [IPAddressScalarWhereInput!]
+  OR: [IPAddressScalarWhereInput!]
+  NOT: [IPAddressScalarWhereInput!]
+  id: IntFilter
+  ownerId: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  address: StringNullableFilter
+}
+
+input IPAddressScalarWhereWithAggregatesInput {
+  AND: [IPAddressScalarWhereWithAggregatesInput!]
+  OR: [IPAddressScalarWhereWithAggregatesInput!]
+  NOT: [IPAddressScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  ownerId: IntNullableWithAggregatesFilter
+  createdAt: DateTimeNullableWithAggregatesFilter
+  address: StringNullableWithAggregatesFilter
+}
+
+type IPAddressSumAggregate {
+  id: Int
+  ownerId: Int
+}
+
+input IPAddressSumOrderByAggregateInput {
+  id: SortOrder
+  ownerId: SortOrder
+}
+
+input IPAddressUpdateInput {
+  owner: StudentUpdateOneWithoutIpAddressesInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  address: NullableStringFieldUpdateOperationsInput
+}
+
+input IPAddressUpdateManyMutationInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  address: NullableStringFieldUpdateOperationsInput
+}
+
+input IPAddressUpdateManyWithoutOwnerInput {
+  create: [IPAddressCreateWithoutOwnerInput!]
+  connectOrCreate: [IPAddressCreateOrConnectWithoutOwnerInput!]
+  upsert: [IPAddressUpsertWithWhereUniqueWithoutOwnerInput!]
+  createMany: IPAddressCreateManyOwnerInputEnvelope
+  set: [IPAddressWhereUniqueInput!]
+  disconnect: [IPAddressWhereUniqueInput!]
+  delete: [IPAddressWhereUniqueInput!]
+  connect: [IPAddressWhereUniqueInput!]
+  update: [IPAddressUpdateWithWhereUniqueWithoutOwnerInput!]
+  updateMany: [IPAddressUpdateManyWithWhereWithoutOwnerInput!]
+  deleteMany: [IPAddressScalarWhereInput!]
+}
+
+input IPAddressUpdateManyWithWhereWithoutOwnerInput {
+  where: IPAddressScalarWhereInput!
+  data: IPAddressUpdateManyMutationInput!
+}
+
+input IPAddressUpdateWithoutOwnerInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  address: NullableStringFieldUpdateOperationsInput
+}
+
+input IPAddressUpdateWithWhereUniqueWithoutOwnerInput {
+  where: IPAddressWhereUniqueInput!
+  data: IPAddressUpdateWithoutOwnerInput!
+}
+
+input IPAddressUpsertWithWhereUniqueWithoutOwnerInput {
+  where: IPAddressWhereUniqueInput!
+  update: IPAddressUpdateWithoutOwnerInput!
+  create: IPAddressCreateWithoutOwnerInput!
+}
+
+input IPAddressWhereInput {
+  AND: [IPAddressWhereInput!]
+  OR: [IPAddressWhereInput!]
+  NOT: [IPAddressWhereInput!]
+  id: IntFilter
+  owner: StudentRelationFilter
+  ownerId: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  address: StringNullableFilter
+}
+
+input IPAddressWhereUniqueInput {
+  id: Int
+}
+
+type Mutation {
+  createClassroom(data: ClassroomCreateInput!): Classroom!
+  createManyClassroom(data: [ClassroomCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  deleteClassroom(where: ClassroomWhereUniqueInput!): Classroom
+  updateClassroom(data: ClassroomUpdateInput!, where: ClassroomWhereUniqueInput!): Classroom
+  deleteManyClassroom(where: ClassroomWhereInput): AffectedRowsOutput!
+  updateManyClassroom(data: ClassroomUpdateManyMutationInput!, where: ClassroomWhereInput): AffectedRowsOutput!
+  upsertClassroom(where: ClassroomWhereUniqueInput!, create: ClassroomCreateInput!, update: ClassroomUpdateInput!): Classroom!
+  createIPAddress(data: IPAddressCreateInput!): IPAddress!
+  createManyIPAddress(data: [IPAddressCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  deleteIPAddress(where: IPAddressWhereUniqueInput!): IPAddress
+  updateIPAddress(data: IPAddressUpdateInput!, where: IPAddressWhereUniqueInput!): IPAddress
+  deleteManyIPAddress(where: IPAddressWhereInput): AffectedRowsOutput!
+  updateManyIPAddress(data: IPAddressUpdateManyMutationInput!, where: IPAddressWhereInput): AffectedRowsOutput!
+  upsertIPAddress(where: IPAddressWhereUniqueInput!, create: IPAddressCreateInput!, update: IPAddressUpdateInput!): IPAddress!
+  createPass(data: PassCreateInput!): Pass!
+  createManyPass(data: [PassCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  deletePass(where: PassWhereUniqueInput!): Pass
+  updatePass(data: PassUpdateInput!, where: PassWhereUniqueInput!): Pass
+  deleteManyPass(where: PassWhereInput): AffectedRowsOutput!
+  updateManyPass(data: PassUpdateManyMutationInput!, where: PassWhereInput): AffectedRowsOutput!
+  upsertPass(where: PassWhereUniqueInput!, create: PassCreateInput!, update: PassUpdateInput!): Pass!
+  createStudent(data: StudentCreateInput!): Student!
+  createManyStudent(data: [StudentCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  deleteStudent(where: StudentWhereUniqueInput!): Student
+  updateStudent(data: StudentUpdateInput!, where: StudentWhereUniqueInput!): Student
+  deleteManyStudent(where: StudentWhereInput): AffectedRowsOutput!
+  updateManyStudent(data: StudentUpdateManyMutationInput!, where: StudentWhereInput): AffectedRowsOutput!
+  upsertStudent(where: StudentWhereUniqueInput!, create: StudentCreateInput!, update: StudentUpdateInput!): Student!
+  createTeacher(data: TeacherCreateInput!): Teacher!
+  createManyTeacher(data: [TeacherCreateManyInput!]!, skipDuplicates: Boolean): AffectedRowsOutput!
+  deleteTeacher(where: TeacherWhereUniqueInput!): Teacher
+  updateTeacher(data: TeacherUpdateInput!, where: TeacherWhereUniqueInput!): Teacher
+  deleteManyTeacher(where: TeacherWhereInput): AffectedRowsOutput!
+  updateManyTeacher(data: TeacherUpdateManyMutationInput!, where: TeacherWhereInput): AffectedRowsOutput!
+  upsertTeacher(where: TeacherWhereUniqueInput!, create: TeacherCreateInput!, update: TeacherUpdateInput!): Teacher!
+  registerStudentWithGoogle(idToken: String!): RegisterResponse
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableWithAggregatesFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedDateTimeNullableFilter
+  _max: NestedDateTimeNullableFilter
+}
+
+input NestedFloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input NestedFloatNullableFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatNullableFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input NestedIntNullableWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _avg: NestedFloatNullableFilter
+  _sum: NestedIntNullableFilter
+  _min: NestedIntNullableFilter
+  _max: NestedIntNullableFilter
+}
+
+input NestedIntWithAggregatesFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntWithAggregatesFilter
+  _count: NestedIntFilter
+  _avg: NestedFloatFilter
+  _sum: NestedIntFilter
+  _min: NestedIntFilter
+  _max: NestedIntFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input NestedStringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+input NullableDateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input NullableIntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+}
+
+type Pass {
+  id: Int!
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+  student: Student
+  classroom: Classroom
+  issuer: Teacher
+}
+
+type PassAvgAggregate {
+  id: Float
+  studentId: Float
+  classId: Float
+  duration: Float
+  issuerId: Float
+}
+
+input PassAvgOrderByAggregateInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+}
+
+type PassCountAggregate {
+  id: Int!
+  studentId: Int!
+  classId: Int!
+  createdAt: Int!
+  startTime: Int!
+  endTime: Int!
+  duration: Int!
+  issuerId: Int!
+  _all: Int!
+}
+
+input PassCountOrderByAggregateInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+}
+
+input PassCreateInput {
+  student: StudentCreateNestedOneWithoutPassesInput
+  classroom: ClassroomCreateNestedOneWithoutPassesInput
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuer: TeacherCreateNestedOneWithoutIssuedPassesInput
+}
+
+input PassCreateManyClassroomInput {
+  id: Int
+  studentId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+}
+
+input PassCreateManyClassroomInputEnvelope {
+  data: [PassCreateManyClassroomInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateManyInput {
+  id: Int
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+}
+
+input PassCreateManyIssuerInput {
+  id: Int
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+}
+
+input PassCreateManyIssuerInputEnvelope {
+  data: [PassCreateManyIssuerInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateManyStudentInput {
+  id: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+}
+
+input PassCreateManyStudentInputEnvelope {
+  data: [PassCreateManyStudentInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateNestedManyWithoutClassroomInput {
+  create: [PassCreateWithoutClassroomInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutClassroomInput!]
+  createMany: PassCreateManyClassroomInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateNestedManyWithoutIssuerInput {
+  create: [PassCreateWithoutIssuerInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutIssuerInput!]
+  createMany: PassCreateManyIssuerInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateNestedManyWithoutStudentInput {
+  create: [PassCreateWithoutStudentInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutStudentInput!]
+  createMany: PassCreateManyStudentInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateOrConnectWithoutClassroomInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutClassroomInput!
+}
+
+input PassCreateOrConnectWithoutIssuerInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutIssuerInput!
+}
+
+input PassCreateOrConnectWithoutStudentInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutStudentInput!
+}
+
+input PassCreateWithoutClassroomInput {
+  student: StudentCreateNestedOneWithoutPassesInput
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuer: TeacherCreateNestedOneWithoutIssuedPassesInput
+}
+
+input PassCreateWithoutIssuerInput {
+  student: StudentCreateNestedOneWithoutPassesInput
+  classroom: ClassroomCreateNestedOneWithoutPassesInput
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+}
+
+input PassCreateWithoutStudentInput {
+  classroom: ClassroomCreateNestedOneWithoutPassesInput
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuer: TeacherCreateNestedOneWithoutIssuedPassesInput
+}
+
+type PassGroupBy {
+  id: Int!
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+  _count: PassCountAggregate
+  _avg: PassAvgAggregate
+  _sum: PassSumAggregate
+  _min: PassMinAggregate
+  _max: PassMaxAggregate
+}
+
+input PassListRelationFilter {
+  every: PassWhereInput
+  some: PassWhereInput
+  none: PassWhereInput
+}
+
+type PassMaxAggregate {
+  id: Int
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+}
+
+input PassMaxOrderByAggregateInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+}
+
+type PassMinAggregate {
+  id: Int
+  studentId: Int
+  classId: Int
+  createdAt: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int
+  issuerId: Int
+}
+
+input PassMinOrderByAggregateInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+}
+
+input PassOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input PassOrderByWithAggregationInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+  _count: PassCountOrderByAggregateInput
+  _avg: PassAvgOrderByAggregateInput
+  _max: PassMaxOrderByAggregateInput
+  _min: PassMinOrderByAggregateInput
+  _sum: PassSumOrderByAggregateInput
+}
+
+input PassOrderByWithRelationInput {
+  id: SortOrder
+  student: StudentOrderByWithRelationInput
+  studentId: SortOrder
+  classroom: ClassroomOrderByWithRelationInput
+  classId: SortOrder
+  createdAt: SortOrder
+  startTime: SortOrder
+  endTime: SortOrder
+  duration: SortOrder
+  issuer: TeacherOrderByWithRelationInput
+  issuerId: SortOrder
+}
+
+enum PassScalarFieldEnum {
+  id
+  studentId
+  classId
+  createdAt
+  startTime
+  endTime
+  duration
+  issuerId
+}
+
+input PassScalarWhereInput {
+  AND: [PassScalarWhereInput!]
+  OR: [PassScalarWhereInput!]
+  NOT: [PassScalarWhereInput!]
+  id: IntFilter
+  studentId: IntNullableFilter
+  classId: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  startTime: DateTimeNullableFilter
+  endTime: DateTimeNullableFilter
+  duration: IntNullableFilter
+  issuerId: IntNullableFilter
+}
+
+input PassScalarWhereWithAggregatesInput {
+  AND: [PassScalarWhereWithAggregatesInput!]
+  OR: [PassScalarWhereWithAggregatesInput!]
+  NOT: [PassScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  studentId: IntNullableWithAggregatesFilter
+  classId: IntNullableWithAggregatesFilter
+  createdAt: DateTimeNullableWithAggregatesFilter
+  startTime: DateTimeNullableWithAggregatesFilter
+  endTime: DateTimeNullableWithAggregatesFilter
+  duration: IntNullableWithAggregatesFilter
+  issuerId: IntNullableWithAggregatesFilter
+}
+
+type PassSumAggregate {
+  id: Int
+  studentId: Int
+  classId: Int
+  duration: Int
+  issuerId: Int
+}
+
+input PassSumOrderByAggregateInput {
+  id: SortOrder
+  studentId: SortOrder
+  classId: SortOrder
+  duration: SortOrder
+  issuerId: SortOrder
+}
+
+input PassUpdateInput {
+  student: StudentUpdateOneWithoutPassesInput
+  classroom: ClassroomUpdateOneWithoutPassesInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  duration: NullableIntFieldUpdateOperationsInput
+  issuer: TeacherUpdateOneWithoutIssuedPassesInput
+}
+
+input PassUpdateManyMutationInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  duration: NullableIntFieldUpdateOperationsInput
+}
+
+input PassUpdateManyWithoutClassroomInput {
+  create: [PassCreateWithoutClassroomInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutClassroomInput!]
+  upsert: [PassUpsertWithWhereUniqueWithoutClassroomInput!]
+  createMany: PassCreateManyClassroomInputEnvelope
+  set: [PassWhereUniqueInput!]
+  disconnect: [PassWhereUniqueInput!]
+  delete: [PassWhereUniqueInput!]
+  connect: [PassWhereUniqueInput!]
+  update: [PassUpdateWithWhereUniqueWithoutClassroomInput!]
+  updateMany: [PassUpdateManyWithWhereWithoutClassroomInput!]
+  deleteMany: [PassScalarWhereInput!]
+}
+
+input PassUpdateManyWithoutIssuerInput {
+  create: [PassCreateWithoutIssuerInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutIssuerInput!]
+  upsert: [PassUpsertWithWhereUniqueWithoutIssuerInput!]
+  createMany: PassCreateManyIssuerInputEnvelope
+  set: [PassWhereUniqueInput!]
+  disconnect: [PassWhereUniqueInput!]
+  delete: [PassWhereUniqueInput!]
+  connect: [PassWhereUniqueInput!]
+  update: [PassUpdateWithWhereUniqueWithoutIssuerInput!]
+  updateMany: [PassUpdateManyWithWhereWithoutIssuerInput!]
+  deleteMany: [PassScalarWhereInput!]
+}
+
+input PassUpdateManyWithoutStudentInput {
+  create: [PassCreateWithoutStudentInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutStudentInput!]
+  upsert: [PassUpsertWithWhereUniqueWithoutStudentInput!]
+  createMany: PassCreateManyStudentInputEnvelope
+  set: [PassWhereUniqueInput!]
+  disconnect: [PassWhereUniqueInput!]
+  delete: [PassWhereUniqueInput!]
+  connect: [PassWhereUniqueInput!]
+  update: [PassUpdateWithWhereUniqueWithoutStudentInput!]
+  updateMany: [PassUpdateManyWithWhereWithoutStudentInput!]
+  deleteMany: [PassScalarWhereInput!]
+}
+
+input PassUpdateManyWithWhereWithoutClassroomInput {
+  where: PassScalarWhereInput!
+  data: PassUpdateManyMutationInput!
+}
+
+input PassUpdateManyWithWhereWithoutIssuerInput {
+  where: PassScalarWhereInput!
+  data: PassUpdateManyMutationInput!
+}
+
+input PassUpdateManyWithWhereWithoutStudentInput {
+  where: PassScalarWhereInput!
+  data: PassUpdateManyMutationInput!
+}
+
+input PassUpdateWithoutClassroomInput {
+  student: StudentUpdateOneWithoutPassesInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  duration: NullableIntFieldUpdateOperationsInput
+  issuer: TeacherUpdateOneWithoutIssuedPassesInput
+}
+
+input PassUpdateWithoutIssuerInput {
+  student: StudentUpdateOneWithoutPassesInput
+  classroom: ClassroomUpdateOneWithoutPassesInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  duration: NullableIntFieldUpdateOperationsInput
+}
+
+input PassUpdateWithoutStudentInput {
+  classroom: ClassroomUpdateOneWithoutPassesInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  startTime: NullableDateTimeFieldUpdateOperationsInput
+  endTime: NullableDateTimeFieldUpdateOperationsInput
+  duration: NullableIntFieldUpdateOperationsInput
+  issuer: TeacherUpdateOneWithoutIssuedPassesInput
+}
+
+input PassUpdateWithWhereUniqueWithoutClassroomInput {
+  where: PassWhereUniqueInput!
+  data: PassUpdateWithoutClassroomInput!
+}
+
+input PassUpdateWithWhereUniqueWithoutIssuerInput {
+  where: PassWhereUniqueInput!
+  data: PassUpdateWithoutIssuerInput!
+}
+
+input PassUpdateWithWhereUniqueWithoutStudentInput {
+  where: PassWhereUniqueInput!
+  data: PassUpdateWithoutStudentInput!
+}
+
+input PassUpsertWithWhereUniqueWithoutClassroomInput {
+  where: PassWhereUniqueInput!
+  update: PassUpdateWithoutClassroomInput!
+  create: PassCreateWithoutClassroomInput!
+}
+
+input PassUpsertWithWhereUniqueWithoutIssuerInput {
+  where: PassWhereUniqueInput!
+  update: PassUpdateWithoutIssuerInput!
+  create: PassCreateWithoutIssuerInput!
+}
+
+input PassUpsertWithWhereUniqueWithoutStudentInput {
+  where: PassWhereUniqueInput!
+  update: PassUpdateWithoutStudentInput!
+  create: PassCreateWithoutStudentInput!
+}
+
+input PassWhereInput {
+  AND: [PassWhereInput!]
+  OR: [PassWhereInput!]
+  NOT: [PassWhereInput!]
+  id: IntFilter
+  student: StudentRelationFilter
+  studentId: IntNullableFilter
+  classroom: ClassroomRelationFilter
+  classId: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  startTime: DateTimeNullableFilter
+  endTime: DateTimeNullableFilter
+  duration: IntNullableFilter
+  issuer: TeacherRelationFilter
+  issuerId: IntNullableFilter
+}
+
+input PassWhereUniqueInput {
+  id: Int
+}
+
+type Query {
+  classroom(where: ClassroomWhereUniqueInput!): Classroom
+  findFirstClassroom(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int, distinct: [ClassroomScalarFieldEnum!]): Classroom
+  classrooms(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int, distinct: [ClassroomScalarFieldEnum!]): [Classroom!]!
+  aggregateClassroom(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int): AggregateClassroom!
+  groupByClassroom(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithAggregationInput!], by: [ClassroomScalarFieldEnum!]!, having: ClassroomScalarWhereWithAggregatesInput, take: Int, skip: Int): [ClassroomGroupBy!]!
+  iPAddress(where: IPAddressWhereUniqueInput!): IPAddress
+  findFirstIPAddress(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithRelationInput!], cursor: IPAddressWhereUniqueInput, take: Int, skip: Int, distinct: [IPAddressScalarFieldEnum!]): IPAddress
+  iPAddresses(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithRelationInput!], cursor: IPAddressWhereUniqueInput, take: Int, skip: Int, distinct: [IPAddressScalarFieldEnum!]): [IPAddress!]!
+  aggregateIPAddress(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithRelationInput!], cursor: IPAddressWhereUniqueInput, take: Int, skip: Int): AggregateIPAddress!
+  groupByIPAddress(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithAggregationInput!], by: [IPAddressScalarFieldEnum!]!, having: IPAddressScalarWhereWithAggregatesInput, take: Int, skip: Int): [IPAddressGroupBy!]!
+  pass(where: PassWhereUniqueInput!): Pass
+  findFirstPass(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): Pass
+  passes(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): [Pass!]!
+  aggregatePass(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int): AggregatePass!
+  groupByPass(where: PassWhereInput, orderBy: [PassOrderByWithAggregationInput!], by: [PassScalarFieldEnum!]!, having: PassScalarWhereWithAggregatesInput, take: Int, skip: Int): [PassGroupBy!]!
+  student(where: StudentWhereUniqueInput!): Student
+  findFirstStudent(where: StudentWhereInput, orderBy: [StudentOrderByWithRelationInput!], cursor: StudentWhereUniqueInput, take: Int, skip: Int, distinct: [StudentScalarFieldEnum!]): Student
+  students(where: StudentWhereInput, orderBy: [StudentOrderByWithRelationInput!], cursor: StudentWhereUniqueInput, take: Int, skip: Int, distinct: [StudentScalarFieldEnum!]): [Student!]!
+  aggregateStudent(where: StudentWhereInput, orderBy: [StudentOrderByWithRelationInput!], cursor: StudentWhereUniqueInput, take: Int, skip: Int): AggregateStudent!
+  groupByStudent(where: StudentWhereInput, orderBy: [StudentOrderByWithAggregationInput!], by: [StudentScalarFieldEnum!]!, having: StudentScalarWhereWithAggregatesInput, take: Int, skip: Int): [StudentGroupBy!]!
+  teacher(where: TeacherWhereUniqueInput!): Teacher
+  findFirstTeacher(where: TeacherWhereInput, orderBy: [TeacherOrderByWithRelationInput!], cursor: TeacherWhereUniqueInput, take: Int, skip: Int, distinct: [TeacherScalarFieldEnum!]): Teacher
+  teachers(where: TeacherWhereInput, orderBy: [TeacherOrderByWithRelationInput!], cursor: TeacherWhereUniqueInput, take: Int, skip: Int, distinct: [TeacherScalarFieldEnum!]): [Teacher!]!
+  aggregateTeacher(where: TeacherWhereInput, orderBy: [TeacherOrderByWithRelationInput!], cursor: TeacherWhereUniqueInput, take: Int, skip: Int): AggregateTeacher!
+  groupByTeacher(where: TeacherWhereInput, orderBy: [TeacherOrderByWithAggregationInput!], by: [TeacherScalarFieldEnum!]!, having: TeacherScalarWhereWithAggregatesInput, take: Int, skip: Int): [TeacherGroupBy!]!
+  helloWorld: String!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+type RegisterResponse {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  _count: StudentCount
+  ipAddresses(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithRelationInput!], cursor: IPAddressWhereUniqueInput, take: Int, skip: Int, distinct: [IPAddressScalarFieldEnum!]): [IPAddress!]!
+  classrooms(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int, distinct: [ClassroomScalarFieldEnum!]): [Classroom!]!
+  passes(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): [Pass!]!
+  userType: String!
+  jwt: String!
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input StringNullableWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableWithAggregatesFilter
+  _count: NestedIntNullableFilter
+  _min: NestedStringNullableFilter
+  _max: NestedStringNullableFilter
+}
+
+input StringWithAggregatesFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringWithAggregatesFilter
+  _count: NestedIntFilter
+  _min: NestedStringFilter
+  _max: NestedStringFilter
+}
+
+type Student {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  _count: StudentCount
+  ipAddresses(where: IPAddressWhereInput, orderBy: [IPAddressOrderByWithRelationInput!], cursor: IPAddressWhereUniqueInput, take: Int, skip: Int, distinct: [IPAddressScalarFieldEnum!]): [IPAddress!]!
+  classrooms(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int, distinct: [ClassroomScalarFieldEnum!]): [Classroom!]!
+  passes(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): [Pass!]!
+}
+
+type StudentAvgAggregate {
+  id: Float
+  passesUsed: Float
+}
+
+input StudentAvgOrderByAggregateInput {
+  id: SortOrder
+  passesUsed: SortOrder
+}
+
+type StudentCount {
+  ipAddresses: Int!
+  classrooms: Int!
+  passes: Int!
+}
+
+type StudentCountAggregate {
+  id: Int!
+  email: Int!
+  firstName: Int!
+  lastName: Int!
+  pictureUrl: Int!
+  createdAt: Int!
+  lastLogin: Int!
+  studentId: Int!
+  passesUsed: Int!
+  _all: Int!
+}
+
+input StudentCountOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  studentId: SortOrder
+  passesUsed: SortOrder
+}
+
+input StudentCreateInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  ipAddresses: IPAddressCreateNestedManyWithoutOwnerInput
+  classrooms: ClassroomCreateNestedManyWithoutStudentsInput
+  passes: PassCreateNestedManyWithoutStudentInput
+}
+
+input StudentCreateManyInput {
+  id: Int
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+}
+
+input StudentCreateNestedManyWithoutClassroomsInput {
+  create: [StudentCreateWithoutClassroomsInput!]
+  connectOrCreate: [StudentCreateOrConnectWithoutClassroomsInput!]
+  connect: [StudentWhereUniqueInput!]
+}
+
+input StudentCreateNestedOneWithoutIpAddressesInput {
+  create: StudentCreateWithoutIpAddressesInput
+  connectOrCreate: StudentCreateOrConnectWithoutIpAddressesInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateNestedOneWithoutPassesInput {
+  create: StudentCreateWithoutPassesInput
+  connectOrCreate: StudentCreateOrConnectWithoutPassesInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateOrConnectWithoutClassroomsInput {
+  where: StudentWhereUniqueInput!
+  create: StudentCreateWithoutClassroomsInput!
+}
+
+input StudentCreateOrConnectWithoutIpAddressesInput {
+  where: StudentWhereUniqueInput!
+  create: StudentCreateWithoutIpAddressesInput!
+}
+
+input StudentCreateOrConnectWithoutPassesInput {
+  where: StudentWhereUniqueInput!
+  create: StudentCreateWithoutPassesInput!
+}
+
+input StudentCreateWithoutClassroomsInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  ipAddresses: IPAddressCreateNestedManyWithoutOwnerInput
+  passes: PassCreateNestedManyWithoutStudentInput
+}
+
+input StudentCreateWithoutIpAddressesInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  classrooms: ClassroomCreateNestedManyWithoutStudentsInput
+  passes: PassCreateNestedManyWithoutStudentInput
+}
+
+input StudentCreateWithoutPassesInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  ipAddresses: IPAddressCreateNestedManyWithoutOwnerInput
+  classrooms: ClassroomCreateNestedManyWithoutStudentsInput
+}
+
+type StudentGroupBy {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+  _count: StudentCountAggregate
+  _avg: StudentAvgAggregate
+  _sum: StudentSumAggregate
+  _min: StudentMinAggregate
+  _max: StudentMaxAggregate
+}
+
+input StudentListRelationFilter {
+  every: StudentWhereInput
+  some: StudentWhereInput
+  none: StudentWhereInput
+}
+
+type StudentMaxAggregate {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+}
+
+input StudentMaxOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  studentId: SortOrder
+  passesUsed: SortOrder
+}
+
+type StudentMinAggregate {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String
+  passesUsed: Int
+}
+
+input StudentMinOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  studentId: SortOrder
+  passesUsed: SortOrder
+}
+
+input StudentOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input StudentOrderByWithAggregationInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  studentId: SortOrder
+  passesUsed: SortOrder
+  _count: StudentCountOrderByAggregateInput
+  _avg: StudentAvgOrderByAggregateInput
+  _max: StudentMaxOrderByAggregateInput
+  _min: StudentMinOrderByAggregateInput
+  _sum: StudentSumOrderByAggregateInput
+}
+
+input StudentOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  studentId: SortOrder
+  passesUsed: SortOrder
+  ipAddresses: IPAddressOrderByRelationAggregateInput
+  classrooms: ClassroomOrderByRelationAggregateInput
+  passes: PassOrderByRelationAggregateInput
+}
+
+input StudentRelationFilter {
+  is: StudentWhereInput
+  isNot: StudentWhereInput
+}
+
+enum StudentScalarFieldEnum {
+  id
+  email
+  firstName
+  lastName
+  pictureUrl
+  createdAt
+  lastLogin
+  studentId
+  passesUsed
+}
+
+input StudentScalarWhereInput {
+  AND: [StudentScalarWhereInput!]
+  OR: [StudentScalarWhereInput!]
+  NOT: [StudentScalarWhereInput!]
+  id: IntFilter
+  email: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  pictureUrl: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  lastLogin: DateTimeNullableFilter
+  studentId: StringNullableFilter
+  passesUsed: IntNullableFilter
+}
+
+input StudentScalarWhereWithAggregatesInput {
+  AND: [StudentScalarWhereWithAggregatesInput!]
+  OR: [StudentScalarWhereWithAggregatesInput!]
+  NOT: [StudentScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  email: StringWithAggregatesFilter
+  firstName: StringNullableWithAggregatesFilter
+  lastName: StringNullableWithAggregatesFilter
+  pictureUrl: StringNullableWithAggregatesFilter
+  createdAt: DateTimeNullableWithAggregatesFilter
+  lastLogin: DateTimeNullableWithAggregatesFilter
+  studentId: StringNullableWithAggregatesFilter
+  passesUsed: IntNullableWithAggregatesFilter
+}
+
+type StudentSumAggregate {
+  id: Int
+  passesUsed: Int
+}
+
+input StudentSumOrderByAggregateInput {
+  id: SortOrder
+  passesUsed: SortOrder
+}
+
+input StudentUpdateInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  studentId: NullableStringFieldUpdateOperationsInput
+  passesUsed: NullableIntFieldUpdateOperationsInput
+  ipAddresses: IPAddressUpdateManyWithoutOwnerInput
+  classrooms: ClassroomUpdateManyWithoutStudentsInput
+  passes: PassUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateManyMutationInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  studentId: NullableStringFieldUpdateOperationsInput
+  passesUsed: NullableIntFieldUpdateOperationsInput
+}
+
+input StudentUpdateManyWithoutClassroomsInput {
+  create: [StudentCreateWithoutClassroomsInput!]
+  connectOrCreate: [StudentCreateOrConnectWithoutClassroomsInput!]
+  upsert: [StudentUpsertWithWhereUniqueWithoutClassroomsInput!]
+  set: [StudentWhereUniqueInput!]
+  disconnect: [StudentWhereUniqueInput!]
+  delete: [StudentWhereUniqueInput!]
+  connect: [StudentWhereUniqueInput!]
+  update: [StudentUpdateWithWhereUniqueWithoutClassroomsInput!]
+  updateMany: [StudentUpdateManyWithWhereWithoutClassroomsInput!]
+  deleteMany: [StudentScalarWhereInput!]
+}
+
+input StudentUpdateManyWithWhereWithoutClassroomsInput {
+  where: StudentScalarWhereInput!
+  data: StudentUpdateManyMutationInput!
+}
+
+input StudentUpdateOneWithoutIpAddressesInput {
+  create: StudentCreateWithoutIpAddressesInput
+  connectOrCreate: StudentCreateOrConnectWithoutIpAddressesInput
+  upsert: StudentUpsertWithoutIpAddressesInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: StudentWhereUniqueInput
+  update: StudentUpdateWithoutIpAddressesInput
+}
+
+input StudentUpdateOneWithoutPassesInput {
+  create: StudentCreateWithoutPassesInput
+  connectOrCreate: StudentCreateOrConnectWithoutPassesInput
+  upsert: StudentUpsertWithoutPassesInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: StudentWhereUniqueInput
+  update: StudentUpdateWithoutPassesInput
+}
+
+input StudentUpdateWithoutClassroomsInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  studentId: NullableStringFieldUpdateOperationsInput
+  passesUsed: NullableIntFieldUpdateOperationsInput
+  ipAddresses: IPAddressUpdateManyWithoutOwnerInput
+  passes: PassUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateWithoutIpAddressesInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  studentId: NullableStringFieldUpdateOperationsInput
+  passesUsed: NullableIntFieldUpdateOperationsInput
+  classrooms: ClassroomUpdateManyWithoutStudentsInput
+  passes: PassUpdateManyWithoutStudentInput
+}
+
+input StudentUpdateWithoutPassesInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  studentId: NullableStringFieldUpdateOperationsInput
+  passesUsed: NullableIntFieldUpdateOperationsInput
+  ipAddresses: IPAddressUpdateManyWithoutOwnerInput
+  classrooms: ClassroomUpdateManyWithoutStudentsInput
+}
+
+input StudentUpdateWithWhereUniqueWithoutClassroomsInput {
+  where: StudentWhereUniqueInput!
+  data: StudentUpdateWithoutClassroomsInput!
+}
+
+input StudentUpsertWithoutIpAddressesInput {
+  update: StudentUpdateWithoutIpAddressesInput!
+  create: StudentCreateWithoutIpAddressesInput!
+}
+
+input StudentUpsertWithoutPassesInput {
+  update: StudentUpdateWithoutPassesInput!
+  create: StudentCreateWithoutPassesInput!
+}
+
+input StudentUpsertWithWhereUniqueWithoutClassroomsInput {
+  where: StudentWhereUniqueInput!
+  update: StudentUpdateWithoutClassroomsInput!
+  create: StudentCreateWithoutClassroomsInput!
+}
+
+input StudentWhereInput {
+  AND: [StudentWhereInput!]
+  OR: [StudentWhereInput!]
+  NOT: [StudentWhereInput!]
+  id: IntFilter
+  email: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  pictureUrl: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  lastLogin: DateTimeNullableFilter
+  studentId: StringNullableFilter
+  passesUsed: IntNullableFilter
+  ipAddresses: IPAddressListRelationFilter
+  classrooms: ClassroomListRelationFilter
+  passes: PassListRelationFilter
+}
+
+input StudentWhereUniqueInput {
+  id: Int
+  email: String
+}
+
+type Teacher {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  _count: TeacherCount
+  classrooms(where: ClassroomWhereInput, orderBy: [ClassroomOrderByWithRelationInput!], cursor: ClassroomWhereUniqueInput, take: Int, skip: Int, distinct: [ClassroomScalarFieldEnum!]): [Classroom!]!
+  issuedPasses(where: PassWhereInput, orderBy: [PassOrderByWithRelationInput!], cursor: PassWhereUniqueInput, take: Int, skip: Int, distinct: [PassScalarFieldEnum!]): [Pass!]!
+}
+
+type TeacherAvgAggregate {
+  id: Float
+}
+
+input TeacherAvgOrderByAggregateInput {
+  id: SortOrder
+}
+
+type TeacherCount {
+  classrooms: Int!
+  issuedPasses: Int!
+}
+
+type TeacherCountAggregate {
+  id: Int!
+  email: Int!
+  firstName: Int!
+  lastName: Int!
+  pictureUrl: Int!
+  createdAt: Int!
+  lastLogin: Int!
+  _all: Int!
+}
+
+input TeacherCountOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+}
+
+input TeacherCreateInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  classrooms: ClassroomCreateNestedManyWithoutTeacherInput
+  issuedPasses: PassCreateNestedManyWithoutIssuerInput
+}
+
+input TeacherCreateManyInput {
+  id: Int
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+}
+
+input TeacherCreateNestedOneWithoutClassroomsInput {
+  create: TeacherCreateWithoutClassroomsInput
+  connectOrCreate: TeacherCreateOrConnectWithoutClassroomsInput
+  connect: TeacherWhereUniqueInput
+}
+
+input TeacherCreateNestedOneWithoutIssuedPassesInput {
+  create: TeacherCreateWithoutIssuedPassesInput
+  connectOrCreate: TeacherCreateOrConnectWithoutIssuedPassesInput
+  connect: TeacherWhereUniqueInput
+}
+
+input TeacherCreateOrConnectWithoutClassroomsInput {
+  where: TeacherWhereUniqueInput!
+  create: TeacherCreateWithoutClassroomsInput!
+}
+
+input TeacherCreateOrConnectWithoutIssuedPassesInput {
+  where: TeacherWhereUniqueInput!
+  create: TeacherCreateWithoutIssuedPassesInput!
+}
+
+input TeacherCreateWithoutClassroomsInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  issuedPasses: PassCreateNestedManyWithoutIssuerInput
+}
+
+input TeacherCreateWithoutIssuedPassesInput {
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  classrooms: ClassroomCreateNestedManyWithoutTeacherInput
+}
+
+type TeacherGroupBy {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+  _count: TeacherCountAggregate
+  _avg: TeacherAvgAggregate
+  _sum: TeacherSumAggregate
+  _min: TeacherMinAggregate
+  _max: TeacherMaxAggregate
+}
+
+type TeacherMaxAggregate {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+}
+
+input TeacherMaxOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+}
+
+type TeacherMinAggregate {
+  id: Int
+  email: String
+  firstName: String
+  lastName: String
+  pictureUrl: String
+  createdAt: DateTime
+  lastLogin: DateTime
+}
+
+input TeacherMinOrderByAggregateInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+}
+
+input TeacherOrderByWithAggregationInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  _count: TeacherCountOrderByAggregateInput
+  _avg: TeacherAvgOrderByAggregateInput
+  _max: TeacherMaxOrderByAggregateInput
+  _min: TeacherMinOrderByAggregateInput
+  _sum: TeacherSumOrderByAggregateInput
+}
+
+input TeacherOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  pictureUrl: SortOrder
+  createdAt: SortOrder
+  lastLogin: SortOrder
+  classrooms: ClassroomOrderByRelationAggregateInput
+  issuedPasses: PassOrderByRelationAggregateInput
+}
+
+input TeacherRelationFilter {
+  is: TeacherWhereInput
+  isNot: TeacherWhereInput
+}
+
+enum TeacherScalarFieldEnum {
+  id
+  email
+  firstName
+  lastName
+  pictureUrl
+  createdAt
+  lastLogin
+}
+
+input TeacherScalarWhereWithAggregatesInput {
+  AND: [TeacherScalarWhereWithAggregatesInput!]
+  OR: [TeacherScalarWhereWithAggregatesInput!]
+  NOT: [TeacherScalarWhereWithAggregatesInput!]
+  id: IntWithAggregatesFilter
+  email: StringWithAggregatesFilter
+  firstName: StringNullableWithAggregatesFilter
+  lastName: StringNullableWithAggregatesFilter
+  pictureUrl: StringNullableWithAggregatesFilter
+  createdAt: DateTimeNullableWithAggregatesFilter
+  lastLogin: DateTimeNullableWithAggregatesFilter
+}
+
+type TeacherSumAggregate {
+  id: Int
+}
+
+input TeacherSumOrderByAggregateInput {
+  id: SortOrder
+}
+
+input TeacherUpdateInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  classrooms: ClassroomUpdateManyWithoutTeacherInput
+  issuedPasses: PassUpdateManyWithoutIssuerInput
+}
+
+input TeacherUpdateManyMutationInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+}
+
+input TeacherUpdateOneWithoutClassroomsInput {
+  create: TeacherCreateWithoutClassroomsInput
+  connectOrCreate: TeacherCreateOrConnectWithoutClassroomsInput
+  upsert: TeacherUpsertWithoutClassroomsInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: TeacherWhereUniqueInput
+  update: TeacherUpdateWithoutClassroomsInput
+}
+
+input TeacherUpdateOneWithoutIssuedPassesInput {
+  create: TeacherCreateWithoutIssuedPassesInput
+  connectOrCreate: TeacherCreateOrConnectWithoutIssuedPassesInput
+  upsert: TeacherUpsertWithoutIssuedPassesInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: TeacherWhereUniqueInput
+  update: TeacherUpdateWithoutIssuedPassesInput
+}
+
+input TeacherUpdateWithoutClassroomsInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  issuedPasses: PassUpdateManyWithoutIssuerInput
+}
+
+input TeacherUpdateWithoutIssuedPassesInput {
+  email: StringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  pictureUrl: NullableStringFieldUpdateOperationsInput
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  lastLogin: NullableDateTimeFieldUpdateOperationsInput
+  classrooms: ClassroomUpdateManyWithoutTeacherInput
+}
+
+input TeacherUpsertWithoutClassroomsInput {
+  update: TeacherUpdateWithoutClassroomsInput!
+  create: TeacherCreateWithoutClassroomsInput!
+}
+
+input TeacherUpsertWithoutIssuedPassesInput {
+  update: TeacherUpdateWithoutIssuedPassesInput!
+  create: TeacherCreateWithoutIssuedPassesInput!
+}
+
+input TeacherWhereInput {
+  AND: [TeacherWhereInput!]
+  OR: [TeacherWhereInput!]
+  NOT: [TeacherWhereInput!]
+  id: IntFilter
+  email: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  pictureUrl: StringNullableFilter
+  createdAt: DateTimeNullableFilter
+  lastLogin: DateTimeNullableFilter
+  classrooms: ClassroomListRelationFilter
+  issuedPasses: PassListRelationFilter
+}
+
+input TeacherWhereUniqueInput {
+  id: Int
+  email: String
+}
+

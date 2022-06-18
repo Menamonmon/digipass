@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { GoogleLoginResponse } from "react-google-login";
-import { config } from "../config";
+import { config } from "../../config";
 import { refreshToken } from "../services/auth-service";
 import { AuthServiceImpl } from "../services/auth-service/AuthServiceImpl";
 import { AuthStatus, StudentProfile } from "../services/auth-service/types";
@@ -27,13 +27,11 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   const [accessToken, setAccessToken] = useState("");
   const [jwt, setJwt] = useState("");
   const authService = new AuthServiceImpl(config.backendUrl);
-	useEffect(() => {
-	  
-  }, []);
-
   const handleLogin = async (response: GoogleLoginResponse) => {
+    const idToken = response.tokenObj.id_token;
+    console.log(idToken);
     const userData = await authService.registerUser(
-      response.tokenObj.id_token,
+      idToken,
       response.profileObj.email
     );
     if (userData) {
