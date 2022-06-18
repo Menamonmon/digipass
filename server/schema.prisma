@@ -58,12 +58,12 @@ model Classroom {
   title       String?
   description String?
   createdAt   DateTime? @default(now())
-  startTime   DateTime?
-  endTime     DateTime?
-  classCode   String?
+  startTime   DateTime
+  endTime     DateTime
+  classCode   String? @unique
   students    Student[]
-  teacher     Teacher?  @relation(fields: [teacherId], references: [id])
-  teacherId   Int?
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId   Int
   passes      Pass[]
 }
 
@@ -77,7 +77,9 @@ model Pass {
   createdAt DateTime? @default(now())
   startTime DateTime?
   endTime   DateTime?
-  duration  Int?
+  duration  Int? // In minutes 
   issuer    Teacher?  @relation(fields: [issuerId], references: [id])
   issuerId  Int?
+  approved Boolean @default(false)
+  reason String @default("")
 }

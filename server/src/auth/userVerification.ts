@@ -1,7 +1,7 @@
 export const identifyEmailType = (
-    email: string
+  email: string
 ): "student" | "teacher" | "neither" => {
-    if (email.endsWith("jcpsnj.org")) return "student";
-    else if (email.endsWith("jcpsnj.org")) return "teacher";
-    else return "neither";
+  if (email.endsWith("jcpsnj.org")) return "student";
+  else if (email.endsWith("gmail.com")) return "teacher";
+  else return "neither";
 };

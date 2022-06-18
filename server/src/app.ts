@@ -1,3 +1,4 @@
+import { authChecker } from "./auth/auth-checker";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core/dist/plugin/landingPage/graphqlPlayground";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
@@ -9,41 +10,62 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { authResolvers } from "./auth/resolvers";
 import dotenv from "dotenv";
+import { expressjwt } from "express-jwt";
+import { passesResolvers } from "./passes/resolvers";
+import "./auth/authorizations";
 
 dotenv.config();
 
 const main = async () => {
-    const prisma = new PrismaClient();
-    await prisma.$connect();
+  const app = express();
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
+  app.use(cors());
+  app.use(cookieParser());
+  app.use(
+    expressjwt({
+      secret: process.env.JWT_SECRET,
+      algorithms: ["HS256"],
+      credentialsRequired: false,
+    })
+  );
 
-    const schema = await buildSchema({
-        resolvers: [...resolvers, ...authResolvers],
-        validate: false,
-    });
-    const apolloServer = new ApolloServer({
-        schema,
-        plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-        context: {
-            prisma,
-        },
-    });
+  // For JWT error handling
+  app.use(function (err, req, res, next) {
+    if (err.name === "UnauthorizedError") {
+      req.auth = null;
+    }
+    next();
+  });
 
-    await apolloServer.start();
-    const app = express();
-    app.use(express.urlencoded({ extended: false }));
-    app.use(express.json());
-    app.use(cors());
-    app.use(cookieParser());
+  const prisma = new PrismaClient();
+  await prisma.$connect();
 
-    apolloServer.applyMiddleware({ app });
+  const schema = await buildSchema({
+    resolvers: [...resolvers, ...authResolvers, ...passesResolvers],
+    validate: false,
+    authChecker,
+  });
+  const apolloServer = new ApolloServer({
+    schema,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    context: ({ req }: { req: any }) => {
+      const user = req.auth || null;
+      return { prisma, user };
+    },
+  });
 
-    const PORT = 4000;
+  await apolloServer.start();
 
-    app.listen(PORT, () => {
-        console.log(
-            `Apollo Server up and running at http://localhost:${PORT}/graphql`
-        );
-    });
+  apolloServer.applyMiddleware({ app });
+
+  const PORT = 4000;
+
+  app.listen(PORT, () => {
+    console.log(
+      `Apollo Server up and running at http://localhost:${PORT}/graphql`
+    );
+  });
 };
 
 main();

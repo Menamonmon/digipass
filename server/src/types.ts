@@ -1,4 +1,5 @@
+import { CurrentUser } from "./auth/types";
 import { PrismaClient } from "@prisma/client";
-export interface GraphQlContext {
+export interface GraphQLContext {
   prisma: PrismaClient;
 }
