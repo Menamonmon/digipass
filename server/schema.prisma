@@ -52,8 +52,10 @@ model Classroom {
   id          String    @id @default(uuid())
   title       String?
   description String?
-  startTime   DateTime
-  endTime     DateTime
+  startHour   Int // 0 - 24 hours (where 0 is 12am)
+  startMinute Int // 0 -60 minutes
+  endHour     Int
+  endMinute   Int 
   classCode   String?   @unique
   createdAt   DateTime? @default(now())
   teacherId   String

@@ -12,7 +12,6 @@ import { authResolvers } from "./auth/resolvers";
 import dotenv from "dotenv";
 import { expressjwt } from "express-jwt";
 import { passesResolvers } from "./passes/resolvers";
-import "./auth/authorizations";
 
 dotenv.config();
 
@@ -42,7 +41,7 @@ const main = async () => {
   await prisma.$connect();
 
   const schema = await buildSchema({
-    resolvers: [...resolvers, ...authResolvers, ...passesResolvers],
+    resolvers: [, ...authResolvers, ...passesResolvers],
     validate: false,
     authChecker,
   });

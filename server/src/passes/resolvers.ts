@@ -1,7 +1,7 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import { Pass } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
-import { convertTimeToToday } from "./utilts";
+import { mapTimeToToday } from "./utilts";
 
 @Resolver()
 class PassMutationsResolver {
@@ -64,8 +64,15 @@ class PassMutationsResolver {
 
     if (classroom) {
       // Checking if the student already has a pass for that specific class
-      const todayClassroomStartTime = convertTimeToToday(classroom.startTime);
-      const todayClassroomEndTime = convertTimeToToday(classroom.endTime);
+
+      const todayClassroomStartTime = mapTimeToToday(
+        classroom.startHour,
+        classroom.startMinute
+      );
+      const todayClassroomEndTime = mapTimeToToday(
+        classroom.endHour,
+        classroom.endMinute
+      );
       const existingPassForToday = await prisma.pass.findFirst({
         where: {
           studentId,

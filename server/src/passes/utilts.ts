@@ -9,3 +9,11 @@ export function convertTimeToToday(timeDate: Date): Date {
   return now;
 }
 
+export function mapTimeToToday(hours: number, minutes: number) {
+  const now = new Date();
+  now.setHours(hours);
+  now.setMinutes(minutes);
+  now.setSeconds(0);
+  now.setMilliseconds(0);
+  return now;
+}
