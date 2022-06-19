@@ -1,0 +1,101 @@
+import { classroom } from "googleapis/build/src/apis/classroom";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Classroom,
+  ClassroomUpdateInput,
+  CreateClassroomResolver,
+} from "../../prisma/generated/type-graphql";
+import { AuthenticatedGraphQLContext } from "../auth/types";
+import { LimitedClassroom, TeacherClassroomUpdateInput } from "./types";
+
+@Resolver()
+class ClassroomsResolvers {
+  @Authorized("teacher")
+  @Mutation(() => Classroom, { nullable: true })
+  async updateClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId") classId: string,
+    @Arg("data")
+    data: TeacherClassroomUpdateInput
+  ): Promise<Classroom | null> {
+    const { id: teacherId } = user;
+    const classroom = await prisma.classroom.findUnique({
+      where: { id: classId },
+    });
+    if (classroom.teacherId === teacherId) {
+      return await prisma.classroom.update({
+        where: { id: classId },
+        data,
+      });
+    }
+    return null;
+  }
+
+// 
+
+  @Authorized("teacher")
+  @Query(() => Classroom, { nullable: true })
+  async teacherClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId") classId: string
+  ): Promise<Classroom | null> {
+    const { id: teacherId } = user;
+    const classroom = await prisma.classroom.findUnique({
+      where: { id: classId },
+    });
+    if (classroom && classroom.teacherId === teacherId) {
+      return classroom;
+    }
+    return null;
+  }
+
+  @Authorized("teacher")
+  @Query(() => [Classroom], { nullable: true })
+  async teacherClassrooms(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext
+  ): Promise<Classroom[] | null> {
+    const { id: teacherId } = user;
+    const classrooms = await prisma.classroom.findMany({
+      where: { teacherId },
+    });
+    return classrooms;
+  }
+
+  @Authorized("student")
+  @Query(() => LimitedClassroom, { nullable: true })
+  async studentClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId", { nullable: true }) classId?: string,
+    @Arg("classCode", { nullable: true }) classCode?: string
+  ): Promise<LimitedClassroom | null> {
+    if (classId || classCode) {
+      const classroom = await prisma.classroom.findUnique({
+        where: { id: classId, classCode: classCode },
+      });
+      return classroom;
+    }
+  }
+
+  @Authorized("student")
+  @Query(() => [Classroom], { nullable: true })
+  async studentClassrooms(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext
+  ): Promise<Classroom[] | null> {
+    const { id: studentId } = user;
+    const classrooms = await prisma.classroom.findMany({
+      where: {
+        students: {
+          some: {
+            id: studentId,
+          },
+        },
+      },
+    });
+    return classrooms;
+  }
+}
+
+export const classroomsResolvers = [
+  ClassroomsResolvers,
+  CreateClassroomResolver,
+];

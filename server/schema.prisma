@@ -55,13 +55,14 @@ model Classroom {
   startHour   Int // 0 - 24 hours (where 0 is 12am)
   startMinute Int // 0 -60 minutes
   endHour     Int
-  endMinute   Int 
+  endMinute   Int
   classCode   String?   @unique
   createdAt   DateTime? @default(now())
   teacherId   String
   teacher     Teacher   @relation(fields: [teacherId], references: [id])
   passes      Pass[]
   students    Student[]
+  @@unique([teacherId, id])
 }
 
 model Pass {

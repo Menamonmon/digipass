@@ -29,12 +29,6 @@ A student can do the following:
 const resolversEnhanceMap: ResolversEnhanceMap = {
   Classroom: {
     createClassroom: [Authorized("teacher")],
-    updateClassroom: [Authorized("teacher")],
-    deleteClassroom: [Authorized("teacher")],
-    classroom: [Authorized("teacher")],
-  },
-  Pass: {
-    pass: [Authorized("teacher", "student")],
   },
 };
 
