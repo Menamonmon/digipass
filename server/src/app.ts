@@ -13,6 +13,8 @@ import { expressjwt } from "express-jwt";
 import { passesResolvers } from "./passes/resolvers";
 import "./auth/authorizations";
 import { classroomsResolvers } from "./classrooms/resolvers";
+import api from "./api";
+import websockets from "./websockets";
 
 dotenv.config();
 
@@ -30,6 +32,8 @@ const main = async () => {
     })
   );
 
+  await api(app);
+
   // For JWT error handling
   app.use(function (err, req, res, next) {
     if (err.name === "UnauthorizedError") {
@@ -38,34 +42,15 @@ const main = async () => {
     next();
   });
 
-  const prisma = new PrismaClient();
-  await prisma.$connect();
-
-  const schema = await buildSchema({
-    resolvers: [, ...authResolvers, ...classroomsResolvers, ...passesResolvers],
-    validate: false,
-    authChecker,
-  });
-  const apolloServer = new ApolloServer({
-    schema,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    context: ({ req }: { req: any }) => {
-      const user = req.auth || null;
-      return { prisma, user };
-    },
-  });
-
-  await apolloServer.start();
-
-  apolloServer.applyMiddleware({ app });
-
   const PORT = 4000;
 
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(
       `Apollo Server up and running at http://localhost:${PORT}/graphql`
     );
   });
+
+  websockets(server);
 };
 
 main();
