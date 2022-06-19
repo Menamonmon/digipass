@@ -28,7 +28,7 @@ class PassMutationsResolver {
       const associatedClassroom = await prisma.classroom.findUnique({
         where: { id: classId },
       });
-      if (associatedClassroom) {
+      if (associatedClassroom && !associatedClassroom.archived) {
         if (
           associatedClassroom.teacherId === issuerId &&
           associatedClassroom.teacherId === teacherId
@@ -62,7 +62,7 @@ class PassMutationsResolver {
       where: { id: classroomId },
     });
 
-    if (classroom) {
+    if (classroom && !classroom.archived) {
       // Checking if the student already has a pass for that specific class
 
       const todayClassroomStartTime = mapTimeToToday(

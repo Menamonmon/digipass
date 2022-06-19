@@ -58,6 +58,7 @@ model Classroom {
     description String?  @db.VarChar(300)
     classCode   String   @unique @default(uuid())
     createdAt   DateTime @default(now())
+    archived    Boolean  @default(false)
 
     startHour   Int // 0 - 24 hours (where 0 is 12am)
     startMinute Int // 0 -60 minutes 

@@ -1,3 +1,4 @@
+import { firebaseml_v1beta2 } from "googleapis";
 import { classroom } from "googleapis/build/src/apis/classroom";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
@@ -22,7 +23,8 @@ class ClassroomsResolvers {
     const classroom = await prisma.classroom.findUnique({
       where: { id: classId },
     });
-    if (classroom.teacherId === teacherId) {
+
+    if (!classroom.archived && classroom.teacherId === teacherId) {
       return await prisma.classroom.update({
         where: { id: classId },
         data,
@@ -31,7 +33,7 @@ class ClassroomsResolvers {
     return null;
   }
 
-// 
+  //
 
   @Authorized("teacher")
   @Query(() => Classroom, { nullable: true })
@@ -43,7 +45,7 @@ class ClassroomsResolvers {
     const classroom = await prisma.classroom.findUnique({
       where: { id: classId },
     });
-    if (classroom && classroom.teacherId === teacherId) {
+    if (classroom && !classroom.archived && classroom.teacherId === teacherId) {
       return classroom;
     }
     return null;
@@ -56,7 +58,7 @@ class ClassroomsResolvers {
   ): Promise<Classroom[] | null> {
     const { id: teacherId } = user;
     const classrooms = await prisma.classroom.findMany({
-      where: { teacherId },
+      where: { teacherId, archived: false },
     });
     return classrooms;
   }
@@ -72,8 +74,11 @@ class ClassroomsResolvers {
       const classroom = await prisma.classroom.findUnique({
         where: { id: classId, classCode: classCode },
       });
-      return classroom;
+      if (!classroom.archived) {
+        return classroom;
+      }
     }
+    return null;
   }
 
   @Authorized("student")
@@ -84,9 +89,10 @@ class ClassroomsResolvers {
     const { id: studentId } = user;
     const classrooms = await prisma.classroom.findMany({
       where: {
+        archived: false,
         students: {
           some: {
-            id: studentId,
+            studentId,
           },
         },
       },
