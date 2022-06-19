@@ -1,3 +1,4 @@
+import { datastream } from "googleapis/build/src/apis/datastream";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Pass } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
@@ -19,6 +20,17 @@ class PassMutationsResolver {
     // Ensure that the teacher of that classroom is the same as the teacher making the mutaiton
 
     const { id: teacherId } = user;
+    const passToUpdate = await prisma.pass.findUnique({
+      where: {
+        id_issuerId: {
+          id: passId,
+          issuerId: teacherId,
+        },
+      },
+    });
+    const passDuration = passToUpdate?.duration;
+    const startTime = new Date();
+    const endTime = new Date(startTime.getTime() + passDuration * 60 * 1000);
     const updatedPasses = await prisma.pass.updateMany({
       where: {
         id: passId,
@@ -29,6 +41,8 @@ class PassMutationsResolver {
         },
       },
       data: {
+        startTime,
+        endTime,
         approved,
       },
     });
