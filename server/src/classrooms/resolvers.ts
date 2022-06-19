@@ -41,7 +41,7 @@ class ClassroomsResolvers {
     const { id: teacherId } = user;
     return await prisma.classroom.update({
       where: {
-        teacherId_id: {
+        id_teacherId: {
           id: classId,
           teacherId,
         },
@@ -110,7 +110,7 @@ class ClassroomsResolvers {
     const { id: teacherId } = user;
     const classroom = await prisma.classroom.findUnique({
       where: {
-        teacherId_id: {
+        id_teacherId: {
           teacherId,
           id: classId,
         },

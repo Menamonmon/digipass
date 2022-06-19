@@ -48,8 +48,8 @@ model Teacher {
     createdAt  DateTime @default(now())
     lastLogin  DateTime @default(now())
 
-    classrooms           Classroom[]
-    issuedPasses         Pass[]
+    classrooms         Classroom[]
+    issuedPasses       Pass[]
     studentAssignments StudentsOnClassrooms[]
 }
 
@@ -71,7 +71,7 @@ model Classroom {
 
     passes   Pass[]
     students StudentsOnClassrooms[]
-    @@unique([teacherId, id])
+    @@unique([id, teacherId])
 }
 
 model Pass {
@@ -94,6 +94,8 @@ model Pass {
 
     studentId String
     student   Student @relation(fields: [studentId], references: [id])
+    @@unique([id, studentId])
+    @@unique([id, issuerId])
 }
 
 model StudentsOnClassrooms {

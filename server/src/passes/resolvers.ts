@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Pass } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import { mapTimeToToday } from "./utilts";
@@ -33,6 +33,38 @@ class PassMutationsResolver {
       },
     });
     return updatedPasses[0];
+  }
+
+  @Authorized("teacher")
+  @Query(() => Pass, { nullable: true })
+  async teacherGetPass(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("passId") passId: string
+  ): Promise<Pass | null> {
+    const { id: issuerId } = user;
+    return await prisma.pass.findUnique({
+      where: {
+        id_issuerId: {
+          id: passId,
+          issuerId,
+        },
+      },
+    });
+  }
+
+  @Authorized("teacher")
+  @Query(() => [Pass], { nullable: true })
+  async teacherGetMyPasses(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId", { nullable: true }) classId?: string
+  ): Promise<Pass[] | null> {
+    const { id: issuerId } = user;
+    return await prisma.pass.findMany({
+      where: {
+        classId,
+        issuerId,
+      },
+    });
   }
 
   // Returns null if the student already has a pass during the time period of that class
@@ -89,6 +121,36 @@ class PassMutationsResolver {
       return newPass;
     }
     return null;
+  }
+
+  @Authorized("student")
+  @Query(() => Pass, { nullable: true })
+  async studentGetPass(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("passId") passId: string
+  ): Promise<Pass | null> {
+    const { id: studentId } = user;
+    return await prisma.pass.findUnique({
+      where: {
+        id_studentId: {
+          id: passId,
+          studentId,
+        },
+      },
+    });
+  }
+
+  @Authorized("student")
+  @Query(() => [Pass], { nullable: true })
+  async studentGetMyPasses(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext
+  ): Promise<Pass[] | null> {
+    const { id: studentId } = user;
+    return await prisma.pass.findMany({
+      where: {
+        studentId,
+      },
+    });
   }
 }
 
