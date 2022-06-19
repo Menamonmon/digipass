@@ -1,82 +1,96 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 generator typegraphql {
-  provider           = "typegraphql-prisma"
-  output             = "./prisma/generated/type-graphql"
-  emitTranspiledCode = "true"
+    provider           = "typegraphql-prisma"
+    output             = "./prisma/generated/type-graphql"
+    emitTranspiledCode = "true"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Student {
-  id          String      @id @default(uuid())
-  email       String      @unique
-  firstName   String?
-  lastName    String?
-  createdAt   DateTime?   @default(now())
-  lastLogin   DateTime?   @default(now())
-  studentId   String?
-  passesUsed  Int?        @default(0)
-  pictureUrl  String?
-  ipAddresses IPAddress[]
-  passes      Pass[]
-  classrooms  Classroom[]
+    id         String   @id @default(uuid())
+    email      String   @unique @db.VarChar(75)
+    firstName  String   @db.VarChar(50)
+    lastName   String   @db.VarChar(50)
+    pictureUrl String   @db.VarChar(150)
+    createdAt  DateTime @default(now())
+    lastLogin  DateTime @default(now())
+
+    studentId   String      @db.VarChar(6)
+    passesUsed  Int         @default(0)
+    ipAddresses IPAddress[]
+    passes      Pass[]
+    classrooms  Classroom[]
 }
 
 model IPAddress {
-  ownerId   String?
-  id        String    @id @default(uuid())
-  createdAt DateTime? @default(now())
-  address   String?
-  owner     Student?  @relation(fields: [ownerId], references: [id])
+    id        String   @id @default(uuid())
+    address   String   @db.VarChar(50)
+    createdAt DateTime @default(now())
+
+
+    ownerId String
+    owner   Student @relation(fields: [ownerId], references: [id])
 }
 
 model Teacher {
-  id           String      @id @default(uuid())
-  email        String      @unique
-  createdAt    DateTime?   @default(now())
-  lastLogin    DateTime?   @default(now())
-  pictureUrl   String?
-  firstName    String?
-  lastName     String?
-  classrooms   Classroom[]
-  issuedPasses Pass[]
+    id         String   @id @default(uuid())
+    email      String   @unique @db.VarChar(75)
+    firstName  String   @db.VarChar(50)
+    lastName   String   @db.VarChar(50)
+    pictureUrl String   @db.VarChar(150)
+    createdAt  DateTime @default(now())
+    lastLogin  DateTime @default(now())
+
+    classrooms   Classroom[]
+    issuedPasses Pass[]
 }
 
 model Classroom {
-  id          String    @id @default(uuid())
-  title       String?
-  description String?
-  startHour   Int // 0 - 24 hours (where 0 is 12am)
-  startMinute Int // 0 -60 minutes
-  endHour     Int
-  endMinute   Int
-  classCode   String?   @unique
-  createdAt   DateTime? @default(now())
-  teacherId   String
-  teacher     Teacher   @relation(fields: [teacherId], references: [id])
-  passes      Pass[]
-  students    Student[]
-  @@unique([teacherId, id])
+    id          String   @id @default(uuid())
+    title       String   @db.VarChar(150)
+    description String?  @db.VarChar(300)
+    classCode   String   @unique @default(uuid())
+    createdAt   DateTime @default(now())
+
+    startHour   Int // 0 - 24 hours (where 0 is 12am)
+    startMinute Int // 0 -60 minutes 
+    endHour     Int
+    endMinute   Int
+
+    teacherId String
+    teacher   Teacher @relation(fields: [teacherId], references: [id])
+
+    passes   Pass[]
+    students Student[]
+
+    @@unique([teacherId, id])
 }
 
 model Pass {
-  id        String     @id @default(uuid())
-  studentId String?
-  classId   String?
-  startTime DateTime?
-  endTime   DateTime?
-  duration  Int?
-  issuerId  String?
-  createdAt DateTime?  @default(now())
-  reason    String     @default("")
-  approved  Boolean    @default(false)
-  classroom Classroom? @relation(fields: [classId], references: [id])
-  issuer    Teacher?   @relation(fields: [issuerId], references: [id])
-  student   Student?   @relation(fields: [studentId], references: [id])
+    id        String   @id @default(uuid())
+    reason    String   @default("") @db.VarChar(250)
+    createdAt DateTime @default(now())
+
+    approved Boolean @default(false)
+
+    startTime DateTime?
+    endTime   DateTime?
+    duration  Int
+
+
+    classId   String
+    classroom Classroom @relation(fields: [classId], references: [id])
+
+    issuerId String
+    issuer   Teacher @relation(fields: [issuerId], references: [id])
+
+    studentId String
+    student   Student @relation(fields: [studentId], references: [id])
 }
