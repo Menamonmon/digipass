@@ -5,6 +5,7 @@ import {
   Classroom,
   ClassroomUpdateInput,
   CreateClassroomResolver,
+  StudentsOnClassrooms,
 } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import { LimitedClassroom, TeacherClassroomUpdateInput } from "./types";
@@ -49,6 +50,55 @@ class ClassroomsResolvers {
         archived: true,
       },
     });
+  }
+
+  @Authorized("teacher")
+  @Mutation(() => StudentsOnClassrooms, { nullable: true })
+  async addStudentToClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId") classId: string,
+    @Arg("studentId") studentId: string
+  ): Promise<StudentsOnClassrooms | null> {
+    const { id: teacherId } = user;
+    return await prisma.studentsOnClassrooms.create({
+      data: {
+        classroom: {
+          connect: {
+            id: classId,
+          },
+        },
+        assignedBy: {
+          connect: {
+            id: teacherId,
+          },
+        },
+        student: {
+          connect: {
+            id: studentId,
+          },
+        },
+      },
+    });
+  }
+
+  // To remove a student from a classroom, the teacher must be the one who assigned them
+  @Authorized("teacher")
+  @Mutation(() => StudentsOnClassrooms, { nullable: true })
+  async removeStudentFromClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId") classId: string,
+    @Arg("studentId") studentId: string
+  ): Promise<StudentsOnClassrooms | null> {
+    const { id: teahcerId } = user;
+    return (
+      await prisma.studentsOnClassrooms.deleteMany({
+        where: {
+          classId,
+          studentId,
+          assignedById: teahcerId,
+        },
+      })
+    )[0];
   }
 
   @Authorized("teacher")

@@ -48,8 +48,9 @@ model Teacher {
     createdAt  DateTime @default(now())
     lastLogin  DateTime @default(now())
 
-    classrooms   Classroom[]
-    issuedPasses Pass[]
+    classrooms           Classroom[]
+    issuedPasses         Pass[]
+    studentAssignments StudentsOnClassrooms[]
 }
 
 model Classroom {
@@ -102,6 +103,8 @@ model StudentsOnClassrooms {
     student   Student @relation(fields: [studentId], references: [id])
     studentId String
 
-    assignedAt DateTime @default(now())
+    assignedBy   Teacher  @relation(fields: [assignedById], references: [id])
+    assignedById String
+    assignedAt   DateTime @default(now())
     @@id([classId, studentId])
 }
