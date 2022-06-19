@@ -20,20 +20,36 @@ class ClassroomsResolvers {
     data: TeacherClassroomUpdateInput
   ): Promise<Classroom | null> {
     const { id: teacherId } = user;
-    const classroom = await prisma.classroom.findUnique({
-      where: { id: classId },
+    const updatedClassrooms = await prisma.classroom.updateMany({
+      where: {
+        id: classId,
+        teacherId,
+        archived: false,
+      },
+      data,
     });
-
-    if (!classroom.archived && classroom.teacherId === teacherId) {
-      return await prisma.classroom.update({
-        where: { id: classId },
-        data,
-      });
-    }
-    return null;
+    return updatedClassrooms[0];
   }
 
-  //
+  @Authorized("teacher")
+  @Mutation(() => Classroom, { nullable: true })
+  async archiveClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classId") classId: string
+  ): Promise<Classroom | null> {
+    const { id: teacherId } = user;
+    return await prisma.classroom.update({
+      where: {
+        teacherId_id: {
+          id: classId,
+          teacherId,
+        },
+      },
+      data: {
+        archived: true,
+      },
+    });
+  }
 
   @Authorized("teacher")
   @Query(() => Classroom, { nullable: true })
@@ -43,9 +59,14 @@ class ClassroomsResolvers {
   ): Promise<Classroom | null> {
     const { id: teacherId } = user;
     const classroom = await prisma.classroom.findUnique({
-      where: { id: classId },
+      where: {
+        teacherId_id: {
+          teacherId,
+          id: classId,
+        },
+      },
     });
-    if (classroom && !classroom.archived && classroom.teacherId === teacherId) {
+    if (classroom && !classroom.archived) {
       return classroom;
     }
     return null;

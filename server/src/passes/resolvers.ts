@@ -18,33 +18,21 @@ class PassMutationsResolver {
     // Ensure that it has a classroom asscoiated with it
     // Ensure that the teacher of that classroom is the same as the teacher making the mutaiton
 
-    const pass = await prisma.pass.findUnique({
-      where: { id: passId },
-    });
-
     const { id: teacherId } = user;
-    if (pass) {
-      const { classId, issuerId } = pass;
-      const associatedClassroom = await prisma.classroom.findUnique({
-        where: { id: classId },
-      });
-      if (associatedClassroom && !associatedClassroom.archived) {
-        if (
-          associatedClassroom.teacherId === issuerId &&
-          associatedClassroom.teacherId === teacherId
-        ) {
-          // Update the pass if its valid with the value that the teacher requested
-          const updatedPass = await prisma.pass.update({
-            where: { id: pass.id },
-            data: {
-              approved,
-            },
-          });
-          return updatedPass;
-        }
-      }
-    }
-    return null;
+    const updatedPasses = await prisma.pass.updateMany({
+      where: {
+        id: passId,
+        issuerId: teacherId,
+        classroom: {
+          teacherId,
+          archived: false,
+        },
+      },
+      data: {
+        approved,
+      },
+    });
+    return updatedPasses[0];
   }
 
   // Returns null if the student already has a pass during the time period of that class
