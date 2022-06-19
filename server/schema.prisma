@@ -22,11 +22,11 @@ model Student {
     createdAt  DateTime @default(now())
     lastLogin  DateTime @default(now())
 
-    studentId   String      @db.VarChar(6)
-    passesUsed  Int         @default(0)
+    studentId   String                 @db.VarChar(6)
+    passesUsed  Int                    @default(0)
     ipAddresses IPAddress[]
     passes      Pass[]
-    classrooms  Classroom[]
+    classrooms  StudentsOnClassrooms[]
 }
 
 model IPAddress {
@@ -68,8 +68,7 @@ model Classroom {
     teacher   Teacher @relation(fields: [teacherId], references: [id])
 
     passes   Pass[]
-    students Student[]
-
+    students StudentsOnClassrooms[]
     @@unique([teacherId, id])
 }
 
@@ -93,4 +92,15 @@ model Pass {
 
     studentId String
     student   Student @relation(fields: [studentId], references: [id])
+}
+
+model StudentsOnClassrooms {
+    classroom Classroom @relation(fields: [classId], references: [id])
+    classId   String
+
+    student   Student @relation(fields: [studentId], references: [id])
+    studentId String
+
+    assignedAt DateTime @default(now())
+    @@id([classId, studentId])
 }
