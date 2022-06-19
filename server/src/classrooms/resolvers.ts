@@ -16,14 +16,14 @@ class ClassroomsResolvers {
   @Mutation(() => Classroom, { nullable: true })
   async updateClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId") classId: string,
+    @Arg("classroomId") classroomId: string,
     @Arg("data")
     data: TeacherClassroomUpdateInput
   ): Promise<Classroom | null> {
     const { id: teacherId } = user;
     const updatedClassrooms = await prisma.classroom.updateMany({
       where: {
-        id: classId,
+        id: classroomId,
         teacherId,
         archived: false,
       },
@@ -36,13 +36,13 @@ class ClassroomsResolvers {
   @Mutation(() => Classroom, { nullable: true })
   async archiveClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId") classId: string
+    @Arg("classroomId") classroomId: string
   ): Promise<Classroom | null> {
     const { id: teacherId } = user;
     return await prisma.classroom.update({
       where: {
         id_teacherId: {
-          id: classId,
+          id: classroomId,
           teacherId,
         },
       },
@@ -56,7 +56,7 @@ class ClassroomsResolvers {
   @Mutation(() => StudentsOnClassrooms, { nullable: true })
   async addStudentToClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId") classId: string,
+    @Arg("classroomId") classroomId: string,
     @Arg("studentId") studentId: string
   ): Promise<StudentsOnClassrooms | null> {
     const { id: teacherId } = user;
@@ -64,7 +64,7 @@ class ClassroomsResolvers {
       data: {
         classroom: {
           connect: {
-            id: classId,
+            id: classroomId,
           },
         },
         assignedBy: {
@@ -86,14 +86,14 @@ class ClassroomsResolvers {
   @Mutation(() => StudentsOnClassrooms, { nullable: true })
   async removeStudentFromClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId") classId: string,
+    @Arg("classroomId") classroomId: string,
     @Arg("studentId") studentId: string
   ): Promise<StudentsOnClassrooms | null> {
     const { id: teahcerId } = user;
     return (
       await prisma.studentsOnClassrooms.deleteMany({
         where: {
-          classId,
+          classroomId,
           studentId,
           assignedById: teahcerId,
         },
@@ -105,14 +105,14 @@ class ClassroomsResolvers {
   @Query(() => Classroom, { nullable: true })
   async teacherClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId") classId: string
+    @Arg("classroomId") classroomId: string
   ): Promise<Classroom | null> {
     const { id: teacherId } = user;
     const classroom = await prisma.classroom.findUnique({
       where: {
         id_teacherId: {
           teacherId,
-          id: classId,
+          id: classroomId,
         },
       },
     });
@@ -138,12 +138,12 @@ class ClassroomsResolvers {
   @Query(() => LimitedClassroom, { nullable: true })
   async studentClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId", { nullable: true }) classId?: string,
+    @Arg("classroomId", { nullable: true }) classroomId?: string,
     @Arg("classCode", { nullable: true }) classCode?: string
   ): Promise<LimitedClassroom | null> {
-    if (classId || classCode) {
+    if (classroomId || classCode) {
       const classroom = await prisma.classroom.findUnique({
-        where: { id: classId, classCode: classCode },
+        where: { id: classroomId, classCode: classCode },
       });
       if (!classroom.archived) {
         return classroom;

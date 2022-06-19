@@ -86,8 +86,8 @@ model Pass {
     duration  Int
 
 
-    classId   String
-    classroom Classroom @relation(fields: [classId], references: [id])
+    classroomId   String
+    classroom Classroom @relation(fields: [classroomId], references: [id])
 
     issuerId String
     issuer   Teacher @relation(fields: [issuerId], references: [id])
@@ -99,8 +99,8 @@ model Pass {
 }
 
 model StudentsOnClassrooms {
-    classroom Classroom @relation(fields: [classId], references: [id])
-    classId   String
+    classroom Classroom @relation(fields: [classroomId], references: [id])
+    classroomId   String
 
     student   Student @relation(fields: [studentId], references: [id])
     studentId String
@@ -108,5 +108,5 @@ model StudentsOnClassrooms {
     assignedBy   Teacher  @relation(fields: [assignedById], references: [id])
     assignedById String
     assignedAt   DateTime @default(now())
-    @@id([classId, studentId])
+    @@id([classroomId, studentId])
 }

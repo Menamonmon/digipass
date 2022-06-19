@@ -56,12 +56,12 @@ class PassMutationsResolver {
   @Query(() => [Pass], { nullable: true })
   async teacherGetMyPasses(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
-    @Arg("classId", { nullable: true }) classId?: string
+    @Arg("classroomId", { nullable: true }) classroomId?: string
   ): Promise<Pass[] | null> {
     const { id: issuerId } = user;
     return await prisma.pass.findMany({
       where: {
-        classId,
+        classroomId,
         issuerId,
       },
     });
@@ -96,7 +96,7 @@ class PassMutationsResolver {
       const existingPassForToday = await prisma.pass.findFirst({
         where: {
           studentId,
-          classId: classroom.id,
+          classroomId: classroom.id,
           createdAt: {
             gt: todayClassroomStartTime,
             lt: todayClassroomEndTime,
@@ -109,7 +109,7 @@ class PassMutationsResolver {
       const newPass = await prisma.pass.create({
         data: {
           studentId,
-          classId: classroom.id,
+          classroomId: classroom.id,
           duration: 7,
           approved: false,
           reason: reason,
