@@ -13,24 +13,34 @@ class PassMutationsResolver {
   async teacherUpdatePass(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("passId") passId: string,
-    @Arg("approved") approved: boolean
+    @Arg("approved") approved: boolean,
+    @Arg("duration", { nullable: true }) duration?: number
   ): Promise<Pass | null> {
     // Ensure that the pass exists
     // Ensure that it has a classroom asscoiated with it
     // Ensure that the teacher of that classroom is the same as the teacher making the mutaiton
 
     const { id: teacherId } = user;
-    const passToUpdate = await prisma.pass.findUnique({
-      where: {
-        id_issuerId: {
-          id: passId,
-          issuerId: teacherId,
+    let passDuration: number;
+    if (!duration) {
+      const passToUpdate = await prisma.pass.findUnique({
+        where: {
+          id_issuerId: {
+            id: passId,
+            issuerId: teacherId,
+          },
         },
-      },
-    });
-    const passDuration = passToUpdate?.duration;
-    const startTime = new Date();
-    const endTime = new Date(startTime.getTime() + passDuration * 60 * 1000);
+      });
+      passDuration = passToUpdate?.duration;
+    } else {
+      passDuration = duration;
+    }
+    let startTime: Date | undefined;
+    let endTime: Date | undefined;
+    if (approved) {
+      startTime = new Date();
+      endTime = new Date(startTime.getTime() + passDuration * 60 * 1000);
+    }
     const updatedPasses = await prisma.pass.updateMany({
       where: {
         id: passId,
@@ -41,6 +51,7 @@ class PassMutationsResolver {
         },
       },
       data: {
+        duration: passDuration,
         startTime,
         endTime,
         approved,
