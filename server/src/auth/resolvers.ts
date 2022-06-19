@@ -5,18 +5,18 @@ import jsonwebtoken from "jsonwebtoken";
 import {
   AuthenticatedGraphQLContext,
   CurrentUser,
-  StudentRegisterResponse,
-  TeacherRegisterResponse,
+  StudentRegistrationResponse,
+  TeacherRegistrationResponse,
 } from "./types";
 import { oauth2Client } from "./google-oauth-client";
 
 @Resolver()
 class RegisterResolver {
-  @Mutation(() => StudentRegisterResponse, { nullable: true })
+  @Mutation(() => StudentRegistrationResponse, { nullable: true })
   async registerStudentWithGoogle(
     @Ctx() { prisma }: GraphQLContext,
     @Arg("idToken") idToken: string
-  ): Promise<StudentRegisterResponse | null> {
+  ): Promise<StudentRegistrationResponse | null> {
     const selectedFields = {
       id: true,
       firstName: true,
@@ -41,10 +41,12 @@ class RegisterResolver {
       }
 
       const studentId = email.split("@")[0];
-      let student: StudentRegisterResponse = await prisma.student.findUnique({
+      let student = await prisma.student.findUnique({
         where: { email },
         select: selectedFields,
       });
+
+      let userType: StudentRegistrationResponse["userType"] = "old_student";
 
       if (student === null) {
         // Create a new user if the email doesn't exist
@@ -58,7 +60,7 @@ class RegisterResolver {
           },
           select: selectedFields,
         });
-        student.userType = "new_student";
+        userType = "new_student";
       } else {
         // Update last login if the user already exists
         student = await prisma.student.update({
@@ -67,9 +69,9 @@ class RegisterResolver {
             lastLogin: new Date(),
           },
         });
-        student = { ...student, userType: "old_student" };
       }
 
+      const expiresIn = 2 * 60 * 60;
       const jwt = jsonwebtoken.sign(
         {
           id: student.id,
@@ -77,20 +79,24 @@ class RegisterResolver {
           userType: "student",
         },
         process.env.JWT_SECRET,
-        { algorithm: "HS256", subject: student.id.toString(), expiresIn: "2hr" }
+        {
+          algorithm: "HS256",
+          subject: student.id.toString(),
+          expiresIn: expiresIn,
+        }
       );
-      return { ...student, jwt };
+      return { jwt, userType, expiresIn };
     } catch (err) {
       console.log(err);
       return null;
     }
   }
 
-  @Mutation(() => TeacherRegisterResponse, { nullable: true })
+  @Mutation(() => TeacherRegistrationResponse, { nullable: true })
   async registerTeacherWithGoogle(
     @Ctx() { prisma }: GraphQLContext,
     @Arg("idToken") idToken: string
-  ): Promise<TeacherRegisterResponse | null> {
+  ): Promise<TeacherRegistrationResponse | null> {
     const selectedFields = {
       id: true,
       firstName: true,
@@ -114,10 +120,11 @@ class RegisterResolver {
         return null;
       }
 
-      let teacher: TeacherRegisterResponse = await prisma.teacher.findUnique({
+      let teacher = await prisma.teacher.findUnique({
         where: { email },
         select: selectedFields,
       });
+      let userType: TeacherRegistrationResponse["userType"] = "old_teacher";
 
       if (teacher === null) {
         // Create a new user if the email doesn't exist
@@ -130,7 +137,7 @@ class RegisterResolver {
           },
           select: selectedFields,
         });
-        teacher.userType = "new_teacher";
+        userType = "new_teacher";
       } else {
         // Update last login if the user already exists
         teacher = await prisma.teacher.update({
@@ -139,9 +146,9 @@ class RegisterResolver {
             lastLogin: new Date(),
           },
         });
-        teacher = { ...teacher, userType: "old_teacher" };
       }
 
+      const expiresIn = 24 * 60 * 60;
       const jwt = jsonwebtoken.sign(
         {
           id: teacher.id,
@@ -149,9 +156,13 @@ class RegisterResolver {
           userType: "teacher",
         },
         process.env.JWT_SECRET,
-        { algorithm: "HS256", subject: teacher.id.toString(), expiresIn: "1d" }
+        {
+          algorithm: "HS256",
+          subject: teacher.id.toString(),
+          expiresIn: expiresIn,
+        }
       );
-      return { ...teacher, jwt };
+      return { jwt, userType, expiresIn };
     } catch (err) {
       console.log(err);
       return null;

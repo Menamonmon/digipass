@@ -1,22 +1,26 @@
 import { Field, ObjectType } from "type-graphql";
 import { Student, Teacher } from "../../prisma/generated/type-graphql";
 import { GraphQLContext } from "../types";
+
 @ObjectType()
-export class TeacherRegisterResponse extends Teacher {
+class BaseRegistrationResponse {
   @Field()
-  userType?: "new_teacher" | "old_teacher";
+  jwt: string;
 
   @Field()
-  jwt?: string;
+  expiresIn: number;
 }
 
 @ObjectType()
-export class StudentRegisterResponse extends Student {
+export class TeacherRegistrationResponse extends BaseRegistrationResponse {
   @Field()
-  userType?: "new_student" | "old_student";
+  userType: "new_teacher" | "old_teacher";
+}
 
+@ObjectType()
+export class StudentRegistrationResponse extends BaseRegistrationResponse {
   @Field()
-  jwt?: string;
+  userType: "new_student" | "old_student";
 }
 
 @ObjectType()
