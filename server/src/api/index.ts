@@ -7,10 +7,13 @@ import { passesResolvers } from "../passes/resolvers";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core/dist/plugin/landingPage/graphqlPlayground";
 import { Express } from "express";
+import prismaLogger from "./prisma-logger";
 
 export default async (app: Express) => {
   const prisma = new PrismaClient();
   await prisma.$connect();
+
+  prisma.$use(prismaLogger);
 
   const schema = await buildSchema({
     resolvers: [, ...authResolvers, ...classroomsResolvers, ...passesResolvers],

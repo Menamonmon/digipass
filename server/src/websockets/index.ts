@@ -1,5 +1,6 @@
 import { Server } from "http";
 import WebSocket from "ws";
+import { verifyConnection } from "./auth";
 
 export default (expressServer: Server) => {
   const websocketServer = new WebSocket.Server({
@@ -7,9 +8,14 @@ export default (expressServer: Server) => {
     path: "/websockets",
   });
 
-  expressServer.on("upgrade", (request, socket, head) => {
-    websocketServer.handleUpgrade(request, socket, head, (websocket) => {
-      websocketServer.emit("connection", websocket, request);
-    });
+  expressServer.on("upgrade", async (request, socket, head) => {
+    const userInfo = await verifyConnection(request);
+    if (userInfo) {
+      websocketServer.handleUpgrade(request, socket, head, (websocket) => {
+        websocketServer.emit("connection", websocket, request);
+      });
+    } else {
+      socket.destroy();
+    }
   });
 };

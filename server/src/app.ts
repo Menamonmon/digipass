@@ -24,7 +24,6 @@ const main = async () => {
     })
   );
 
-  await api(app);
 
   // For JWT error handling
   app.use(function (err, req, res, next) {
@@ -33,6 +32,8 @@ const main = async () => {
     }
     next();
   });
+
+  await api(app);
 
   const PORT = 4000;
 
