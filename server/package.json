@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.11.0",
+    "@types/lodash": "^4.14.182",
     "@types/ws": "^8.5.3",
     "apollo-server-core": "^3.6.7",
     "apollo-server-express": "^3.6.7",
@@ -40,6 +41,7 @@
     "graphql": "15.3.0",
     "graphql-fields": "^2.0.3",
     "helmet": "^5.1.0",
+    "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
     "ws": "^8.8.0"

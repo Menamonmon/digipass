@@ -7,7 +7,6 @@ import { expressjwt } from "express-jwt";
 import "./auth/authorizations";
 import api from "./api";
 import websockets from "./websockets";
-
 dotenv.config();
 
 const main = async () => {
@@ -23,7 +22,6 @@ const main = async () => {
       credentialsRequired: false,
     })
   );
-
 
   // For JWT error handling
   app.use(function (err, req, res, next) {

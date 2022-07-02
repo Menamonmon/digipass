@@ -10,7 +10,9 @@ import { Express } from "express";
 import prismaLogger from "./prisma-logger";
 
 export default async (app: Express) => {
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({
+    log: ["query", "info", "warn", "error"],
+  });
   await prisma.$connect();
 
   prisma.$use(prismaLogger);
