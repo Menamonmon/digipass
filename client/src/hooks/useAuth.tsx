@@ -1,57 +1,88 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { GoogleLoginResponse } from "react-google-login";
-import { config } from "../../config";
-import { refreshToken } from "../services/auth-service";
-import { AuthServiceImpl } from "../services/auth-service/AuthServiceImpl";
-import { AuthStatus, StudentProfile } from "../services/auth-service/types";
-
-export interface AuthContextValues {
-  userProfile: StudentProfile | null;
-  accessToken?: string;
-  isAuthenticated: boolean;
-  handleLogin: (response: GoogleLoginResponse) => void;
-  authStatus: AuthStatus;
-}
+import { AuthUserType, StudentProfile } from "../services/auth-service/types";
+import { useMutation } from "react-relay";
+import type { registerStudentMutation } from "../graphql/mutations/registerStudent.graphql";
 
 const AuthContext = createContext<AuthContextValues>({
-  userProfile: null,
+  authStatus: "not_authenticated",
+  userProfile: undefined,
   isAuthenticated: false,
   handleLogin: () => {},
-  authStatus: "not_authenticated",
 });
 
+type AuthState = {
+  jwt?: string;
+  authStatus: AuthUserType;
+  userProfile?: StudentProfile;
+  isAuthenticated: boolean;
+};
+
+export interface AuthContextValues extends AuthState {
+  handleLogin: (response: GoogleLoginResponse) => void;
+}
+
+type Action =
+  | { type: "authenticate_new_user"; jwt: string; userType: AuthUserType }
+  | { type: "logout" }
+  | { type: "new_user_verified"; userType: AuthUserType }
+  | { type: "load_new_user_profile"; userProfile: StudentProfile };
+
+const initialAuthState: AuthState = {
+  authStatus: "not_authenticated",
+  isAuthenticated: false,
+};
+
+const authReducer = (state: AuthState, action: Action): AuthState => {
+  if (action.type === "authenticate_new_user") {
+    return {
+      isAuthenticated: true,
+      jwt: action.jwt,
+      authStatus: action.userType,
+      userProfile: undefined,
+    };
+  } else if (action.type === "logout") {
+    return {
+      isAuthenticated: false,
+      userProfile: undefined,
+      authStatus: "not_authenticated",
+    };
+  } else if (action.type === "load_new_user_profile") {
+    if (state.isAuthenticated) {
+      return { ...state, userProfile: action.userProfile };
+    }
+  } else if (action.type === "new_user_verified") {
+    return { ...state, authStatus: action.userType };
+  }
+  return state;
+};
+
 export const AuthContextProvider: React.FC = ({ children }) => {
-  const [userProfile, setUserProfile] =
-    useState<AuthContextValues["userProfile"]>(null);
-  const [authStatus, setAuthStatus] = useState<AuthStatus>("not_authenticated");
-  const [accessToken, setAccessToken] = useState("");
-  const [jwt, setJwt] = useState("");
-  const authService = new AuthServiceImpl(config.backendUrl);
+  const [authState, dispatch] = useReducer(authReducer, initialAuthState);
+  const [commitSignUp, isSignUpInFlight] = useMutation(
+    RegisterStudentMutationDocument
+  );
+  const [];
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
-    console.log(idToken);
-    const userData = await authService.registerUser(
-      idToken,
-      response.profileObj.email
-    );
-    if (userData) {
-      const { userType: loginType, jwt: newJwt, ...user } = userData;
-      setJwt(newJwt);
-      setUserProfile(user);
-      setAuthStatus(loginType);
-      setAccessToken(response.accessToken);
-      refreshToken(response, setAccessToken);
-    } else {
-      setAuthStatus("not_authenticated");
-    }
+    commitSignUp({
+      variables: { idToken },
+      onCompleted(response: any, errors) {
+        if (response) {
+          const { jwt, userType } = response.registerStudentWithGoogle;
+          dispatch({
+            type: "authenticate_new_user",
+            jwt,
+            userType,
+          });
+        }
+      },
+    });
   };
 
   const value: AuthContextValues = {
-    userProfile,
-    isAuthenticated:
-      authStatus === "old_student" || authStatus === "old_teacher",
+    ...authState,
     handleLogin,
-    authStatus,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

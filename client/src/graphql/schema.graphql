@@ -1,0 +1,637 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Classroom {
+  id: String!
+  title: String!
+  description: String
+  classCode: String!
+  createdAt: DateTime!
+  archived: Boolean!
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  teacherId: String!
+  _count: ClassroomCount
+}
+
+type ClassroomCount {
+  passes: Int!
+  students: Int!
+}
+
+input ClassroomCreateInput {
+  id: String
+  title: String!
+  description: String
+  classCode: String
+  createdAt: DateTime
+  archived: Boolean
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput!
+  passes: PassCreateNestedManyWithoutClassroomInput
+  students: StudentsOnClassroomsCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomCreateManyTeacherInput {
+  id: String
+  title: String!
+  description: String
+  classCode: String
+  createdAt: DateTime
+  archived: Boolean
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+}
+
+input ClassroomCreateManyTeacherInputEnvelope {
+  data: [ClassroomCreateManyTeacherInput!]!
+  skipDuplicates: Boolean
+}
+
+input ClassroomCreateNestedManyWithoutTeacherInput {
+  create: [ClassroomCreateWithoutTeacherInput!]
+  connectOrCreate: [ClassroomCreateOrConnectWithoutTeacherInput!]
+  createMany: ClassroomCreateManyTeacherInputEnvelope
+  connect: [ClassroomWhereUniqueInput!]
+}
+
+input ClassroomCreateNestedOneWithoutPassesInput {
+  create: ClassroomCreateWithoutPassesInput
+  connectOrCreate: ClassroomCreateOrConnectWithoutPassesInput
+  connect: ClassroomWhereUniqueInput
+}
+
+input ClassroomCreateNestedOneWithoutStudentsInput {
+  create: ClassroomCreateWithoutStudentsInput
+  connectOrCreate: ClassroomCreateOrConnectWithoutStudentsInput
+  connect: ClassroomWhereUniqueInput
+}
+
+input ClassroomCreateOrConnectWithoutPassesInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutPassesInput!
+}
+
+input ClassroomCreateOrConnectWithoutStudentsInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutStudentsInput!
+}
+
+input ClassroomCreateOrConnectWithoutTeacherInput {
+  where: ClassroomWhereUniqueInput!
+  create: ClassroomCreateWithoutTeacherInput!
+}
+
+input ClassroomCreateWithoutPassesInput {
+  id: String
+  title: String!
+  description: String
+  classCode: String
+  createdAt: DateTime
+  archived: Boolean
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput!
+  students: StudentsOnClassroomsCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomCreateWithoutStudentsInput {
+  id: String
+  title: String!
+  description: String
+  classCode: String
+  createdAt: DateTime
+  archived: Boolean
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  teacher: TeacherCreateNestedOneWithoutClassroomsInput!
+  passes: PassCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomCreateWithoutTeacherInput {
+  id: String
+  title: String!
+  description: String
+  classCode: String
+  createdAt: DateTime
+  archived: Boolean
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  passes: PassCreateNestedManyWithoutClassroomInput
+  students: StudentsOnClassroomsCreateNestedManyWithoutClassroomInput
+}
+
+input ClassroomIdTeacherIdCompoundUniqueInput {
+  id: String!
+  teacherId: String!
+}
+
+input ClassroomWhereUniqueInput {
+  id: String
+  classCode: String
+  id_teacherId: ClassroomIdTeacherIdCompoundUniqueInput
+}
+
+type CurrentUser {
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  pictureUrl: String!
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+input IPAddressCreateManyOwnerInput {
+  id: String
+  address: String!
+  createdAt: DateTime
+}
+
+input IPAddressCreateManyOwnerInputEnvelope {
+  data: [IPAddressCreateManyOwnerInput!]!
+  skipDuplicates: Boolean
+}
+
+input IPAddressCreateNestedManyWithoutOwnerInput {
+  create: [IPAddressCreateWithoutOwnerInput!]
+  connectOrCreate: [IPAddressCreateOrConnectWithoutOwnerInput!]
+  createMany: IPAddressCreateManyOwnerInputEnvelope
+  connect: [IPAddressWhereUniqueInput!]
+}
+
+input IPAddressCreateOrConnectWithoutOwnerInput {
+  where: IPAddressWhereUniqueInput!
+  create: IPAddressCreateWithoutOwnerInput!
+}
+
+input IPAddressCreateWithoutOwnerInput {
+  id: String
+  address: String!
+  createdAt: DateTime
+}
+
+input IPAddressWhereUniqueInput {
+  id: String
+}
+
+type LimitedClassroom {
+  id: String!
+  title: String!
+  description: String!
+  startHour: Float!
+  startMinute: Float!
+  endHour: Float!
+  endMinute: Float!
+  classCode: String!
+  teacherId: String!
+}
+
+type Mutation {
+  createClassroom(data: ClassroomCreateInput!): Classroom!
+  registerStudentWithGoogle(idToken: String!): StudentRegistrationResponse
+  registerTeacherWithGoogle(idToken: String!): TeacherRegistrationResponse
+  updateClassroom(data: TeacherClassroomUpdateInput!, classroomId: String!): Classroom
+  archiveClassroom(classroomId: String!): Classroom
+  addStudentToClassroom(studentId: String!, classroomId: String!): StudentsOnClassrooms
+  removeStudentFromClassroom(studentId: String!, classroomId: String!): StudentsOnClassrooms
+  teacherUpdatePass(duration: Float, approved: Boolean!, passId: String!): Pass
+  studentCreatePass(reason: String!, classroomId: String!): Pass
+}
+
+type Pass {
+  id: String!
+  reason: String!
+  createdAt: DateTime!
+  approved: Boolean!
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  classroomId: String!
+  issuerId: String!
+  studentId: String!
+}
+
+input PassCreateManyClassroomInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  issuerId: String!
+  studentId: String!
+}
+
+input PassCreateManyClassroomInputEnvelope {
+  data: [PassCreateManyClassroomInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateManyIssuerInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  classroomId: String!
+  studentId: String!
+}
+
+input PassCreateManyIssuerInputEnvelope {
+  data: [PassCreateManyIssuerInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateManyStudentInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  classroomId: String!
+  issuerId: String!
+}
+
+input PassCreateManyStudentInputEnvelope {
+  data: [PassCreateManyStudentInput!]!
+  skipDuplicates: Boolean
+}
+
+input PassCreateNestedManyWithoutClassroomInput {
+  create: [PassCreateWithoutClassroomInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutClassroomInput!]
+  createMany: PassCreateManyClassroomInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateNestedManyWithoutIssuerInput {
+  create: [PassCreateWithoutIssuerInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutIssuerInput!]
+  createMany: PassCreateManyIssuerInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateNestedManyWithoutStudentInput {
+  create: [PassCreateWithoutStudentInput!]
+  connectOrCreate: [PassCreateOrConnectWithoutStudentInput!]
+  createMany: PassCreateManyStudentInputEnvelope
+  connect: [PassWhereUniqueInput!]
+}
+
+input PassCreateOrConnectWithoutClassroomInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutClassroomInput!
+}
+
+input PassCreateOrConnectWithoutIssuerInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutIssuerInput!
+}
+
+input PassCreateOrConnectWithoutStudentInput {
+  where: PassWhereUniqueInput!
+  create: PassCreateWithoutStudentInput!
+}
+
+input PassCreateWithoutClassroomInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  issuer: TeacherCreateNestedOneWithoutIssuedPassesInput!
+  student: StudentCreateNestedOneWithoutPassesInput!
+}
+
+input PassCreateWithoutIssuerInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  classroom: ClassroomCreateNestedOneWithoutPassesInput!
+  student: StudentCreateNestedOneWithoutPassesInput!
+}
+
+input PassCreateWithoutStudentInput {
+  id: String
+  reason: String
+  createdAt: DateTime
+  approved: Boolean
+  startTime: DateTime
+  endTime: DateTime
+  duration: Int!
+  classroom: ClassroomCreateNestedOneWithoutPassesInput!
+  issuer: TeacherCreateNestedOneWithoutIssuedPassesInput!
+}
+
+input PassIdIssuerIdCompoundUniqueInput {
+  id: String!
+  issuerId: String!
+}
+
+input PassIdStudentIdCompoundUniqueInput {
+  id: String!
+  studentId: String!
+}
+
+input PassWhereUniqueInput {
+  id: String
+  id_studentId: PassIdStudentIdCompoundUniqueInput
+  id_issuerId: PassIdIssuerIdCompoundUniqueInput
+}
+
+type Query {
+  currentUser: CurrentUser
+  teacherClassroom(classroomId: String!): Classroom
+  teacherClassrooms: [Classroom!]
+  studentClassroom(classCode: String, classroomId: String): LimitedClassroom
+  studentClassrooms: [Classroom!]
+  teacherGetPass(passId: String!): Pass
+  teacherGetMyPasses(classroomId: String): [Pass!]
+  studentGetPass(passId: String!): Pass
+  studentGetMyPasses: [Pass!]
+}
+
+input StudentCreateNestedOneWithoutClassroomsInput {
+  create: StudentCreateWithoutClassroomsInput
+  connectOrCreate: StudentCreateOrConnectWithoutClassroomsInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateNestedOneWithoutPassesInput {
+  create: StudentCreateWithoutPassesInput
+  connectOrCreate: StudentCreateOrConnectWithoutPassesInput
+  connect: StudentWhereUniqueInput
+}
+
+input StudentCreateOrConnectWithoutClassroomsInput {
+  where: StudentWhereUniqueInput!
+  create: StudentCreateWithoutClassroomsInput!
+}
+
+input StudentCreateOrConnectWithoutPassesInput {
+  where: StudentWhereUniqueInput!
+  create: StudentCreateWithoutPassesInput!
+}
+
+input StudentCreateWithoutClassroomsInput {
+  id: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  pictureUrl: String!
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String!
+  passesUsed: Int
+  ipAddresses: IPAddressCreateNestedManyWithoutOwnerInput
+  passes: PassCreateNestedManyWithoutStudentInput
+}
+
+input StudentCreateWithoutPassesInput {
+  id: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  pictureUrl: String!
+  createdAt: DateTime
+  lastLogin: DateTime
+  studentId: String!
+  passesUsed: Int
+  ipAddresses: IPAddressCreateNestedManyWithoutOwnerInput
+  classrooms: StudentsOnClassroomsCreateNestedManyWithoutStudentInput
+}
+
+type StudentRegistrationResponse {
+  jwt: String!
+  expiresIn: Float!
+  userType: String!
+}
+
+type StudentsOnClassrooms {
+  classroomId: String!
+  studentId: String!
+  assignedById: String!
+  assignedAt: DateTime!
+}
+
+input StudentsOnClassroomsClassroomIdStudentIdCompoundUniqueInput {
+  classroomId: String!
+  studentId: String!
+}
+
+input StudentsOnClassroomsCreateManyAssignedByInput {
+  classroomId: String!
+  studentId: String!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsCreateManyAssignedByInputEnvelope {
+  data: [StudentsOnClassroomsCreateManyAssignedByInput!]!
+  skipDuplicates: Boolean
+}
+
+input StudentsOnClassroomsCreateManyClassroomInput {
+  studentId: String!
+  assignedById: String!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsCreateManyClassroomInputEnvelope {
+  data: [StudentsOnClassroomsCreateManyClassroomInput!]!
+  skipDuplicates: Boolean
+}
+
+input StudentsOnClassroomsCreateManyStudentInput {
+  classroomId: String!
+  assignedById: String!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsCreateManyStudentInputEnvelope {
+  data: [StudentsOnClassroomsCreateManyStudentInput!]!
+  skipDuplicates: Boolean
+}
+
+input StudentsOnClassroomsCreateNestedManyWithoutAssignedByInput {
+  create: [StudentsOnClassroomsCreateWithoutAssignedByInput!]
+  connectOrCreate: [StudentsOnClassroomsCreateOrConnectWithoutAssignedByInput!]
+  createMany: StudentsOnClassroomsCreateManyAssignedByInputEnvelope
+  connect: [StudentsOnClassroomsWhereUniqueInput!]
+}
+
+input StudentsOnClassroomsCreateNestedManyWithoutClassroomInput {
+  create: [StudentsOnClassroomsCreateWithoutClassroomInput!]
+  connectOrCreate: [StudentsOnClassroomsCreateOrConnectWithoutClassroomInput!]
+  createMany: StudentsOnClassroomsCreateManyClassroomInputEnvelope
+  connect: [StudentsOnClassroomsWhereUniqueInput!]
+}
+
+input StudentsOnClassroomsCreateNestedManyWithoutStudentInput {
+  create: [StudentsOnClassroomsCreateWithoutStudentInput!]
+  connectOrCreate: [StudentsOnClassroomsCreateOrConnectWithoutStudentInput!]
+  createMany: StudentsOnClassroomsCreateManyStudentInputEnvelope
+  connect: [StudentsOnClassroomsWhereUniqueInput!]
+}
+
+input StudentsOnClassroomsCreateOrConnectWithoutAssignedByInput {
+  where: StudentsOnClassroomsWhereUniqueInput!
+  create: StudentsOnClassroomsCreateWithoutAssignedByInput!
+}
+
+input StudentsOnClassroomsCreateOrConnectWithoutClassroomInput {
+  where: StudentsOnClassroomsWhereUniqueInput!
+  create: StudentsOnClassroomsCreateWithoutClassroomInput!
+}
+
+input StudentsOnClassroomsCreateOrConnectWithoutStudentInput {
+  where: StudentsOnClassroomsWhereUniqueInput!
+  create: StudentsOnClassroomsCreateWithoutStudentInput!
+}
+
+input StudentsOnClassroomsCreateWithoutAssignedByInput {
+  classroom: ClassroomCreateNestedOneWithoutStudentsInput!
+  student: StudentCreateNestedOneWithoutClassroomsInput!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsCreateWithoutClassroomInput {
+  student: StudentCreateNestedOneWithoutClassroomsInput!
+  assignedBy: TeacherCreateNestedOneWithoutStudentAssignmentsInput!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsCreateWithoutStudentInput {
+  classroom: ClassroomCreateNestedOneWithoutStudentsInput!
+  assignedBy: TeacherCreateNestedOneWithoutStudentAssignmentsInput!
+  assignedAt: DateTime
+}
+
+input StudentsOnClassroomsWhereUniqueInput {
+  classroomId_studentId: StudentsOnClassroomsClassroomIdStudentIdCompoundUniqueInput
+}
+
+input StudentWhereUniqueInput {
+  id: String
+  email: String
+}
+
+input TeacherClassroomUpdateInput {
+  title: String
+  description: String
+  startHour: Float
+  endHour: Float
+  startMinute: Float
+  endMinute: Float
+}
+
+input TeacherCreateNestedOneWithoutClassroomsInput {
+  create: TeacherCreateWithoutClassroomsInput
+  connectOrCreate: TeacherCreateOrConnectWithoutClassroomsInput
+  connect: TeacherWhereUniqueInput
+}
+
+input TeacherCreateNestedOneWithoutIssuedPassesInput {
+  create: TeacherCreateWithoutIssuedPassesInput
+  connectOrCreate: TeacherCreateOrConnectWithoutIssuedPassesInput
+  connect: TeacherWhereUniqueInput
+}
+
+input TeacherCreateNestedOneWithoutStudentAssignmentsInput {
+  create: TeacherCreateWithoutStudentAssignmentsInput
+  connectOrCreate: TeacherCreateOrConnectWithoutStudentAssignmentsInput
+  connect: TeacherWhereUniqueInput
+}
+
+input TeacherCreateOrConnectWithoutClassroomsInput {
+  where: TeacherWhereUniqueInput!
+  create: TeacherCreateWithoutClassroomsInput!
+}
+
+input TeacherCreateOrConnectWithoutIssuedPassesInput {
+  where: TeacherWhereUniqueInput!
+  create: TeacherCreateWithoutIssuedPassesInput!
+}
+
+input TeacherCreateOrConnectWithoutStudentAssignmentsInput {
+  where: TeacherWhereUniqueInput!
+  create: TeacherCreateWithoutStudentAssignmentsInput!
+}
+
+input TeacherCreateWithoutClassroomsInput {
+  id: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  pictureUrl: String!
+  createdAt: DateTime
+  lastLogin: DateTime
+  issuedPasses: PassCreateNestedManyWithoutIssuerInput
+  studentAssignments: StudentsOnClassroomsCreateNestedManyWithoutAssignedByInput
+}
+
+input TeacherCreateWithoutIssuedPassesInput {
+  id: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  pictureUrl: String!
+  createdAt: DateTime
+  lastLogin: DateTime
+  classrooms: ClassroomCreateNestedManyWithoutTeacherInput
+  studentAssignments: StudentsOnClassroomsCreateNestedManyWithoutAssignedByInput
+}
+
+input TeacherCreateWithoutStudentAssignmentsInput {
+  id: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  pictureUrl: String!
+  createdAt: DateTime
+  lastLogin: DateTime
+  classrooms: ClassroomCreateNestedManyWithoutTeacherInput
+  issuedPasses: PassCreateNestedManyWithoutIssuerInput
+}
+
+type TeacherRegistrationResponse {
+  jwt: String!
+  expiresIn: Float!
+  userType: String!
+}
+
+input TeacherWhereUniqueInput {
+  id: String
+  email: String
+}
+

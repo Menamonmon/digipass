@@ -11,7 +11,7 @@ export interface AuthStudentProfile extends StudentProfile {
   jwt: string;
 }
 
-export type AuthStatus =
+export type AuthUserType =
   | "not_authenticated"
   | "new_student"
   | "old_student"
