@@ -8,11 +8,7 @@
     "start": "next start",
     "dev": "next dev",
     "build": "next build",
-    "generate": "graphql-codegen --config codegen.yml && get-graphql-schema http://localhost:4000/graphql > ./src/graphql/schema.graphql",
-    "init-relay": "npm run relay",
-    "init-relay-dev": "npm run relay --watch",
-    "predev": "npm run init-relay-dev",
-    "prestart": "npm run init-relay"
+	"fetch-schema": "get-graphql-schema http://localhost:4000/graphql > ./src/graphql/schema.graphql"
   },
   "relay": {
     "src": "./src",
