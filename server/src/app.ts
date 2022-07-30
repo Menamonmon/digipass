@@ -7,7 +7,7 @@ import { expressjwt } from "express-jwt";
 import "./auth/authorizations";
 import api from "./api";
 import websockets from "./websockets";
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const main = async () => {
   const app = express();
