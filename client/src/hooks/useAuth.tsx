@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { GoogleLoginResponse } from "react-google-login";
 import { AuthUserType, StudentProfile } from "../services/auth-service/types";
-import { useMutation } from "react-relay";
+import { useLazyLoadQuery, useMutation } from "react-relay";
 import { RegisterStudentMutation } from "../graphql/mutations";
 import {
   PERSISTED_AUTH_STATE_ID,
   persistState,
   retrievePersistedState,
 } from "../services/auth-service";
+import { CurrentUserQuery } from "../graphql/queries";
+import { CurrentUserQuery as CurrentUserQueryType } from "../graphql/queries/__generated__/CurrentUserQuery.graphql";
+import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/registerStudentMutation.graphql";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
@@ -95,13 +98,13 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({
       variables: { idToken },
-      onCompleted(response: any, errors) {
-        if (response) {
+      onCompleted(response: RegisterStudentMutationType["response"], errors) {
+        if (response.registerStudentWithGoogle) {
           const { jwt, userType } = response.registerStudentWithGoogle;
           dispatch({
             type: "authenticate_new_user",
             jwt,
-            userType,
+            userType: userType as AuthUserType,
           });
         }
       },
@@ -111,6 +114,26 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     dispatch({ type: "load_existing_auth_state" });
   }, []);
+
+  // load the user using the query if we have a jwt but the user doesn't exist
+  useEffect(() => {
+    if (
+      authState.isAuthenticated &&
+      authState.jwt &&
+      authState.userProfile === undefined
+    ) {
+      const data = useLazyLoadQuery<CurrentUserQueryType>(CurrentUserQuery, {});
+      if (data.currentUser) {
+        dispatch({
+          type: "load_new_user_profile",
+          userProfile: data.currentUser,
+        });
+      } else {
+        console.log("Invalid JWT tokens / or local auth state, logging out");
+        dispatch({ type: "logout" });
+      }
+    }
+  }, [authState]);
 
   const value: AuthContextValues = {
     ...authState,
