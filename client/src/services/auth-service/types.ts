@@ -6,11 +6,6 @@ export interface StudentProfile {
   pictureUrl: string;
 }
 
-export interface AuthStudentProfile extends StudentProfile {
-  userType: "new_student" | "old_student";
-  jwt: string;
-}
-
 export type AuthUserType =
   | "not_authenticated"
   | "new_student"
