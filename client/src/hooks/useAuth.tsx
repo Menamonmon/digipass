@@ -93,12 +93,13 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
 
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
-  const [commitSignUp, isSignUpInFlight] = useMutation(RegisterStudentMutation);
+  const [commitSignUp, isSignUpInFlight] =
+    useMutation<RegisterStudentMutationType>(RegisterStudentMutation);
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({
       variables: { idToken },
-      onCompleted(response: RegisterStudentMutationType["response"], errors) {
+      onCompleted(response, errors) {
         if (response.registerStudentWithGoogle) {
           const { jwt, userType } = response.registerStudentWithGoogle;
           dispatch({
