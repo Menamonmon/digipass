@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 
 export const getCurrentUser = graphql`
-  query getCurrentUser {
+  query getCurrentUserQuery {
     currentUser {
       id
       firstName

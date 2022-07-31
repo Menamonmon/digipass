@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "next lint",
-    "relay": "relay-compiler --src ./src --schema ./src/graphql/schema.graphql",
+    "relay": "relay-compiler",
     "start": "next start",
     "dev": "next dev",
     "build": "next build",
