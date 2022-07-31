@@ -4,21 +4,13 @@
   "private": true,
   "scripts": {
     "lint": "next lint",
-    "relay": "relay-compiler",
+    "relay": "relay-compiler --src ./src --schema ./src/graphql/schema.graphql",
     "start": "next start",
     "dev": "next dev",
     "build": "next build",
-	"fetch-schema": "get-graphql-schema http://localhost:4000/graphql > ./src/graphql/schema.graphql"
-  },
-  "relay": {
-    "src": "./src",
-    "language": "typescript",
-    "schema": "./src/data/schema.graphql",
-    "exclude": [
-      "**/node_modules/**",
-      "**/__mocks__/**",
-      "**/__generated__/**"
-    ]
+    "fetch-schema": "get-graphql-schema http://localhost:4000/graphql > ./src/graphql/schema.graphql",
+    "predev": "npm run relay --watchman",
+    "prebuild": "npm run relay"
   },
   "dependencies": {
     "clsx": "^1.1.1",
@@ -33,18 +25,12 @@
     "relay-runtime": "^14.0.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.11.2",
-    "@graphql-codegen/fragment-matcher": "3.3.0",
-    "@graphql-codegen/typescript": "2.7.2",
-    "@graphql-codegen/typescript-graphql-request": "4.5.2",
-    "@graphql-codegen/typescript-operations": "2.5.2",
-    "@graphql-codegen/typescript-react-apollo": "3.3.2",
     "@types/node": "17.0.35",
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.2",
     "@types/react-relay": "^13.0.2",
     "autoprefixer": "^10.4.7",
-    "babel-plugin-relay": "^14.0.0",
+    "babel-plugin-relay": "^14.1.0",
     "eslint": "8.16.0",
     "eslint-config-next": "12.1.6",
     "get-graphql-schema": "^2.1.2",
