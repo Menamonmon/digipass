@@ -1,22 +1,29 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { GoogleLoginResponse } from "react-google-login";
 import { AuthUserType, StudentProfile } from "../services/auth-service/types";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { RegisterStudentMutation } from "../graphql/mutations";
+import { CurrentUserQuery } from "../graphql/queries";
+import { CurrentUserQuery as CurrentUserQueryType } from "../graphql/queries/__generated__/CurrentUserQuery.graphql";
+import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/RegisterStudentMutation.graphql";
 import {
   PERSISTED_AUTH_STATE_ID,
   persistState,
   retrievePersistedState,
 } from "../services/auth-service";
-import { CurrentUserQuery } from "../graphql/queries";
-import { CurrentUserQuery as CurrentUserQueryType } from "../graphql/queries/__generated__/CurrentUserQuery.graphql";
-import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/RegisterStudentMutation.graphql";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
   userProfile: undefined,
   isAuthenticated: false,
   handleLogin: () => {},
+  handleLogout: () => {},
 });
 
 type AuthState = {
@@ -28,6 +35,7 @@ type AuthState = {
 
 export interface AuthContextValues extends AuthState {
   handleLogin: (response: GoogleLoginResponse) => void;
+  handleLogout: () => void;
 }
 
 type Action =
@@ -68,8 +76,7 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
       if (
         persistedState.isAuthenticated &&
         persistedState.jwt &&
-        persistedState.authStatus &&
-        persistedState.userProfile
+        persistedState.authStatus
       ) {
         return {
           isAuthenticated: persistedState.isAuthenticated === true,
@@ -78,6 +85,9 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
           userProfile: persistedState.userProfile as StudentProfile,
         };
       } else {
+        console.log(
+          "loaded defualt state because of validation error for stored state"
+        );
         return initialAuthState;
       }
     }
@@ -95,6 +105,41 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
   const [commitSignUp, isSignUpInFlight] =
     useMutation<RegisterStudentMutationType>(RegisterStudentMutation);
+  const [currentUserDataFetchKey, setCurrentUserDataFetchKey] =
+    useState<number>(0);
+  const currentUserData = useLazyLoadQuery<CurrentUserQueryType>(
+    CurrentUserQuery,
+    {},
+    { fetchPolicy: "network-only", fetchKey: currentUserDataFetchKey }
+  );
+
+  useEffect(() => {
+    dispatch({ type: "load_existing_auth_state" });
+  }, []);
+
+  useEffect(() => {
+    setCurrentUserDataFetchKey((p) => p + 1);
+  }, [authState.authStatus]);
+
+  // load the user using the query if we have a jwt but the user doesn't exist
+  useEffect(() => {
+    if (
+      authState.isAuthenticated &&
+      authState.jwt &&
+      authState.userProfile === undefined
+    ) {
+      if (currentUserData.currentUser) {
+        dispatch({
+          type: "load_new_user_profile",
+          userProfile: currentUserData.currentUser,
+        });
+      } else {
+        console.log("Invalid JWT tokens / or local auth state, logging out");
+        dispatch({ type: "logout" });
+      }
+    }
+  }, [currentUserData]);
+
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({
@@ -107,38 +152,21 @@ export const AuthContextProvider: React.FC = ({ children }) => {
             jwt,
             userType: userType as AuthUserType,
           });
+        } else {
+          console.error("Login attempt failed");
         }
       },
     });
   };
 
-  useEffect(() => {
-    dispatch({ type: "load_existing_auth_state" });
-  }, []);
-
-  // load the user using the query if we have a jwt but the user doesn't exist
-  useEffect(() => {
-    if (
-      authState.isAuthenticated &&
-      authState.jwt &&
-      authState.userProfile === undefined
-    ) {
-      const data = useLazyLoadQuery<CurrentUserQueryType>(CurrentUserQuery, {});
-      if (data.currentUser) {
-        dispatch({
-          type: "load_new_user_profile",
-          userProfile: data.currentUser,
-        });
-      } else {
-        console.log("Invalid JWT tokens / or local auth state, logging out");
-        dispatch({ type: "logout" });
-      }
-    }
-  }, [authState]);
+  const handleLogout = async () => {
+    dispatch({ type: "logout" });
+  };
 
   const value: AuthContextValues = {
     ...authState,
     handleLogin,
+    handleLogout,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
