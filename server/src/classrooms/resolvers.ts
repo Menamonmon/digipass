@@ -1,9 +1,6 @@
-import { firebaseml_v1beta2 } from "googleapis";
-import { classroom } from "googleapis/build/src/apis/classroom";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   Classroom,
-  CreateManyClassroomResolver,
   CreateOneClassroomResolver,
   StudentsOnClassrooms,
 } from "../../prisma/generated/type-graphql";
@@ -174,6 +171,5 @@ class ClassroomsResolvers {
 
 export const classroomsResolvers = [
   ClassroomsResolvers,
-  CreateManyClassroomResolver,
   CreateOneClassroomResolver,
 ];

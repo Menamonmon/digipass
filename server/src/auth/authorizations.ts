@@ -29,7 +29,6 @@ A student can do the following:
 const resolversEnhanceMap: ResolversEnhanceMap = {
   Classroom: {
     createOneClassroom: [Authorized("teacher")],
-    createManyClassroom: [Authorized("teacher")],
   },
 };
 
