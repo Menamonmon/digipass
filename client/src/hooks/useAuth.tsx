@@ -10,7 +10,7 @@ import {
 } from "../services/auth-service";
 import { CurrentUserQuery } from "../graphql/queries";
 import { CurrentUserQuery as CurrentUserQueryType } from "../graphql/queries/__generated__/CurrentUserQuery.graphql";
-import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/registerStudentMutation.graphql";
+import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/RegisterStudentMutation.graphql";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
