@@ -1,8 +1,11 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { GoogleLoginResponse } from "react-google-login";
 import { AuthUserType, StudentProfile } from "../services/auth-service/types";
 import { useMutation } from "react-relay";
 import { RegisterStudentMutation } from "../graphql/mutations";
+import { persistState, retrievePersistedState } from "../services/auth-service";
+
+const LOCAL_STORAGE_AUTH_STATE_ID = "auth-state";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
@@ -26,14 +29,15 @@ type Action =
   | { type: "authenticate_new_user"; jwt: string; userType: AuthUserType }
   | { type: "logout" }
   | { type: "new_user_verified"; userType: AuthUserType }
-  | { type: "load_new_user_profile"; userProfile: StudentProfile };
+  | { type: "load_new_user_profile"; userProfile: StudentProfile }
+  | { type: "load_existing_auth_state" };
 
 const initialAuthState: AuthState = {
   authStatus: "not_authenticated",
   isAuthenticated: false,
 };
 
-const authReducer = (state: AuthState, action: Action): AuthState => {
+const authReducerHandler = (state: AuthState, action: Action): AuthState => {
   if (action.type === "authenticate_new_user") {
     return {
       isAuthenticated: true,
@@ -53,8 +57,33 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
     }
   } else if (action.type === "new_user_verified") {
     return { ...state, authStatus: action.userType };
+  } else if (action.type === "load_existing_auth_state") {
+    const persistedState = retrievePersistedState(LOCAL_STORAGE_AUTH_STATE_ID);
+    if (persistedState) {
+      if (
+        persistedState.isAuthenticated &&
+        persistedState.jwt &&
+        persistedState.authStatus &&
+        persistedState.userProfile
+      ) {
+        return {
+          isAuthenticated: persistedState.isAuthenticated === true,
+          authStatus: persistedState.authStatus as AuthUserType,
+          jwt: persistedState.jwt,
+          userProfile: persistedState.userProfile as StudentProfile,
+        };
+      } else {
+        return initialAuthState;
+      }
+    }
   }
   return state;
+};
+
+const authReducer = (state: AuthState, action: Action): AuthState => {
+  const updatedAuthState = authReducerHandler(state, action);
+  persistState(updatedAuthState, LOCAL_STORAGE_AUTH_STATE_ID);
+  return updatedAuthState;
 };
 
 export const AuthContextProvider: React.FC = ({ children }) => {
@@ -76,6 +105,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
       },
     });
   };
+
+  useEffect(() => {
+    dispatch({ type: "load_existing_auth_state" });
+  }, []);
 
   const value: AuthContextValues = {
     ...authState,
