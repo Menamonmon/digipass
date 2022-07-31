@@ -3,8 +3,8 @@ import { classroom } from "googleapis/build/src/apis/classroom";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   Classroom,
-  ClassroomUpdateInput,
-  CreateClassroomResolver,
+  CreateManyClassroomResolver,
+  CreateOneClassroomResolver,
   StudentsOnClassrooms,
 } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
@@ -174,5 +174,6 @@ class ClassroomsResolvers {
 
 export const classroomsResolvers = [
   ClassroomsResolvers,
-  CreateClassroomResolver,
+  CreateManyClassroomResolver,
+  CreateOneClassroomResolver,
 ];
