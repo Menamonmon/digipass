@@ -1,6 +1,0 @@
-mutation registerStudentMutation($idToken: String!) {
-  registerStudentWithGoogle(idToken: $idToken) {
-    jwt
-    userType
-  }
-}

@@ -27,6 +27,7 @@ model Student {
     ipAddresses IPAddress[]
     passes      Pass[]
     classrooms  StudentsOnClassrooms[]
+
     @@index([id])
     @@index([email])
 }
@@ -35,7 +36,6 @@ model IPAddress {
     id        String   @id @default(uuid())
     address   String   @db.VarChar(50)
     createdAt DateTime @default(now())
-
 
     ownerId String
     owner   Student @relation(fields: [ownerId], references: [id])
@@ -53,6 +53,7 @@ model Teacher {
     classrooms         Classroom[]
     issuedPasses       Pass[]
     studentAssignments StudentsOnClassrooms[]
+
     @@index([id])
     @@index([email])
 }
@@ -75,6 +76,7 @@ model Classroom {
 
     passes   Pass[]
     students StudentsOnClassrooms[]
+
     @@unique([id, teacherId])
     @@index([id, teacherId, archived])
     @@index([id, teacherId])
@@ -94,7 +96,6 @@ model Pass {
     endTime   DateTime?
     duration  Int
 
-
     classroomId String
     classroom   Classroom @relation(fields: [classroomId], references: [id])
 
@@ -103,6 +104,7 @@ model Pass {
 
     studentId String
     student   Student @relation(fields: [studentId], references: [id])
+
     @@unique([id, studentId])
     @@unique([id, issuerId])
     @@index([issuerId])
@@ -123,6 +125,7 @@ model StudentsOnClassrooms {
     assignedBy   Teacher  @relation(fields: [assignedById], references: [id])
     assignedById String
     assignedAt   DateTime @default(now())
+
     @@id([classroomId, studentId])
     @@index([classroomId, studentId, assignedById])
 }
