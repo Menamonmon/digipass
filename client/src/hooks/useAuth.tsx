@@ -3,9 +3,11 @@ import { GoogleLoginResponse } from "react-google-login";
 import { AuthUserType, StudentProfile } from "../services/auth-service/types";
 import { useMutation } from "react-relay";
 import { RegisterStudentMutation } from "../graphql/mutations";
-import { persistState, retrievePersistedState } from "../services/auth-service";
-
-const LOCAL_STORAGE_AUTH_STATE_ID = "auth-state";
+import {
+  PERSISTED_AUTH_STATE_ID,
+  persistState,
+  retrievePersistedState,
+} from "../services/auth-service";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
@@ -58,7 +60,7 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
   } else if (action.type === "new_user_verified") {
     return { ...state, authStatus: action.userType };
   } else if (action.type === "load_existing_auth_state") {
-    const persistedState = retrievePersistedState(LOCAL_STORAGE_AUTH_STATE_ID);
+    const persistedState = retrievePersistedState(PERSISTED_AUTH_STATE_ID);
     if (persistedState) {
       if (
         persistedState.isAuthenticated &&
@@ -82,7 +84,7 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
 
 const authReducer = (state: AuthState, action: Action): AuthState => {
   const updatedAuthState = authReducerHandler(state, action);
-  persistState(updatedAuthState, LOCAL_STORAGE_AUTH_STATE_ID);
+  persistState(updatedAuthState, PERSISTED_AUTH_STATE_ID);
   return updatedAuthState;
 };
 

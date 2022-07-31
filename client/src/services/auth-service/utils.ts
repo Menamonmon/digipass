@@ -1,15 +1,20 @@
-export const getJwtFromLocalStorage = () => {
-  return;
+import { PERSISTED_AUTH_STATE_ID } from "./consts";
+
+// This is done in a hacky way that makes some assumptions about the structure of the state
+const store = localStorage;
+export const getPersistedJwt = (): string => {
+  const state = retrievePersistedState(PERSISTED_AUTH_STATE_ID);
+  return state?.jwt || "";
 };
 
 export const persistState = (values: Object, key: string) => {
-  localStorage.setItem(key, JSON.stringify(values));
+  store.setItem(key, JSON.stringify(values));
 };
 
 export const retrievePersistedState = (
   key: string
 ): Record<string, any> | undefined => {
-  const rawState = localStorage.getItem(key);
+  const rawState = store.getItem(key);
   if (rawState) {
     return JSON.parse(rawState);
   }

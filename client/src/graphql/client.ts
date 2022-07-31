@@ -6,13 +6,14 @@ import {
   Store,
 } from "relay-runtime";
 import { config } from "../../config";
+import { getPersistedJwt } from "../services/auth-service";
 
 const fetchQuery: FetchFunction = (operation, variables) => {
   return fetch(`${config.backendUrl}/graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt") || "",
+      Authorization: "Bearer " + getPersistedJwt(),
     },
     body: JSON.stringify({
       query: operation.text,
