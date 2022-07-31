@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer } from "react";
 import { GoogleLoginResponse } from "react-google-login";
 import { AuthUserType, StudentProfile } from "../services/auth-service/types";
 import { useMutation } from "react-relay";
-import { registerStudent } from "../graphql/mutations";
+import { RegisterStudentMutation } from "../graphql/mutations";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
@@ -59,7 +59,7 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
 
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
-  const [commitSignUp, isSignUpInFlight] = useMutation(registerStudent);
+  const [commitSignUp, isSignUpInFlight] = useMutation(RegisterStudentMutation);
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({

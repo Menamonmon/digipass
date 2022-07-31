@@ -1,1 +1,1 @@
-export * from "./registerStudent";
+export * from "./RegisterStudentMutation";
