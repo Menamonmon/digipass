@@ -35,4 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 # for relay
-./src/graphql/schema.graphql
+**/graphql/schema.graphql
+**/__generated__/**
