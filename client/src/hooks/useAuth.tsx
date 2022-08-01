@@ -6,12 +6,12 @@ import React, {
   useState,
 } from "react";
 import { GoogleLoginResponse } from "react-google-login";
-import { AuthUserType, StudentProfile } from "../services/auth-service/types";
+import { AuthUserType, UserProfile } from "../services/auth-service/types";
 import { useLazyLoadQuery, useMutation } from "react-relay";
-import { RegisterStudentMutation } from "../graphql/mutations";
+import { RegisterUserMutation } from "../graphql/mutations";
 import { CurrentUserQuery } from "../graphql/queries";
 import { CurrentUserQuery as CurrentUserQueryType } from "../graphql/queries/__generated__/CurrentUserQuery.graphql";
-import { RegisterStudentMutation as RegisterStudentMutationType } from "../graphql/mutations/__generated__/RegisterStudentMutation.graphql";
+import { RegisterUserMutation as RegisterUserMutationType } from "../graphql/mutations/__generated__/RegisterUserMutation.graphql";
 import {
   PERSISTED_AUTH_STATE_ID,
   persistState,
@@ -29,7 +29,7 @@ const AuthContext = createContext<AuthContextValues>({
 type AuthState = {
   jwt?: string;
   authStatus: AuthUserType;
-  userProfile?: StudentProfile;
+  userProfile?: UserProfile;
   isAuthenticated: boolean;
 };
 
@@ -42,7 +42,7 @@ type Action =
   | { type: "authenticate_new_user"; jwt: string; userType: AuthUserType }
   | { type: "logout" }
   | { type: "new_user_verified"; userType: AuthUserType }
-  | { type: "load_new_user_profile"; userProfile: StudentProfile }
+  | { type: "load_new_user_profile"; userProfile: UserProfile }
   | { type: "load_existing_auth_state" };
 
 const initialAuthState: AuthState = {
@@ -82,7 +82,7 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
           isAuthenticated: persistedState.isAuthenticated === true,
           authStatus: persistedState.authStatus as AuthUserType,
           jwt: persistedState.jwt,
-          userProfile: persistedState.userProfile as StudentProfile,
+          userProfile: persistedState.userProfile as UserProfile,
         };
       } else {
         console.log(
@@ -104,7 +104,7 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
 export const AuthContextProvider: React.FC = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
   const [commitSignUp, isSignUpInFlight] =
-    useMutation<RegisterStudentMutationType>(RegisterStudentMutation);
+    useMutation<RegisterUserMutationType>(RegisterUserMutation);
   const [currentUserDataFetchKey, setCurrentUserDataFetchKey] =
     useState<number>(0);
   const currentUserData = useLazyLoadQuery<CurrentUserQueryType>(
@@ -145,8 +145,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     commitSignUp({
       variables: { idToken },
       onCompleted(response, errors) {
-        if (response.registerStudentWithGoogle) {
-          const { jwt, userType } = response.registerStudentWithGoogle;
+        if (response.registerUserWithGoogle) {
+          const { jwt, userType } = response.registerUserWithGoogle;
           dispatch({
             type: "authenticate_new_user",
             jwt,

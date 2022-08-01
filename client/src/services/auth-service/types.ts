@@ -1,4 +1,4 @@
-export interface StudentProfile {
+export interface UserProfile {
   id: string;
   firstName: string;
   lastName: string;

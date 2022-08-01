@@ -3,12 +3,15 @@ import { Student, Teacher } from "../../prisma/generated/type-graphql";
 import { GraphQLContext } from "../types";
 
 @ObjectType()
-class BaseRegistrationResponse {
+export class BaseRegistrationResponse {
   @Field()
   jwt: string;
 
   @Field()
   expiresIn: number;
+
+  @Field()
+  userType: "new_teacher" | "old_teacher" | "new_student" | "old_student";
 }
 
 @ObjectType()

@@ -24,7 +24,7 @@ export default async (app: Express) => {
   });
   const apolloServer = new ApolloServer({
     schema,
-	introspection: true,
+    introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     context: ({ req }: { req: any }) => {
       const user = req.auth || null;
