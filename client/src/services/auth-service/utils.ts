@@ -1,37 +1,21 @@
-import { GoogleLoginResponse } from "react-google-login";
-import { config } from "../../../config";
+import { PERSISTED_AUTH_STATE_ID } from "./consts";
 
-const calcRefreshTime = (expiresIn?: number) =>
-  (expiresIn || 3600 - 5 * 60) * 1000;
-
-export const refreshToken = (
-  response: GoogleLoginResponse,
-  updateAccessToken: (newAccessToken: string) => void
-) => {
-  const refreshTime = calcRefreshTime(response.tokenObj.expires_in);
-  const refreshTokenTimeoutFunction = async (response: GoogleLoginResponse) => {
-    const newResponse = await response.reloadAuthResponse();
-
-    // Handle the new response
-    updateAccessToken(newResponse.access_token);
-    const refreshTime = calcRefreshTime(newResponse.expires_in);
-    setTimeout(refreshTokenTimeoutFunction, refreshTime);
-  };
-  setTimeout(refreshTokenTimeoutFunction, refreshTime);
+// This is done in a hacky way that makes some assumptions about the structure of the state
+const store = typeof window !== "undefined" ? localStorage : undefined;
+export const getPersistedJwt = (): string => {
+  const state = retrievePersistedState(PERSISTED_AUTH_STATE_ID);
+  return state?.jwt || "";
 };
 
-export const buildRegisterStudentMutation = (idToken: string) => {
-  return `
-mutation registerStudent{
-  registerStudentWithGoogle(idToken: "${idToken}") {
-    id
-    firstName
-    lastName
-    pictureUrl
-    email
-    userType
-    jwt
+export const persistState = (values: Object, key: string) => {
+  store?.setItem(key, JSON.stringify(values));
+};
+
+export const retrievePersistedState = (
+  key: string
+): Record<string, any> | undefined => {
+  const rawState = store?.getItem(key);
+  if (rawState) {
+    return JSON.parse(rawState);
   }
-}
-	`;
 };

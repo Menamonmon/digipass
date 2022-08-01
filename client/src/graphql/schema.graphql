@@ -207,7 +207,7 @@ type LimitedClassroom {
 }
 
 type Mutation {
-  createClassroom(data: ClassroomCreateInput!): Classroom!
+  createOneClassroom(data: ClassroomCreateInput!): Classroom!
   registerStudentWithGoogle(idToken: String!): StudentRegistrationResponse
   registerTeacherWithGoogle(idToken: String!): TeacherRegistrationResponse
   updateClassroom(data: TeacherClassroomUpdateInput!, classroomId: String!): Classroom

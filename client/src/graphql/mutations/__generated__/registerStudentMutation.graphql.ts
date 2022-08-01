@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5bd87cd3332cbedc02519f67393cd6d1>>
+ * @generated SignedSource<<71f1a92b5fc7eaf4ac4eae2b5883f58d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,18 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type registerStudentMutation$variables = {
+export type RegisterStudentMutation$variables = {
   idToken: string;
 };
-export type registerStudentMutation$data = {
+export type RegisterStudentMutation$data = {
   readonly registerStudentWithGoogle: {
     readonly jwt: string;
     readonly userType: string;
   } | null;
 };
-export type registerStudentMutation = {
-  response: registerStudentMutation$data;
-  variables: registerStudentMutation$variables;
+export type RegisterStudentMutation = {
+  response: RegisterStudentMutation$data;
+  variables: RegisterStudentMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -69,7 +69,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "registerStudentMutation",
+    "name": "RegisterStudentMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -78,20 +78,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "registerStudentMutation",
+    "name": "RegisterStudentMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "0f2909944a3991eeb8318f05149fb548",
+    "cacheID": "9b8411e9ad3307ece180313da447fc92",
     "id": null,
     "metadata": {},
-    "name": "registerStudentMutation",
+    "name": "RegisterStudentMutation",
     "operationKind": "mutation",
-    "text": "mutation registerStudentMutation(\n  $idToken: String!\n) {\n  registerStudentWithGoogle(idToken: $idToken) {\n    jwt\n    userType\n  }\n}\n"
+    "text": "mutation RegisterStudentMutation(\n  $idToken: String!\n) {\n  registerStudentWithGoogle(idToken: $idToken) {\n    jwt\n    userType\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "092bb8709d36ce7a70301f25fb5b592c";
+(node as any).hash = "29dbeb232aa4048bf90148f7ff9d3bc3";
 
 export default node;

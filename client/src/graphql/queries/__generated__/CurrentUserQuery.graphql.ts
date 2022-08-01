@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<118effb5c6105af52b7dfdded84cfe5a>>
+ * @generated SignedSource<<ee6b11c55d6e2d9cebf2de347cbaf331>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type getCurrentUserQuery$variables = {};
-export type getCurrentUserQuery$data = {
+export type CurrentUserQuery$variables = {};
+export type CurrentUserQuery$data = {
   readonly currentUser: {
     readonly email: string;
     readonly firstName: string;
@@ -19,9 +19,9 @@ export type getCurrentUserQuery$data = {
     readonly pictureUrl: string;
   } | null;
 };
-export type getCurrentUserQuery = {
-  response: getCurrentUserQuery$data;
-  variables: getCurrentUserQuery$variables;
+export type CurrentUserQuery = {
+  response: CurrentUserQuery$data;
+  variables: CurrentUserQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -78,7 +78,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "getCurrentUserQuery",
+    "name": "CurrentUserQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -87,20 +87,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "getCurrentUserQuery",
+    "name": "CurrentUserQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "7d6138c1eaa60e816d428719734df09a",
+    "cacheID": "66dc424732cf275bde5bce4b0820c473",
     "id": null,
     "metadata": {},
-    "name": "getCurrentUserQuery",
+    "name": "CurrentUserQuery",
     "operationKind": "query",
-    "text": "query getCurrentUserQuery {\n  currentUser {\n    id\n    firstName\n    lastName\n    email\n    pictureUrl\n  }\n}\n"
+    "text": "query CurrentUserQuery {\n  currentUser {\n    id\n    firstName\n    lastName\n    email\n    pictureUrl\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6bbac72b6a6eb6fb82dff09795b10539";
+(node as any).hash = "9b7752141bb89df893111dc4d20df9fb";
 
 export default node;
