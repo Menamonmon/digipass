@@ -1,22 +1,31 @@
 import Image from "next/image";
 import React from "react";
 import useAuth from "../../hooks/useAuth";
-import LogoutButton from "../Auth/LogoutButton";
 
 export const UserProfileMenu: React.FC = () => {
   const { userProfile } = useAuth();
+  console.log(userProfile);
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex justify-between gap-2">
       {userProfile?.pictureUrl && (
-        <Image
-          src={userProfile.pictureUrl}
-          width={50}
-          height={50}
-          className="rounded-full"
-          alt="User profile picture"
-        />
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-circle">
+            <Image
+              src={userProfile.pictureUrl}
+              width={50}
+              height={50}
+              className="rounded-full"
+              alt="User profile picture"
+            />
+          </label>
+          <ul
+            tabIndex={0}
+            className="p-2 shadow dropdown-content menu bg-base-100 rounded-box w-52"
+          >
+            {/* TODO Implement action items for the user menu */}
+          </ul>
+        </div>
       )}
-      <LogoutButton />
     </div>
   );
 };

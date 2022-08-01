@@ -1,17 +1,13 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
-import AuthFormContainer from "../components/Auth/AuthFormContainer";
-import Title from "../components/Auth/Title";
 import Layout from "../components/Layout/Layout";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
-import { useRouter } from "next/router";
 import ProtectedRoute from "../components/Layout/ProtectedRoute";
 
 const LoginPage: NextPage<{}> = () => {
-  const router = useRouter();
-  const { isAuthenticated, authStatus } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
@@ -20,14 +16,14 @@ const LoginPage: NextPage<{}> = () => {
       </Head>
       <Layout>
         <ProtectedRoute allowed={!isAuthenticated} redirect="/">
-          <AuthFormContainer>
-            <Title
-              header="Login to digipass"
-              subtitle="Please make sure to use a school account with the jcpsnj.org domain for students and jcboe.org domain for teachers!"
-            />
-            <div className="text-center h-5" />
+          <div className="flex flex-col max-w-3xl gap-5 p-4 mx-auto mt-10 border-2 rounded-lg border-primary">
+            <h2>Login to digipass</h2>
+            <h5>
+              Please make sure to use a school account with the jcpsnj.org
+              domain for students and jcboe.org domain for teachers!
+            </h5>
             <GoogleLoginButton />
-          </AuthFormContainer>
+          </div>
         </ProtectedRoute>
       </Layout>
     </>

@@ -1,4 +1,21 @@
 module.exports = {
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: "#3490DE",
+          secondary: "#E1E2EF",
+          accent: "#1FB2A6",
+          neutral: "#3490DE",
+          "base-100": "#2A303C",
+          info: "#3ABFF8",
+          success: "#36D399",
+          warning: "#FBBD23",
+          error: "#F87272",
+        },
+      },
+    ],
+  },
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",

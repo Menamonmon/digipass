@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link rel="stylesheet" href={SITE_CONSTANTS.GOOGLE_FONTS_URL} />
-          
+
           {/* Site Description */}
           <meta name="description" content={SITE_CONSTANTS.DESCRIPTION} />
 
@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         </Head>
-        <body>
+        <body data-theme="mytheme">
           <Main />
           <div id="form-modal" />
           <NextScript />
