@@ -13,23 +13,30 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Student {
-    id         String   @id @default(uuid())
-    email      String   @unique @db.VarChar(75)
-    firstName  String   @db.VarChar(50)
-    lastName   String   @db.VarChar(50)
-    pictureUrl String   @db.VarChar(150)
-    createdAt  DateTime @default(now())
-    lastLogin  DateTime @default(now())
+model User {
+    id         String    @id @default(uuid())
+    email      String    @unique @db.VarChar(75)
+    firstName  String    @db.VarChar(50)
+    lastName   String    @db.VarChar(50)
+    pictureUrl String    @db.VarChar(150)
+    createdAt  DateTime  @default(now())
+    lastLogin  DateTime  @default(now())
+    Student    Student[]
+    Teacher    Teacher[]
 
-    studentId   String                 @db.VarChar(6)
+    @@index([id])
+    @@index([email])
+}
+
+model Student {
+    id          String                 @id @default(uuid())
     passesUsed  Int                    @default(0)
     ipAddresses IPAddress[]
     passes      Pass[]
     classrooms  StudentsOnClassrooms[]
 
-    @@index([id])
-    @@index([email])
+    userProfile   User   @relation(fields: [userProfileId], references: [id])
+    userProfileId String
 }
 
 model IPAddress {
@@ -42,20 +49,13 @@ model IPAddress {
 }
 
 model Teacher {
-    id         String   @id @default(uuid())
-    email      String   @unique @db.VarChar(75)
-    firstName  String   @db.VarChar(50)
-    lastName   String   @db.VarChar(50)
-    pictureUrl String   @db.VarChar(150)
-    createdAt  DateTime @default(now())
-    lastLogin  DateTime @default(now())
-
+    id                 String                 @id @default(uuid())
     classrooms         Classroom[]
     issuedPasses       Pass[]
     studentAssignments StudentsOnClassrooms[]
 
-    @@index([id])
-    @@index([email])
+    userProfile   User   @relation(fields: [userProfileId], references: [id])
+    userProfileId String
 }
 
 model Classroom {
