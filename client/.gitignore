@@ -36,4 +36,4 @@ yarn-error.log*
 
 # for relay
 src/graphql/schema.graphql
-**/__generated__/**
+__generated__
