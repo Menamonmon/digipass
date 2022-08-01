@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 
-export const registerStudent = graphql`
-  mutation registerStudentMutation($idToken: String!) {
+export const RegisterStudentMutation = graphql`
+  mutation RegisterStudentMutation($idToken: String!) {
     registerStudentWithGoogle(idToken: $idToken) {
       jwt
       userType
