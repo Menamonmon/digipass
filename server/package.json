@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./dist/app.js",
-    "postinstall": "tsc",
+    "prestart": "tsc && prisma migrate deploy",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts"
   },
