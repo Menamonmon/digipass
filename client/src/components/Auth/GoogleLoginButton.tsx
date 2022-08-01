@@ -4,7 +4,6 @@ import GoogleLogin, {
   GoogleLoginResponse,
 } from "react-google-login";
 import { FcGoogle } from "react-icons/fc";
-import Button from "../Button";
 import useAuth from "../../hooks/useAuth";
 import dynamic from "next/dynamic";
 
@@ -21,7 +20,9 @@ const GoogleLoginButton: React.FC<{}> = () => {
       handleLogin(response as GoogleLoginResponse);
   };
 
-  const onFailure: GoogleLoginProps["onFailure"] = async () => {};
+  const onFailure: GoogleLoginProps["onFailure"] = async (res) => {
+    console.log("GOOGLE LOGIN FAILED", res);
+  };
 
   return (
     <>
@@ -34,9 +35,10 @@ const GoogleLoginButton: React.FC<{}> = () => {
         cookiePolicy={"single_host_origin"}
         disabled={isAuthenticated}
         render={({ onClick, disabled }) => (
-          <Button leftIcon={<FcGoogle />} onClick={onClick} disabled={disabled}>
+          <button className="gap-2 btn" onClick={onClick} disabled={disabled}>
+            <FcGoogle />
             Login with Google
-          </Button>
+          </button>
         )}
       />
     </>

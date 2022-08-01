@@ -6,11 +6,13 @@ import { RelayEnvironment } from "../graphql/client";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <AuthContextProvider>
-        <Component {...pageProps} />
-      </AuthContextProvider>
-    </RelayEnvironmentProvider>
+    <div data-theme="mytheme">
+      <RelayEnvironmentProvider environment={RelayEnvironment}>
+        <AuthContextProvider>
+          <Component {...pageProps} />
+        </AuthContextProvider>
+      </RelayEnvironmentProvider>
+    </div>
   );
 }
 

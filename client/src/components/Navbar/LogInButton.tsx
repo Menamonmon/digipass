@@ -1,9 +1,12 @@
-import clsx from "clsx";
+import Link from "next/link";
 import React from "react";
-import Button from "../Button";
 
 const LogInButton: React.FC = () => {
-  return <Button href="/login" variant="outlined">Login</Button>;
+  return (
+    <Link href="/login">
+      <button className="btn">Login</button>
+    </Link>
+  );
 };
 
 export default LogInButton;
