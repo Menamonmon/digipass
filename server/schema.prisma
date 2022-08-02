@@ -13,7 +13,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Student {
+model User {
     id         String   @id @default(uuid())
     email      String   @unique @db.VarChar(75)
     firstName  String   @db.VarChar(50)
@@ -21,15 +21,35 @@ model Student {
     pictureUrl String   @db.VarChar(150)
     createdAt  DateTime @default(now())
     lastLogin  DateTime @default(now())
+    student    Student?
+    teacher    Teacher?
 
+    @@index([id])
+    @@index([email])
+}
+
+model Student {
     studentId   String                 @db.VarChar(6)
     passesUsed  Int                    @default(0)
     ipAddresses IPAddress[]
     passes      Pass[]
     classrooms  StudentsOnClassrooms[]
 
+    id          String @id
+    userProfile User   @relation(fields: [id], references: [id])
+
     @@index([id])
-    @@index([email])
+}
+
+model Teacher {
+    classrooms         Classroom[]
+    issuedPasses       Pass[]
+    studentAssignments StudentsOnClassrooms[]
+
+    id          String @id
+    userProfile User   @relation(fields: [id], references: [id])
+
+    @@index([id])
 }
 
 model IPAddress {
@@ -39,23 +59,6 @@ model IPAddress {
 
     ownerId String
     owner   Student @relation(fields: [ownerId], references: [id])
-}
-
-model Teacher {
-    id         String   @id @default(uuid())
-    email      String   @unique @db.VarChar(75)
-    firstName  String   @db.VarChar(50)
-    lastName   String   @db.VarChar(50)
-    pictureUrl String   @db.VarChar(150)
-    createdAt  DateTime @default(now())
-    lastLogin  DateTime @default(now())
-
-    classrooms         Classroom[]
-    issuedPasses       Pass[]
-    studentAssignments StudentsOnClassrooms[]
-
-    @@index([id])
-    @@index([email])
 }
 
 model Classroom {
