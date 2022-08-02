@@ -14,29 +14,42 @@ datasource db {
 }
 
 model User {
-    id         String    @id @default(uuid())
-    email      String    @unique @db.VarChar(75)
-    firstName  String    @db.VarChar(50)
-    lastName   String    @db.VarChar(50)
-    pictureUrl String    @db.VarChar(150)
-    createdAt  DateTime  @default(now())
-    lastLogin  DateTime  @default(now())
-    Student    Student[]
-    Teacher    Teacher[]
+    id         String   @id @default(uuid())
+    email      String   @unique @db.VarChar(75)
+    firstName  String   @db.VarChar(50)
+    lastName   String   @db.VarChar(50)
+    pictureUrl String   @db.VarChar(150)
+    createdAt  DateTime @default(now())
+    lastLogin  DateTime @default(now())
+    student    Student?
+    teacher    Teacher?
 
     @@index([id])
     @@index([email])
 }
 
 model Student {
-    id          String                 @id @default(uuid())
+    studentId   String                 @db.VarChar(6)
     passesUsed  Int                    @default(0)
     ipAddresses IPAddress[]
     passes      Pass[]
     classrooms  StudentsOnClassrooms[]
 
-    userProfile   User   @relation(fields: [userProfileId], references: [id])
-    userProfileId String
+    id          String @id
+    userProfile User   @relation(fields: [id], references: [id])
+
+    @@index([id])
+}
+
+model Teacher {
+    classrooms         Classroom[]
+    issuedPasses       Pass[]
+    studentAssignments StudentsOnClassrooms[]
+
+    id          String @id
+    userProfile User   @relation(fields: [id], references: [id])
+
+    @@index([id])
 }
 
 model IPAddress {
@@ -46,16 +59,6 @@ model IPAddress {
 
     ownerId String
     owner   Student @relation(fields: [ownerId], references: [id])
-}
-
-model Teacher {
-    id                 String                 @id @default(uuid())
-    classrooms         Classroom[]
-    issuedPasses       Pass[]
-    studentAssignments StudentsOnClassrooms[]
-
-    userProfile   User   @relation(fields: [userProfileId], references: [id])
-    userProfileId String
 }
 
 model Classroom {
