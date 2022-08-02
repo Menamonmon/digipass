@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  heroku-deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -14,16 +14,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Use Node.js 17.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 17.x
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: 'digipass-graphql-api'
-          heroku_email: 'monyasser111@gmail.com'  
-      - name: Vercel Action
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_ACCOUNT_EMAIL }}
+          
+  vercel-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25.1.0
 
+          
+    
