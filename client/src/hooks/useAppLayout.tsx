@@ -4,11 +4,13 @@ import { TeacherLayout, StudentLayout } from "../components/Layout";
 
 export const useAppLayout = () => {
   const router = useRouter();
-  const routeType = router.asPath.startsWith("/student")
-    ? "student"
-    : router.asPath.startsWith(" /teacher")
-    ? "teacher"
-    : "general";
+  const path = router.asPath;
+  let routeType = "general";
+  if (path.startsWith("/teacher")) {
+    routeType = "teacher";
+  } else if (path.startsWith("/student")) {
+    routeType = "student";
+  }
   const AppLayout =
     routeType === "general"
       ? Fragment
