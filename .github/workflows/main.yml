@@ -17,13 +17,12 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_ACCOUNT_EMAIL }}
-        working-directory: ./server
+          working-directory: ./server
           
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25.1.0
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          
-        working-directory: ./client
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}        
+          working-directory: ./client
