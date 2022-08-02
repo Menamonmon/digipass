@@ -4,6 +4,7 @@ import { AuthContextProvider } from "../hooks/useAuth";
 import { RelayEnvironmentProvider } from "react-relay";
 import { RelayEnvironment } from "../graphql/client";
 import { useAppLayout } from "../hooks/useAppLayout";
+import { Layout as NavbarLayout } from "../components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const AppLayout = useAppLayout();
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RelayEnvironmentProvider environment={RelayEnvironment}>
         <AuthContextProvider>
           <AppLayout>
-            <Component {...pageProps} />
+            <NavbarLayout>
+              <Component {...pageProps} />
+            </NavbarLayout>
           </AppLayout>
         </AuthContextProvider>
       </RelayEnvironmentProvider>
