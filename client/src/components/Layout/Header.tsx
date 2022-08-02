@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { PropsWithChildren } from "react";
 
-const Header: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const Header: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <div className="flex justify-between h-16 p-2 border-b bg-secondary border-b-secondary-dark drop-shadow-md">
       <Link href="/">
@@ -14,5 +14,3 @@ const Header: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     </div>
   );
 };
-
-export default Header;

@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
   allowed?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirect,
   allowed,
   children,
@@ -22,5 +22,3 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }, [needToRedirect]);
   return <>{children}</>;
 };
-
-export default ProtectedRoute;

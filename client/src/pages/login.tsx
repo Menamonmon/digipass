@@ -1,10 +1,9 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
-import Layout from "../components/Layout/Layout";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
-import ProtectedRoute from "../components/Layout/ProtectedRoute";
+import { ProtectedRoute, Layout } from "../components/Layout";
 
 const LoginPage: NextPage<{}> = () => {
   const { isAuthenticated } = useAuth();

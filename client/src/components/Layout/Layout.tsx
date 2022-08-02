@@ -3,9 +3,9 @@ import useAuth from "../../hooks/useAuth";
 import LogoutButton from "../Auth/LogoutButton";
 import LogInButton from "../Navbar/LogInButton";
 import { UserProfileMenu } from "../UserProfileMenu";
-import Header from "./Header";
+import { Header } from "./Header";
 
-const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { authStatus } = useAuth();
   return (
     <div className="">
@@ -25,5 +25,3 @@ const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     </div>
   );
 };
-
-export default Layout;
