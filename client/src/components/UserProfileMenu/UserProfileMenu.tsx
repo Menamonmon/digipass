@@ -4,7 +4,6 @@ import useAuth from "../../hooks/useAuth";
 
 export const UserProfileMenu: React.FC = () => {
   const { userProfile } = useAuth();
-  console.log(userProfile);
   return (
     <div className="flex justify-between gap-2">
       {userProfile?.pictureUrl && (
