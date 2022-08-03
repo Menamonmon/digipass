@@ -8,7 +8,7 @@ import { Header } from "./Header";
 export const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { authStatus } = useAuth();
   return (
-    <div className="">
+    <div className="max-w-5xl mx-auto">
       <Header>
         {authStatus === "not_authenticated" ? (
           <div className="flex gap-2">
