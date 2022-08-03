@@ -19,3 +19,7 @@ export const retrievePersistedState = (
     return JSON.parse(rawState);
   }
 };
+
+export const clearPersistedState = (key: string) => {
+  store?.removeItem(key);
+};

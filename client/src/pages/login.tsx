@@ -3,7 +3,7 @@ import Head from "next/head";
 import React from "react";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
-import { ProtectedRoute, Layout } from "../components/Layout";
+import { ProtectedRoute } from "../components/Layout";
 
 const LoginPage: NextPage<{}> = () => {
   const { isAuthenticated } = useAuth();
