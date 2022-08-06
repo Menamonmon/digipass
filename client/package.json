@@ -14,6 +14,7 @@
     "prebuild": "npm run fetch-schema-prod && npm run relay"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "~0.2.1",
     "clsx": "^1.1.1",
     "daisyui": "^2.17.0",
     "gapi-script": "^1.2.0",
@@ -22,8 +23,8 @@
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
     "react-icons": "^4.3.1",
-    "@tailwindcss/line-clamp": "~0.2.1",
     "react-relay": "^14.0.0",
+    "react-toastify": "^9.0.7",
     "react-use-websocket": "^4.2.0",
     "relay-runtime": "^14.0.0"
   },
