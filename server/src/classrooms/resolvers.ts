@@ -50,6 +50,26 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
+  @Mutation(() => Classroom, { nullable: true })
+  async unarchiveClassroom(
+    @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
+    @Arg("classroomId") classroomId: string
+  ): Promise<Classroom | null> {
+    const { id: teacherId } = user;
+    return await prisma.classroom.update({
+      where: {
+        id_teacherId: {
+          id: classroomId,
+          teacherId,
+        },
+      },
+      data: {
+        archived: false,
+      },
+    });
+  }
+
+  @Authorized("teacher")
   @Mutation(() => StudentsOnClassrooms, { nullable: true })
   async addStudentToClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
@@ -126,7 +146,7 @@ class ClassroomsResolvers {
   ): Promise<Classroom[] | null> {
     const { id: teacherId } = user;
     const classrooms = await prisma.classroom.findMany({
-      where: { teacherId, archived: false },
+      where: { teacherId },
     });
     return classrooms;
   }
