@@ -1,8 +1,17 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import React from "react";
+import { DetailedClassroomsList } from "../../../components/Classrooms/DetailedClassroomsList";
 
-const Page: NextPage<{}> = () => {
-  return <div>Page</div>;
+const ClassroomsPage: NextPage<{}> = () => {
+  return (
+    <>
+      <Head>
+        <title>My Classrooms</title>
+      </Head>
+      <DetailedClassroomsList />
+    </>
+  );
 };
 
-export default Page;
+export default ClassroomsPage;
