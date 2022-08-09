@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useCallback } from "react";
+import { FcRefresh } from "react-icons/fc";
 import { HiClock, HiLockClosed, HiLockOpen } from "react-icons/hi";
 import { MdContentCopy, MdEdit } from "react-icons/md";
 import { useMutation } from "react-relay";
@@ -18,6 +19,7 @@ interface DetailedClassroomProps {
   startMinute: number;
   endHour: number;
   endMinute: number;
+  refresh: () => void;
 }
 
 export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
@@ -31,6 +33,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
   endHour,
   startMinute,
   endMinute,
+  refresh,
 }) => {
   const [commitClassArchive, isArchivingClass] =
     useMutation<ArchiveClassroomMutationType>(ArchiveClassroomMutation);
@@ -39,6 +42,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
       variables: { classroomId: id },
       onCompleted(response, errors) {
         if (response.archiveClassroom) {
+          refresh();
           toast("Successfully archived class", {
             autoClose: 1000,
             type: "success",
@@ -75,7 +79,10 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
   }/${createdAtDate.getDate()}/${createdAtDate.getFullYear()}`;
 
   return (
-    <div className="p-3 rounded-lg h-50 w-96 bg-secondary">
+    <div
+      className="p-3 rounded-lg w-96 bg-secondary"
+      style={{ minHeight: "190px" }}
+    >
       <div className="flex items-center justify-between text-primary">
         <div className="flex items-center justify-center gap-2">
           <Link href={`/teacher/classrooms/${id}`}>
@@ -88,6 +95,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
             className="flex justify-center text-2xl btn btn-circle btn-sm tooltip"
             onClick={archive}
             data-tip="Archive class"
+            disabled={isArchivingClass}
           >
             <HiLockOpen />
           </button>
@@ -97,7 +105,12 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
           </div>
         )}
       </div>
-      <p className="text-gray-800 line-clamp-4">{description}</p>
+      <p className="text-gray-800 line-clamp-4">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores sint
+        et cupiditate quam, nihil magni debitis, placeat cum tempore quae
+        necessitatibus nisi labore ad enim porro autem obcaecati assumenda
+        numquam?
+      </p>
       {/* Footer */}
       <div className="flex justify-between mt-2">
         <div className="inline-flex items-center gap-2">
@@ -112,20 +125,22 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
             {endHour}:{endMinute}
           </div>
         </div>
-        <div className="flex gap-2">
-          <Link href={`/teacher/classrooms/${id}/edit`}>
-            <button className="text-xl btn btn-circle btn-sm">
-              <MdEdit />
+        {!archived && (
+          <div className="flex gap-2">
+            <Link href={`/teacher/classrooms/${id}/edit`}>
+              <button className="text-xl btn btn-circle btn-sm">
+                <MdEdit />
+              </button>
+            </Link>
+            <button
+              className="flex items-center text-xl btn btn-circle btn-sm tooltip"
+              data-tip="Copy class code"
+              onClick={copyClassCodeToClipboard}
+            >
+              <MdContentCopy />
             </button>
-          </Link>
-          <button
-            className="flex items-center text-xl btn btn-circle btn-sm tooltip"
-            data-tip="Copy class code"
-            onClick={copyClassCodeToClipboard}
-          >
-            <MdContentCopy />
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import React from "react";
+import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { TeacherClassroomsQuery } from "../../graphql/queries/TeacherClassroomsQuery";
 import { TeacherClassroomsQuery as TeacherClassroomsQueryType } from "../../graphql/queries/__generated__/TeacherClassroomsQuery.graphql";
@@ -10,9 +11,14 @@ export const DetailedClassroomsList: React.FC<{}> = () => {
   const isTeacher =
     authStatus === "new_teacher" || authStatus === "old_teacher";
 
+  const [classroomsFetchId, setClassroomsFetchId] = useState<string>(uuidv4());
+  const refetchClassrooms = () => {
+    setClassroomsFetchId(uuidv4());
+  };
   const { teacherClassrooms } = useLazyLoadQuery<TeacherClassroomsQueryType>(
     TeacherClassroomsQuery,
-    {}
+    {},
+    { fetchKey: classroomsFetchId, fetchPolicy: "store-and-network" }
   );
 
   return (
@@ -24,11 +30,11 @@ export const DetailedClassroomsList: React.FC<{}> = () => {
             on the plus sign at the bottom right corner of this page.
           </div>
         ) : (
-          <div className="my-5">
+          <div className="px-10 my-5">
             <h1 className="my-5">Your Classrooms</h1>
-            <div className="flex flex-wrap justify-center gap-5">
+            <div className="flex flex-wrap gap-5">
               {teacherClassrooms?.map((classroom) => (
-                <DetailedClassroom {...classroom} />
+                <DetailedClassroom {...classroom} refresh={refetchClassrooms} />
               ))}
             </div>
           </div>
