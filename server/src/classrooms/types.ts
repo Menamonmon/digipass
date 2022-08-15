@@ -1,7 +1,7 @@
 import { Max, Min } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 import {
-  Classroom,
+  Classroom as ShallowClassroom,
   ClassroomUpdateInput,
   Pass,
   Student,
@@ -47,13 +47,13 @@ export class FullStudent extends Student {
   passes: Pass[];
 }
 
-@ObjectType()
-export class FullClassroom extends Classroom {
+@ObjectType({})
+export class FullClassroom extends ShallowClassroom {
   @Field((type) => [Pass])
-  passes: Pass[];
+  passes?: Pass[];
 
   @Field((type) => [FullStudent])
-  students: FullStudent[];
+  students?: FullStudent[];
 }
 
 @ObjectType()
