@@ -33,8 +33,12 @@ export const DetailedClassroomsList: React.FC<{}> = () => {
           <div className="px-10 my-5">
             <h1 className="my-5">Your Classrooms</h1>
             <div className="flex flex-wrap gap-5">
-              {teacherClassrooms?.map((classroom) => (
-                <DetailedClassroom {...classroom} refresh={refetchClassrooms} />
+              {teacherClassrooms?.map((classroom, idx) => (
+                <DetailedClassroom
+                  {...classroom}
+                  refresh={refetchClassrooms}
+                  key={idx}
+                />
               ))}
             </div>
           </div>
