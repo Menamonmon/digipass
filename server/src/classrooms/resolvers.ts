@@ -5,7 +5,11 @@ import {
   StudentsOnClassrooms,
 } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
-import { LimitedClassroom, TeacherClassroomUpdateInput } from "./types";
+import {
+  FullClassroom,
+  LimitedClassroom,
+  TeacherClassroomUpdateInput,
+} from "./types";
 
 @Resolver()
 class ClassroomsResolvers {
@@ -119,11 +123,11 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
-  @Query(() => Classroom, { nullable: true })
+  @Query(() => FullClassroom, { nullable: true })
   async teacherClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string
-  ): Promise<Classroom | null> {
+  ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
     const classroom = await prisma.classroom.findUnique({
       where: {
@@ -132,9 +136,24 @@ class ClassroomsResolvers {
           id: classroomId,
         },
       },
+      include: {
+        passes: true,
+        studentToClassroomMappings: {
+          select: {
+            student: { include: { userProfile: true, passes: true } },
+          },
+        },
+      },
     });
+
     if (classroom && !classroom.archived) {
-      return classroom;
+      return {
+        ...classroom,
+        students: classroom.studentToClassroomMappings.map(
+          (mapping) => mapping.student
+        ),
+        studentToClassroomMappings: null,
+      };
     }
     return null;
   }
@@ -178,7 +197,7 @@ class ClassroomsResolvers {
     const classrooms = await prisma.classroom.findMany({
       where: {
         archived: false,
-        students: {
+        studentToClassroomMappings: {
           some: {
             studentId,
           },
