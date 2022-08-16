@@ -1,3 +1,4 @@
+import { update } from "lodash";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   CreateOneClassroomResolver,
@@ -21,15 +22,28 @@ class ClassroomsResolvers {
     data: TeacherClassroomUpdateInput
   ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
-    const updatedClassrooms = await prisma.classroom.updateMany({
+    const existingClassroom = await prisma.classroom.findUnique({
       where: {
-        id: classroomId,
-        teacherId,
-        archived: false,
+        id_teacherId: {
+          teacherId,
+          id: classroomId,
+        },
       },
-      data,
     });
-    return updatedClassrooms[0];
+    if (!existingClassroom.archived) {
+      const updatedClassrooms = await prisma.classroom.update({
+        where: {
+          id_teacherId: {
+            teacherId,
+            id: classroomId,
+          },
+        },
+        data,
+      });
+      return updatedClassrooms;
+    } else {
+      return null;
+    }
   }
 
   @Authorized("teacher")
