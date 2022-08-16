@@ -26,7 +26,7 @@ const updateClassroomMutation = graphql`
     $classroomId: String!
   ) {
     updateClassroom(data: $data, classroomId: $classroomId) {
-      ...ClassroomInfoTab_teacherClassroom
+      id
     }
   }
 `;
@@ -50,9 +50,13 @@ export const ClassroomInfoTab: React.FC<ClassroomTabInfoProps> = ({
         classroomId: data.id,
         data: { [name]: newValue },
       },
-      updater: (store) => {
-        const existing = store.get(data.id);
-        existing?.setValue(newValue, name);
+      updater: (store, data) => {
+        const { updateClassroom } = data;
+
+        if (updateClassroom) {
+          const existing = store.get(updateClassroom.id);
+          existing?.setValue(newValue, name);
+        }
       },
     });
   };
