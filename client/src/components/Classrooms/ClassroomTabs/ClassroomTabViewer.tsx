@@ -48,7 +48,12 @@ export const ClassroomTabViewer: React.FC<ClassroomTabViewerProps> = ({
   return (
     <>
       <Head>
-        <title>Classroom | {activeTab === "classroom-info" ? "General Info" : capitalize(activeTab)}</title>
+        <title>
+          Classroom |{" "}
+          {activeTab === "classroom-info"
+            ? "General Info"
+            : capitalize(activeTab)}
+        </title>
       </Head>
       <div>
         <Tabs
