@@ -1,8 +1,11 @@
 import { NextPage } from "next";
 import React from "react";
+import { ClassroomTabPageWrapper } from "../../../../components/Classrooms/ClassroomTabs";
 
-const Page: NextPage<{}> = () => {
-  return <div>Page</div>;
+interface ClassroomStudentsPageProps {}
+
+const ClassroomStudentsPage: NextPage<ClassroomStudentsPageProps> = () => {
+  return <ClassroomTabPageWrapper tabName="students" />;
 };
 
-export default Page;
+export default ClassroomStudentsPage;
