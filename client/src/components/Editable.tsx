@@ -1,3 +1,4 @@
+import { Input } from "@mui/material";
 import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ interface EditableProps {
   disabled: boolean;
   required?: boolean;
   className?: string;
+  inputComponent?: React.ElementType;
 }
 
 export const Editable: React.FC<EditableProps> = ({
@@ -19,6 +21,7 @@ export const Editable: React.FC<EditableProps> = ({
   disabled,
   className,
   required,
+  inputComponent: InputComponent = "input",
 }) => {
   const [inFocus, setInFocus] = useState(false);
   const [value, setValue] = useState("");
@@ -65,12 +68,13 @@ export const Editable: React.FC<EditableProps> = ({
 
   return inFocus ? (
     <form onSubmit={handleSubmit} className={clsx("flex", className)}>
-      <input
+      <InputComponent
         disabled={disabled}
         ref={inputRef}
         className={clsx(className, "bg-inherit caret")}
         value={value}
         onChange={handleChange}
+        onClick={handleInsideClick}
         autoFocus
       />
     </form>

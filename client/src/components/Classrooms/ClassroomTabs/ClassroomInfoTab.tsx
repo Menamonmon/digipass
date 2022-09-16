@@ -69,8 +69,18 @@ export const ClassroomInfoTab: React.FC<ClassroomTabInfoProps> = ({
         onUpdate={handleUpdate}
         required
       >
-        {data.title || "NULL"}
+        {data.title}
       </Editable>
+      <div>
+        <Editable
+          disabled={isUpdating}
+          onUpdate={handleUpdate}
+          name="description"
+          inputComponent="textarea"
+        >
+          {data.description ?? "No description provided"}
+        </Editable>
+      </div>
     </div>
   );
 };
