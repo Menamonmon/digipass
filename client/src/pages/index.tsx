@@ -8,6 +8,9 @@ const Home: NextPage = () => {
       <Head>
         <title>Welcome to digipass!</title>
       </Head>
+      <div>
+        <a href="teacher/classrooms">Classrooms</a>
+      </div>
     </>
   );
 };

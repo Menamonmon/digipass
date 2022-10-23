@@ -1,40 +1,57 @@
+import { update } from "lodash";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
-  Classroom,
   CreateOneClassroomResolver,
   StudentsOnClassrooms,
 } from "../../prisma/generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
-import { LimitedClassroom, TeacherClassroomUpdateInput } from "./types";
+import {
+  FullClassroom,
+  LimitedClassroom,
+  TeacherClassroomUpdateInput,
+} from "./types";
 
 @Resolver()
 class ClassroomsResolvers {
   @Authorized("teacher")
-  @Mutation(() => Classroom, { nullable: true })
+  @Mutation(() => FullClassroom, { nullable: true })
   async updateClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string,
     @Arg("data")
     data: TeacherClassroomUpdateInput
-  ): Promise<Classroom | null> {
+  ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
-    const updatedClassrooms = await prisma.classroom.updateMany({
+    const existingClassroom = await prisma.classroom.findUnique({
       where: {
-        id: classroomId,
-        teacherId,
-        archived: false,
+        id_teacherId: {
+          teacherId,
+          id: classroomId,
+        },
       },
-      data,
     });
-    return updatedClassrooms[0];
+    if (!existingClassroom.archived) {
+      const updatedClassrooms = await prisma.classroom.update({
+        where: {
+          id_teacherId: {
+            teacherId,
+            id: classroomId,
+          },
+        },
+        data,
+      });
+      return updatedClassrooms;
+    } else {
+      return null;
+    }
   }
 
   @Authorized("teacher")
-  @Mutation(() => Classroom, { nullable: true })
+  @Mutation(() => FullClassroom, { nullable: true })
   async archiveClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string
-  ): Promise<Classroom | null> {
+  ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
     return await prisma.classroom.update({
       where: {
@@ -50,11 +67,11 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
-  @Mutation(() => Classroom, { nullable: true })
+  @Mutation(() => FullClassroom, { nullable: true })
   async unarchiveClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string
-  ): Promise<Classroom | null> {
+  ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
     return await prisma.classroom.update({
       where: {
@@ -119,11 +136,11 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
-  @Query(() => Classroom, { nullable: true })
+  @Query(() => FullClassroom, { nullable: true })
   async teacherClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string
-  ): Promise<Classroom | null> {
+  ): Promise<FullClassroom | null> {
     const { id: teacherId } = user;
     const classroom = await prisma.classroom.findUnique({
       where: {
@@ -132,18 +149,33 @@ class ClassroomsResolvers {
           id: classroomId,
         },
       },
+      include: {
+        passes: true,
+        studentToClassroomMappings: {
+          select: {
+            student: { include: { userProfile: true, passes: true } },
+          },
+        },
+      },
     });
+
     if (classroom && !classroom.archived) {
-      return classroom;
+      return {
+        ...classroom,
+        students: classroom.studentToClassroomMappings.map(
+          (mapping) => mapping.student
+        ),
+        studentToClassroomMappings: null,
+      };
     }
     return null;
   }
 
   @Authorized("teacher")
-  @Query(() => [Classroom], { nullable: true })
+  @Query(() => [FullClassroom], { nullable: true })
   async teacherClassrooms(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext
-  ): Promise<Classroom[] | null> {
+  ): Promise<FullClassroom[] | null> {
     const { id: teacherId } = user;
     const classrooms = await prisma.classroom.findMany({
       where: { teacherId },
@@ -170,15 +202,15 @@ class ClassroomsResolvers {
   }
 
   @Authorized("student")
-  @Query(() => [Classroom], { nullable: true })
+  @Query(() => [FullClassroom], { nullable: true })
   async studentClassrooms(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext
-  ): Promise<Classroom[] | null> {
+  ): Promise<FullClassroom[] | null> {
     const { id: studentId } = user;
     const classrooms = await prisma.classroom.findMany({
       where: {
         archived: false,
-        students: {
+        studentToClassroomMappings: {
           some: {
             studentId,
           },

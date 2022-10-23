@@ -29,11 +29,11 @@ model User {
 }
 
 model Student {
-    studentId   String                 @db.VarChar(6)
-    passesUsed  Int                    @default(0)
-    ipAddresses IPAddress[]
-    passes      Pass[]
-    classrooms  StudentsOnClassrooms[]
+    studentId        String                 @db.VarChar(6)
+    passesUsed       Int                    @default(0)
+    ipAddresses      IPAddress[]
+    passes           Pass[]
+    classroomMapping StudentsOnClassrooms[]
 
     id          String @id
     userProfile User   @relation(fields: [id], references: [id])
@@ -77,8 +77,8 @@ model Classroom {
     teacherId String
     teacher   Teacher @relation(fields: [teacherId], references: [id])
 
-    passes   Pass[]
-    students StudentsOnClassrooms[]
+    passes                     Pass[]
+    studentToClassroomMappings StudentsOnClassrooms[]
 
     @@unique([id, teacherId])
     @@index([id, teacherId, archived])

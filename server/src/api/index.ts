@@ -19,7 +19,7 @@ export default async (app: Express) => {
 
   const schema = await buildSchema({
     resolvers: [, ...authResolvers, ...classroomsResolvers, ...passesResolvers],
-    validate: false,
+    validate: true,
     authChecker,
   });
   const apolloServer = new ApolloServer({

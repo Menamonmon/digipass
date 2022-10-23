@@ -7,6 +7,7 @@ import { useMutation } from "react-relay";
 import { toast } from "react-toastify";
 import { ArchiveClassroomMutation } from "../../graphql/mutations/ArchiveClassroomMutation";
 import { ArchiveClassroomMutation as ArchiveClassroomMutationType } from "../../graphql/mutations/__generated__/ArchiveClassroomMutation.graphql";
+import CopyButton from "../Utils/CopyButton";
 
 interface DetailedClassroomProps {
   id: string;
@@ -61,17 +62,6 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
       },
     });
   };
-
-  const notifyOfSuccessfulCopy = () =>
-    toast("Copied", {
-      autoClose: 500,
-      type: "success",
-      pauseOnFocusLoss: false,
-      pauseOnHover: false,
-    });
-  const copyClassCodeToClipboard = useCallback(async () => {
-    navigator.clipboard.writeText(classCode).then(notifyOfSuccessfulCopy);
-  }, [classCode]);
 
   const createdAtDate = new Date(createdAt);
   const formattedCreatedAtDate = `${
@@ -132,13 +122,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
                 <MdEdit />
               </button>
             </Link>
-            <button
-              className="flex items-center text-xl btn btn-circle btn-sm tooltip"
-              data-tip="Copy class code"
-              onClick={copyClassCodeToClipboard}
-            >
-              <MdContentCopy />
-            </button>
+            <CopyButton value={classCode} />
           </div>
         )}
       </div>
