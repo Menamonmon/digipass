@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { parse } from "node:path/win32";
 import React, {
   KeyboardEventHandler,
   useEffect,
@@ -16,6 +17,8 @@ interface EditableProps {
   required?: boolean;
   className?: string;
   inputComponent?: React.ElementType;
+  isValid?: (value: string | number) => boolean;
+  type?: "string" | "int" | "float";
 }
 
 export const Editable: React.FC<EditableProps> = ({
@@ -26,13 +29,15 @@ export const Editable: React.FC<EditableProps> = ({
   className,
   required,
   inputComponent: InputComponent = "input",
+  isValid = () => true,
+  type = "string",
 }) => {
   const [inFocus, setInFocus] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string | number>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isValid = () => {
-    return required ? value !== "" : true;
+  const isNotEmpty = (value: string | number) => {
+    return required ? value.toString() !== "" : true;
   };
 
   const handleOutsideClick = () => {
@@ -45,17 +50,27 @@ export const Editable: React.FC<EditableProps> = ({
 
   const handleSubmit: React.FormEventHandler = (e) => {
     e?.preventDefault();
-    if (isValid()) {
+    if (isNotEmpty(value) && isValid(value)) {
       onUpdate(value, name);
       setInFocus(false);
     } else {
-      toast("Field required", { type: "error" });
+      toast("Invalid input or you can't leave the field empty", {
+        type: "error",
+      });
     }
     return false;
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.target.value);
+    const value = e.target.value;
+    let parsedValue =
+      type === "float"
+        ? parseFloat(value)
+        : type === "int"
+        ? parseInt(value)
+        : value;
+    if (Number.isNaN(parsedValue)) parsedValue = "";
+    setValue(parsedValue);
   };
 
   const handleControlEnterPress: KeyboardEventHandler = (e) => {

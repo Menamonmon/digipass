@@ -76,7 +76,8 @@ export const ClassroomTabViewer: React.FC<ClassroomTabViewerProps> = ({
           )
         ) : (
           <div>
-            Error in fetching the classroom info. Please try again later.
+            Error in fetching the classroom info. Please try again later and
+            make sure you're viewing an unarchived classroom.
           </div>
         )}
       </div>
