@@ -83,7 +83,7 @@ export const Editable: React.FC<EditableProps> = ({
   return inFocus ? (
     <div
       className={InputComponent === "textarea" ? "tooltip tooltip-open" : ""}
-      data-tip="Save: ⌘ + Enter (Mac) or Ctrl + Enter"
+      data-tip="Save: ⌘ + Enter (Mac) or Ctrl + Enter (Win.)"
     >
       <form onSubmit={handleSubmit} className={clsx("flex", className)}>
         <InputComponent
