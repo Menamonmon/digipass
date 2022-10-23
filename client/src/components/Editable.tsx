@@ -1,6 +1,10 @@
-import { Input } from "@mui/material";
 import clsx from "clsx";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
@@ -40,7 +44,7 @@ export const Editable: React.FC<EditableProps> = ({
   };
 
   const handleSubmit: React.FormEventHandler = (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     if (isValid()) {
       onUpdate(value, name);
       setInFocus(false);
@@ -52,6 +56,16 @@ export const Editable: React.FC<EditableProps> = ({
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);
+  };
+
+  const handleControlEnterPress: KeyboardEventHandler = (e) => {
+    if (
+      (e.metaKey || e.ctrlKey) &&
+      e.key === "Enter" &&
+      InputComponent === "textarea"
+    ) {
+      handleSubmit(e);
+    }
   };
 
   useOutsideClick(inputRef, handleOutsideClick);
@@ -67,20 +81,28 @@ export const Editable: React.FC<EditableProps> = ({
   }, [children]);
 
   return inFocus ? (
-    <form onSubmit={handleSubmit} className={clsx("flex", className)}>
-      <InputComponent
-        disabled={disabled}
-        ref={inputRef}
-        className={clsx(className, "bg-inherit caret")}
-        value={value}
-        onChange={handleChange}
-        onClick={handleInsideClick}
-        autoFocus
-      />
-    </form>
-  ) : (
-    <div onClick={handleInsideClick} className={className}>
-      {children}
+    <div
+      className={InputComponent === "textarea" ? "tooltip tooltip-open" : ""}
+      data-tip="Save: ⌘ + Enter (Mac) or Ctrl + Enter"
+    >
+      <form onSubmit={handleSubmit} className={clsx("flex", className)}>
+        <InputComponent
+          disabled={disabled}
+          ref={inputRef}
+          className={clsx(className, "bg-inherit caret whitespace-pre-wrap")}
+          value={value}
+          onChange={handleChange}
+          onClick={handleInsideClick}
+          onKeyDown={handleControlEnterPress}
+          autoFocus
+        />
+      </form>
     </div>
+  ) : (
+    <div
+      onClick={handleInsideClick}
+      className={className}
+      dangerouslySetInnerHTML={{ __html: children }}
+    />
   );
 };

@@ -60,6 +60,7 @@ export const ClassroomInfoTab: React.FC<ClassroomTabInfoProps> = ({
       },
     });
   };
+
   return (
     <div>
       <Editable
