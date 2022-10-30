@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import React, { useState } from "react";
 import { useMutation } from "react-relay";
+import { toast } from "react-toastify";
 import { graphql } from "relay-runtime";
 import { hourValidator, minuteValidator } from "../../utils";
 import InputField from "../Utils/InputField";
@@ -38,21 +40,40 @@ const AddClassroomForm: React.FC = () => {
   const [addClassroom, addingClassroom] =
     useMutation<AddClassroomFormMutation>(addClassroomMutation);
 
+  const isClassroomValid = (classroom: ClassroomCreateInput) => {
+    const { title, startMinute, endMinute, startHour, endHour } = classroom;
+    return (
+      minuteValidator(endMinute) &&
+      minuteValidator(startMinute) &&
+      hourValidator(startHour) &&
+      hourValidator(endHour) &&
+      title.length !== 0
+    );
+  };
+
   const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault();
-    addClassroom({
-      variables: { data: classroom },
-    });
+    if (isClassroomValid(classroom)) {
+      addClassroom({
+        variables: { data: classroom },
+      });
+    } else {
+      toast("Please check the classroom fields before submitting!", {
+        type: "error",
+      });
+    }
     return false;
   };
+
+  const commonInputClasses = "ring rounded-lg";
   return (
     <div className="flex flex-col gap-5 my-5">
       <h5>Create a Classroom</h5>
       <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
-        <div className="flex">
+        <div className="flex gap-5">
           <h4>Title:</h4>
           <InputField
-            className="h4"
+            className={clsx("h4", commonInputClasses)}
             name="title"
             disabled={addingClassroom}
             onUpdate={handleUpdate}
@@ -63,7 +84,7 @@ const AddClassroomForm: React.FC = () => {
         <div className="flex gap-2">
           <p>Description:</p>
           <InputField
-            className="max-w-xs min-h-16"
+            className={clsx("max-w-xs min-h-16", commonInputClasses)}
             name="description"
             disabled={addingClassroom}
             onUpdate={handleUpdate}
@@ -74,9 +95,9 @@ const AddClassroomForm: React.FC = () => {
         <div className="flex justify-between w-1/2">
           <div className="flex gap-2">
             <p>Start Time:</p>
-            <div className="flex">
+            <div className="flex gap-2">
               <InputField
-                className="w-5"
+                className={clsx("w-5", commonInputClasses)}
                 name="startHour"
                 disabled={addingClassroom}
                 onUpdate={handleUpdate}
@@ -86,7 +107,7 @@ const AddClassroomForm: React.FC = () => {
                 required
               />
               <InputField
-                className="w-5"
+                className={clsx("w-5", commonInputClasses)}
                 name="startMinute"
                 disabled={addingClassroom}
                 onUpdate={handleUpdate}
@@ -99,9 +120,9 @@ const AddClassroomForm: React.FC = () => {
           </div>
           <div className="flex gap-2">
             <p>End Time:</p>
-            <div className="flex">
+            <div className="flex gap-2">
               <InputField
-                className="w-5"
+                className={clsx("w-5", commonInputClasses)}
                 name="endHour"
                 disabled={addingClassroom}
                 onUpdate={handleUpdate}
@@ -111,7 +132,7 @@ const AddClassroomForm: React.FC = () => {
                 required
               />
               <InputField
-                className="w-5"
+                className={clsx("w-5", commonInputClasses)}
                 name="endMinute"
                 disabled={addingClassroom}
                 onUpdate={handleUpdate}
@@ -123,6 +144,9 @@ const AddClassroomForm: React.FC = () => {
             </div>
           </div>
         </div>
+        <button className="btn" disabled={!isClassroomValid(classroom)}>
+          Submit
+        </button>
       </form>
     </div>
   );
