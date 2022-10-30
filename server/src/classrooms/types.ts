@@ -2,10 +2,8 @@ import { Max, Min } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 import {
   Classroom as ShallowClassroom,
-  ClassroomUpdateInput,
   Pass,
   Student,
-  StudentsOnClassrooms,
   User,
 } from "../../prisma/generated/type-graphql";
 
