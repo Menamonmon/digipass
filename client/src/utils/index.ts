@@ -11,3 +11,11 @@ export const rangeValidator = (
     return false;
   }
 };
+
+export const minuteValidator = (value: string | number) => {
+  return rangeValidator(value, 0, 59);
+};
+
+export const hourValidator = (value: string | number) => {
+  return rangeValidator(value, 0, 24);
+};

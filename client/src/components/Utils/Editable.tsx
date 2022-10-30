@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import { useOutsideClick } from "../hooks/useOutsideClick";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 interface EditableProps {
   name: string;

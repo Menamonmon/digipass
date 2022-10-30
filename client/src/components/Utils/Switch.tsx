@@ -7,10 +7,12 @@ interface SwitchProps {
   activeIcon: React.ReactElement;
   inactiveIcon: React.ReactElement;
   switchCallback: () => void;
+  disabled?: boolean;
 }
 
 const Switch: React.FC<SwitchProps> = ({
   value,
+  disabled,
   activeIcon,
   inactiveIcon,
   switchCallback,
@@ -18,6 +20,7 @@ const Switch: React.FC<SwitchProps> = ({
   return (
     <button
       className="flex items-center text-xl btn btn-circle btn-sm"
+      disabled={disabled}
       onClick={switchCallback}
     >
       {value ? activeIcon : inactiveIcon}
