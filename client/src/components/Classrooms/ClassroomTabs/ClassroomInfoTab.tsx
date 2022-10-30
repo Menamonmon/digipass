@@ -2,8 +2,8 @@ import React from "react";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
 import { useFragment, useMutation } from "react-relay";
 import { graphql } from "relay-runtime";
-import { rangeValidator } from "../../../utils";
-import { Editable } from "../../Editable";
+import { hourValidator, minuteValidator } from "../../../utils";
+import { Editable } from "../../Utils/Editable";
 import CopyButton from "../../Utils/CopyButton";
 import Switch from "../../Utils/Switch";
 import { ClassroomInfoTab_teacherClassroom$key } from "./__generated__/ClassroomInfoTab_teacherClassroom.graphql";
@@ -12,7 +12,6 @@ import { ClassroomInfoTab_updateClassroomMutation } from "./__generated__/Classr
 import { ArchiveClassroomMutation } from "../../../graphql/mutations/ArchiveClassroomMutation";
 import { ArchiveClassroomMutation as ArchiveClassroomMutationType } from "../../../graphql/mutations/__generated__/ArchiveClassroomMutation.graphql";
 import { toast } from "react-toastify";
-import { PopperUnstyled } from "@mui/base";
 import { useRouter } from "next/router";
 
 const classroomInfoFragment = graphql`
@@ -99,14 +98,6 @@ export const ClassroomInfoTab: React.FC<ClassroomTabInfoProps> = ({
     });
   };
 
-  const minuteValidator = (value: string | number) => {
-    return rangeValidator(value, 0, 59);
-  };
-
-  const hourValidator = (value: string | number) => {
-    return rangeValidator(value, 0, 24);
-  };
-
   return (
     <div className="flex flex-col gap-5 my-5">
       <div className="flex justify-between">
@@ -132,6 +123,7 @@ export const ClassroomInfoTab: React.FC<ClassroomTabInfoProps> = ({
             value={!data.archived}
             activeIcon={<HiLockOpen />}
             inactiveIcon={<HiLockClosed />}
+            disabled={isArchivingClass}
             switchCallback={() => {
               archive();
               router.reload();
