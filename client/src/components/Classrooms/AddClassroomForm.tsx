@@ -11,7 +11,7 @@ import {
   ClassroomCreateInput,
   AddClassroomFormMutation,
 } from "./__generated__/AddClassroomFormMutation.graphql";
-import { IoChevronBack } from "react-icons/all";
+import { IoChevronBack } from "react-icons/io5";
 
 const addClassroomMutation = graphql`
   mutation AddClassroomFormMutation($data: ClassroomCreateInput!) {
