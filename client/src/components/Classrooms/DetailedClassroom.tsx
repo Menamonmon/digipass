@@ -1,8 +1,7 @@
 import Link from "next/link";
-import React, { useCallback } from "react";
-import { FcRefresh } from "react-icons/fc";
+import React from "react";
 import { HiClock, HiLockClosed, HiLockOpen } from "react-icons/hi";
-import { MdContentCopy, MdEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { useMutation } from "react-relay";
 import { toast } from "react-toastify";
 import { ArchiveClassroomMutation } from "../../graphql/mutations/ArchiveClassroomMutation";
