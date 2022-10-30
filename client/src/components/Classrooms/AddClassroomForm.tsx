@@ -1,14 +1,17 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-relay";
 import { toast } from "react-toastify";
 import { graphql } from "relay-runtime";
+import useAuth from "../../hooks/useAuth";
 import { hourValidator, minuteValidator } from "../../utils";
 import InputField from "../Utils/InputField";
 import {
   ClassroomCreateInput,
   AddClassroomFormMutation,
 } from "./__generated__/AddClassroomFormMutation.graphql";
+import { IoChevronBack } from "react-icons/all";
 
 const addClassroomMutation = graphql`
   mutation AddClassroomFormMutation($data: ClassroomCreateInput!) {
@@ -34,21 +37,39 @@ const initialClassroom: ClassroomCreateInput = {
 const AddClassroomForm: React.FC = () => {
   const [classroom, setClassroom] =
     useState<NonNullable<ClassroomCreateInput>>(initialClassroom);
-  const handleUpdate = (value: string | number, fieldName: string) => {
-    setClassroom((prev) => ({ ...prev, [fieldName]: value }));
-  };
   const [addClassroom, addingClassroom] =
     useMutation<AddClassroomFormMutation>(addClassroomMutation);
+  const router = useRouter();
+
+  const { userProfile } = useAuth();
 
   const isClassroomValid = (classroom: ClassroomCreateInput) => {
-    const { title, startMinute, endMinute, startHour, endHour } = classroom;
+    const {
+      title,
+      startMinute,
+      endMinute,
+      startHour,
+      endHour,
+      teacher: { connect },
+    } = classroom;
     return (
       minuteValidator(endMinute) &&
       minuteValidator(startMinute) &&
       hourValidator(startHour) &&
       hourValidator(endHour) &&
-      title.length !== 0
+      title.length !== 0 &&
+      userProfile !== undefined &&
+      userProfile.id &&
+      connect?.id
     );
+  };
+
+  const handleUpdate = (value: string | number, fieldName: string) => {
+    setClassroom((prev) => ({
+      ...prev,
+      [fieldName]: value,
+      teacher: { connect: { id: userProfile?.id || null } },
+    }));
   };
 
   const handleSubmit: React.FormEventHandler = (e) => {
@@ -56,6 +77,30 @@ const AddClassroomForm: React.FC = () => {
     if (isClassroomValid(classroom)) {
       addClassroom({
         variables: { data: classroom },
+        onError(error) {
+          toast("An error has occurred while submitting your classroom.", {
+            type: "error",
+          });
+          console.log(error);
+        },
+        onCompleted(response, errors) {
+          setClassroom(initialClassroom);
+          toast("Classroom added successfully", {
+            type: "success",
+            autoClose: false,
+            closeButton: ({ closeToast, theme, type }) => (
+              <button
+                className="inline-flex items-center justify-center btn btn-sm"
+                onClick={(e) => {
+                  router.push("/teacher/classrooms/");
+                  closeToast(e);
+                }}
+              >
+                <IoChevronBack /> Classrooms
+              </button>
+            ),
+          });
+        },
       });
     } else {
       toast("Please check the classroom fields before submitting!", {
@@ -144,8 +189,11 @@ const AddClassroomForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <button className="btn" disabled={!isClassroomValid(classroom)}>
-          Submit
+        <button
+          className="btn"
+          disabled={!isClassroomValid(classroom) || addingClassroom}
+        >
+          {addingClassroom ? "Creating classroom..." : "Submit"}
         </button>
       </form>
     </div>
