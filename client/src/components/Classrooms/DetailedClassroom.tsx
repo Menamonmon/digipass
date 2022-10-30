@@ -69,7 +69,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
 
   return (
     <div
-      className="p-3 rounded-lg w-96 bg-secondary"
+      className="flex flex-col justify-between p-3 rounded-lg w-96 bg-secondary"
       style={{ minHeight: "190px" }}
     >
       <div className="flex items-center justify-between text-primary">
@@ -95,10 +95,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
         )}
       </div>
       <p className="text-gray-800 line-clamp-4">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores sint
-        et cupiditate quam, nihil magni debitis, placeat cum tempore quae
-        necessitatibus nisi labore ad enim porro autem obcaecati assumenda
-        numquam?
+        {description || "No description"}
       </p>
       {/* Footer */}
       <div className="flex justify-between mt-2">
@@ -116,7 +113,7 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
         </div>
         {!archived && (
           <div className="flex gap-2">
-            <Link href={`/teacher/classrooms/${id}/edit`}>
+            <Link href={`/teacher/classrooms/${id}`}>
               <button className="text-xl btn btn-circle btn-sm">
                 <MdEdit />
               </button>
