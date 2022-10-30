@@ -1,5 +1,6 @@
+import clsx from "clsx";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { HiClock, HiLockClosed, HiLockOpen } from "react-icons/hi";
 import { MdEdit } from "react-icons/md";
 import { useMutation } from "react-relay";
@@ -37,6 +38,8 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
 }) => {
   const [commitClassArchive, isArchivingClass] =
     useMutation<ArchiveClassroomMutationType>(ArchiveClassroomMutation);
+  const [viewingDescription, setViewingDescription] = useState(false);
+
   const archive = () => {
     commitClassArchive({
       variables: { classroomId: id },
@@ -69,8 +72,11 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
 
   return (
     <div
-      className="flex flex-col justify-between p-3 rounded-lg w-96 bg-secondary"
+      className="flex flex-col justify-between p-3 rounded-lg w-96 h-fit bg-secondary"
       style={{ minHeight: "190px" }}
+      onClick={() => {
+        setViewingDescription((prev) => !prev);
+      }}
     >
       <div className="flex items-center justify-between text-primary">
         <div className="flex items-center justify-center gap-2">
@@ -94,7 +100,9 @@ export const DetailedClassroom: React.FC<DetailedClassroomProps> = ({
           </div>
         )}
       </div>
-      <p className="text-gray-800 line-clamp-4">
+      <p
+        className={clsx(!viewingDescription && "line-clamp-4", "text-gray-800")}
+      >
         {description || "No description"}
       </p>
       {/* Footer */}
