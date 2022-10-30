@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import React from "react";
+import AddClassroomForm from "../../../components/Classrooms/AddClassroomForm";
 
-const Page: NextPage<{}> = () => {
-  return <div>Page</div>;
+const AddClassroomPage: NextPage<{}> = () => {
+  return <AddClassroomForm />;
 };
 
-export default Page;
+export default AddClassroomPage;
