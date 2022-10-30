@@ -179,6 +179,7 @@ class ClassroomsResolvers {
     const { id: teacherId } = user;
     const classrooms = await prisma.classroom.findMany({
       where: { teacherId },
+      orderBy: { archived: "asc" },
     });
     return classrooms;
   }
