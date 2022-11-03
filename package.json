@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "@types/sanitize-html": "^2.6.2"
-  },
-  "dependencies": {
-    "sanitize-html": "^2.7.2"
-  }
-}
