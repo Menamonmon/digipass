@@ -1,4 +1,3 @@
-import { update } from "lodash";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   CreateOneClassroomResolver,
@@ -10,6 +9,7 @@ import {
   LimitedClassroom,
   TeacherClassroomUpdateInput,
 } from "./types";
+import { User } from "../../prisma/generated/type-graphql";
 
 @Resolver()
 class ClassroomsResolvers {
@@ -219,6 +219,58 @@ class ClassroomsResolvers {
       },
     });
     return classrooms;
+  }
+
+    @Authorized("teacher")
+  @Query(() => [User])
+  async searchStudents(
+    @Ctx() { prisma }: AuthenticatedGraphQLContext,
+    @Arg("name", { nullable: true }) name: string,
+    @Arg("email", { nullable: true }) email: string
+  ): Promise<User[]> {
+    const searchValidationRegex = /^[A-Za-z.]+$/;
+    if (
+      (!name && !email) ||
+      !searchValidationRegex.test(name) ||
+      !searchValidationRegex.test(email)
+    ) {
+      return [];
+    }
+    const queryOrStatements = [
+      name
+        ? `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."firstName"::text ILIKE '%${name}%' AND "t0"."id" IS NOT NULL))
+	  `
+        : "",
+      name
+        ? `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."lastName"::text ILIKE '%${name}%' AND "t0"."id" IS NOT NULL))`
+        : "",
+      email
+        ? `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."email"::text ILIKE '%${email}%' AND "t0"."id" IS NOT NULL))`
+        : "",
+    ]
+      .filter((value) => value.length !== 0)
+      .join(" OR ");
+
+    const result: User[] = await prisma.$queryRawUnsafe(`
+	SELECT * FROM "public"."Student" 
+	LEFT JOIN "public"."User" AS "orderby_0_User" ON ("public"."Student"."id" = "orderby_0_User"."id") 
+	WHERE (
+		${queryOrStatements}
+	) 
+	ORDER BY "orderby_0_User"."firstName" ASC 
+	;
+	`);
+
+    return result;
   }
 }
 
