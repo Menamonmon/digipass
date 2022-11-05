@@ -221,41 +221,32 @@ class ClassroomsResolvers {
     return classrooms;
   }
 
-    @Authorized("teacher")
+  @Authorized("teacher")
   @Query(() => [User])
   async searchStudents(
     @Ctx() { prisma }: AuthenticatedGraphQLContext,
-    @Arg("name", { nullable: true }) name: string,
-    @Arg("email", { nullable: true }) email: string
+    @Arg("query", { nullable: true }) query: string
   ): Promise<User[]> {
     const searchValidationRegex = /^[A-Za-z.]+$/;
-    if (
-      (!name && !email) ||
-      !searchValidationRegex.test(name) ||
-      !searchValidationRegex.test(email)
-    ) {
+    if (!query || !searchValidationRegex.test(query)) {
       return [];
     }
     const queryOrStatements = [
-      name
-        ? `
+      `
 		("public"."Student"."id") IN 
 			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
-				WHERE ("j0"."firstName"::text ILIKE '%${name}%' AND "t0"."id" IS NOT NULL))
-	  `
-        : "",
-      name
-        ? `
+				WHERE ("j0"."firstName"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+      `
 		("public"."Student"."id") IN 
 			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
-				WHERE ("j0"."lastName"::text ILIKE '%${name}%' AND "t0"."id" IS NOT NULL))`
-        : "",
-      email
-        ? `
+				WHERE ("j0"."lastName"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+      `
 		("public"."Student"."id") IN 
 			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
-				WHERE ("j0"."email"::text ILIKE '%${email}%' AND "t0"."id" IS NOT NULL))`
-        : "",
+				WHERE ("j0"."email"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
     ]
       .filter((value) => value.length !== 0)
       .join(" OR ");
