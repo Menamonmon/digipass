@@ -1,4 +1,3 @@
-import { update } from "lodash";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   CreateOneClassroomResolver,
@@ -8,8 +7,10 @@ import { AuthenticatedGraphQLContext } from "../auth/types";
 import {
   FullClassroom,
   LimitedClassroom,
+  StudentsOnClassroomsWithAssociatedStudent,
   TeacherClassroomUpdateInput,
 } from "./types";
+import { User } from "../../prisma/generated/type-graphql";
 
 @Resolver()
 class ClassroomsResolvers {
@@ -87,12 +88,12 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
-  @Mutation(() => StudentsOnClassrooms, { nullable: true })
+  @Mutation(() => StudentsOnClassroomsWithAssociatedStudent, { nullable: true })
   async addStudentToClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string,
     @Arg("studentId") studentId: string
-  ): Promise<StudentsOnClassrooms | null> {
+  ): Promise<StudentsOnClassroomsWithAssociatedStudent | null> {
     const { id: teacherId } = user;
     return await prisma.studentsOnClassrooms.create({
       data: {
@@ -109,6 +110,14 @@ class ClassroomsResolvers {
         student: {
           connect: {
             id: studentId,
+          },
+        },
+      },
+      include: {
+        student: {
+          include: {
+            userProfile: true,
+            passes: true,
           },
         },
       },
@@ -219,6 +228,49 @@ class ClassroomsResolvers {
       },
     });
     return classrooms;
+  }
+
+  @Authorized("teacher")
+  @Query(() => [User])
+  async searchStudents(
+    @Ctx() { prisma }: AuthenticatedGraphQLContext,
+    @Arg("query", { nullable: true }) query: string
+  ): Promise<User[]> {
+    const searchValidationRegex = /^[A-Za-z.]+$/;
+    if (!query || !searchValidationRegex.test(query)) {
+      return [];
+    }
+    const queryOrStatements = [
+      `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."firstName"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+      `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."lastName"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+      `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."email"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+    ]
+      .filter((value) => value.length !== 0)
+      .join(" OR ");
+
+    const result: User[] = await prisma.$queryRawUnsafe(`
+	SELECT * FROM "public"."Student" 
+	LEFT JOIN "public"."User" AS "orderby_0_User" ON ("public"."Student"."id" = "orderby_0_User"."id") 
+	WHERE (
+		${queryOrStatements}
+	) 
+	ORDER BY "orderby_0_User"."firstName" ASC 
+	;
+	`);
+
+    return result;
   }
 }
 

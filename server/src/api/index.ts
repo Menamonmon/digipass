@@ -8,8 +8,10 @@ import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core/dist/plugin/landingPage/graphqlPlayground";
 import { Express } from "express";
 import prismaLogger from "./prisma-logger";
+import { generateData } from "./createTestData";
 
 export default async (app: Express) => {
+  //   await generateData();
   const prisma = new PrismaClient({
     log: ["query", "info", "warn", "error"],
   });
