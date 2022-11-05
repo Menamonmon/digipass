@@ -35,6 +35,15 @@ const addStudentToClassroomMutation = graphql`
     addStudentToClassroom(studentId: $studentId, classroomId: $classroomId) {
       classroomId
       assignedAt
+      student {
+        userProfile {
+          id
+          firstName
+          lastName
+          email
+          pictureUrl
+        }
+      }
     }
   }
 `;
@@ -81,6 +90,22 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({
     if (selectedStudent?.id && classroomId) {
       addStudent({
         variables: { studentId: selectedStudent.id, classroomId },
+        updater: (store, data) => {
+          const { addStudentToClassroom } = data;
+
+          if (addStudentToClassroom) {
+            const existing = store.get(addStudentToClassroom.classroomId);
+            const currentStudentsList = existing?.getLinkedRecords("students");
+            const newStudent = store
+              .getRootField("addStudentToClassroom")
+              ?.getLinkedRecord("student");
+
+            if (newStudent && currentStudentsList) {
+              currentStudentsList.unshift(newStudent);
+              existing?.setLinkedRecords(currentStudentsList, "students");
+            }
+          }
+        },
       });
       onClose();
     } else {

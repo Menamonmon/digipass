@@ -9,9 +9,10 @@ const classroomStudentsFragment = graphql`
   fragment ClassroomStudentsTab_teacherClassroom on FullStudent
   @relay(plural: true) {
     userProfile {
+      id
       firstName
       lastName
-      id
+      email
       pictureUrl
     }
   }
