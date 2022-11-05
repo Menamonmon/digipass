@@ -11,7 +11,7 @@ import prismaLogger from "./prisma-logger";
 import { generateData } from "./createTestData";
 
 export default async (app: Express) => {
-//   await generateData();
+  //   await generateData();
   const prisma = new PrismaClient({
     log: ["query", "info", "warn", "error"],
   });

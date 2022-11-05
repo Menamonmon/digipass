@@ -4,6 +4,7 @@ import {
   Classroom as ShallowClassroom,
   Pass,
   Student,
+  StudentsOnClassrooms,
   User,
 } from "../../prisma/generated/type-graphql";
 
@@ -43,6 +44,12 @@ export class FullStudent extends Student {
 
   @Field((type) => [Pass])
   passes: Pass[];
+}
+
+@ObjectType()
+export class StudentsOnClassroomsWithAssociatedStudent extends StudentsOnClassrooms {
+  @Field((type) => FullStudent)
+  student: FullStudent;
 }
 
 @ObjectType({})

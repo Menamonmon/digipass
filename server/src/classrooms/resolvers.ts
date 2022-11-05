@@ -7,6 +7,7 @@ import { AuthenticatedGraphQLContext } from "../auth/types";
 import {
   FullClassroom,
   LimitedClassroom,
+  StudentsOnClassroomsWithAssociatedStudent,
   TeacherClassroomUpdateInput,
 } from "./types";
 import { User } from "../../prisma/generated/type-graphql";
@@ -87,12 +88,12 @@ class ClassroomsResolvers {
   }
 
   @Authorized("teacher")
-  @Mutation(() => StudentsOnClassrooms, { nullable: true })
+  @Mutation(() => StudentsOnClassroomsWithAssociatedStudent, { nullable: true })
   async addStudentToClassroom(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string,
     @Arg("studentId") studentId: string
-  ): Promise<StudentsOnClassrooms | null> {
+  ): Promise<StudentsOnClassroomsWithAssociatedStudent | null> {
     const { id: teacherId } = user;
     return await prisma.studentsOnClassrooms.create({
       data: {
@@ -109,6 +110,14 @@ class ClassroomsResolvers {
         student: {
           connect: {
             id: studentId,
+          },
+        },
+      },
+      include: {
+        student: {
+          include: {
+            userProfile: true,
+            passes: true,
           },
         },
       },
