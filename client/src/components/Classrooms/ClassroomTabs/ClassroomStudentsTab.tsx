@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
-import { ClassroomStudentsTab_teacherClassroom$key } from "./__generated__/ClassroomStudentsTab_teacherClassroom.graphql";
+import {
+  ClassroomStudentsTab_teacherClassroom$data,
+  ClassroomStudentsTab_teacherClassroom$key,
+} from "./__generated__/ClassroomStudentsTab_teacherClassroom.graphql";
 import { AddStudentModal } from "./AddStudentModal";
 import { useRouter } from "next/router";
+import { ClassroomStudentsList } from "./StudentsList";
 
 const classroomStudentsFragment = graphql`
   fragment ClassroomStudentsTab_teacherClassroom on FullStudent
@@ -15,11 +19,28 @@ const classroomStudentsFragment = graphql`
       email
       pictureUrl
     }
+    passes {
+      id
+      reason
+      createdAt
+      approved
+      startTime
+      endTime
+      duration
+      classroomId
+      issuerId
+      studentId
+    }
   }
 `;
 interface ClassroomStudentsTabProps {
   students: ClassroomStudentsTab_teacherClassroom$key;
 }
+
+export type FullStudent = Omit<
+  ClassroomStudentsTab_teacherClassroom$data[0],
+  " $fragmentType"
+>;
 
 export const ClassroomStudentsTab: React.FC<ClassroomStudentsTabProps> = ({
   students,
@@ -39,16 +60,16 @@ export const ClassroomStudentsTab: React.FC<ClassroomStudentsTabProps> = ({
   };
 
   return (
-    <div>
-      <button className="btn" onClick={handleOpen}>
-        Add Student
-      </button>
+    <div className="flex flex-col justify-between" style={{ minHeight: 700 }}>
       <AddStudentModal
         classroomId={(classroomId as string) ?? ""}
         open={open}
         onClose={handleClose}
       />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <ClassroomStudentsList students={data} />
+      <button className="btn" onClick={handleOpen}>
+        Add Student
+      </button>
     </div>
   );
 };
