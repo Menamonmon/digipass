@@ -15,7 +15,8 @@ class RegisterResolver {
   @Mutation(() => BaseRegistrationResponse, { nullable: true })
   async registerUserWithGoogle(
     @Ctx() { prisma }: GraphQLContext,
-    @Arg("idToken") idToken: string
+    @Arg("idToken") idToken: string,
+    @Arg("userType", { nullable: true }) userType: "student" | "teacher" | null
   ): Promise<BaseRegistrationResponse | null> {
     try {
       // Fetching the user data using the Google ID token
@@ -29,7 +30,7 @@ class RegisterResolver {
         picture: pictureUrl,
         email,
       } = ticket.getPayload();
-      const emailType = identifyEmailType(email);
+      const emailType = userType === null ? identifyEmailType(email) : userType;
 
       let userProfile: User;
       try {
@@ -40,10 +41,10 @@ class RegisterResolver {
       } catch {
         userProfile = undefined;
       }
-      let userType: BaseRegistrationResponse["userType"] = "old_student";
+      let accountStatus: BaseRegistrationResponse["userType"] = "old_student";
       if (userProfile) {
         if (emailType === "teacher") {
-          userType = "old_teacher";
+          accountStatus = "old_teacher";
         }
       } else {
         userProfile = await prisma.user.create({
@@ -58,13 +59,13 @@ class RegisterResolver {
           await prisma.teacher.create({
             data: { id: userProfile.id },
           });
-          userType = "new_teacher";
+          accountStatus = "new_teacher";
         } else {
           const studentId = email.split("@")[0];
           await prisma.student.create({
             data: { id: userProfile.id, studentId },
           });
-          userType = "new_student";
+          accountStatus = "new_student";
         }
       }
 
@@ -82,7 +83,7 @@ class RegisterResolver {
           expiresIn: expiresIn,
         }
       );
-      return { jwt, userType, expiresIn };
+      return { jwt, userType: accountStatus, expiresIn };
     } catch (err) {
       console.log(err);
       return null;
