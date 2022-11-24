@@ -33,6 +33,26 @@ class RegisterResolver {
       const emailType = userType === null ? identifyEmailType(email) : userType;
 
       let userProfile: User;
+      // Checking if the user exists and if they do verifying that the existing user type matches the incoming one
+      const existingUserProfile = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (existingUserProfile) {
+        const matchingStudent = await prisma.student.findUnique({
+          where: { id: existingUserProfile.id },
+        });
+        const matchingTeacher = await prisma.teacher.findUnique({
+          where: { id: existingUserProfile.id },
+        });
+        if (emailType === "student" && matchingTeacher) {
+          return null;
+        } else if (emailType === "teacher" && matchingStudent) {
+          return null;
+        } else if (emailType === "neither") {
+          return null;
+        }
+      }
+
       try {
         userProfile = await prisma.user.update({
           data: { lastLogin: new Date() },
