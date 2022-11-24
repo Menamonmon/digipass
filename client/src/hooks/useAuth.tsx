@@ -24,6 +24,12 @@ const AuthContext = createContext<AuthContextValues>({
   isAuthenticated: false,
   handleLogin: () => {},
   handleLogout: () => {},
+  setUserType: (
+    value:
+      | "student"
+      | "teacher"
+      | ((prev: "student" | "teacher") => "student" | "teacher")
+  ) => {},
 });
 
 type AuthState = {
@@ -36,6 +42,7 @@ type AuthState = {
 export interface AuthContextValues extends AuthState {
   handleLogin: (response: GoogleLoginResponse) => void;
   handleLogout: () => void;
+  setUserType: React.Dispatch<React.SetStateAction<"student" | "teacher">>;
 }
 
 type Action =
@@ -105,6 +112,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
   const [commitSignUp, isSignUpInFlight] =
     useMutation<RegisterUserMutationType>(RegisterUserMutation);
+  const [userType, setUserType] = useState<"student" | "teacher">("teacher");
   const [currentUserDataFetchKey, setCurrentUserDataFetchKey] =
     useState<number>(0);
   const currentUserData = useLazyLoadQuery<CurrentUserQueryType>(
@@ -143,7 +151,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({
-      variables: { idToken },
+      variables: { idToken, userType },
       onCompleted(response, errors) {
         if (response.registerUserWithGoogle) {
           const { jwt, userType } = response.registerUserWithGoogle;
@@ -167,6 +175,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     ...authState,
     handleLogin,
     handleLogout,
+    setUserType,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

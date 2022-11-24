@@ -4,9 +4,10 @@ import React from "react";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
 import { ProtectedRoute } from "../components/Layout";
+import { Checkbox } from "@mui/material";
 
 const LoginPage: NextPage<{}> = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, setUserType } = useAuth();
 
   return (
     <>
@@ -21,6 +22,16 @@ const LoginPage: NextPage<{}> = () => {
             for students and jcboe.org domain for teachers!
           </h5>
           <GoogleLoginButton />
+          <div className="flex items-center">
+            <Checkbox
+              onClick={() => {
+                setUserType((prev) =>
+                  prev === "student" ? "teacher" : "student"
+                );
+              }}
+            />
+            <h5>Login as a student</h5>
+          </div>
         </div>
       </ProtectedRoute>
     </>
