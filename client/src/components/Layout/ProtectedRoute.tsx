@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 
 interface ProtectedRouteProps {
   redirect: string;
+  override?: boolean;
   alternativeChildren?: ReactNode;
   allowed?: boolean;
 }
@@ -12,11 +13,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirect,
   allowed,
   children,
+  override,
   alternativeChildren,
 }) => {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const needToRedirect = allowed !== undefined ? allowed : isAuthenticated;
+  let needToRedirect = true;
+  if (!override) {
+    needToRedirect = allowed !== undefined ? allowed : isAuthenticated;
+  }
   useEffect(() => {
     if (!needToRedirect && !alternativeChildren) {
       router.push(redirect);

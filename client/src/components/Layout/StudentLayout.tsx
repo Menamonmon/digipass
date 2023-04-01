@@ -12,6 +12,7 @@ export const StudentLayout: React.FC<{}> = ({ children }) => {
     <ProtectedRoute
       allowed={isStudent}
       redirect="/"
+      override
       alternativeChildren={<PageNotFound />}
     >
       {children}
