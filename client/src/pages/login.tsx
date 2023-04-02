@@ -5,16 +5,19 @@ import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
 import { ProtectedRoute } from "../components/Layout";
 import { Checkbox } from "@mui/material";
+import { useRouter } from "next/router";
 
 const LoginPage: NextPage<{}> = () => {
   const { isAuthenticated, setUserType } = useAuth();
+  const router = useRouter();
+  const redirectUrl = router.query.redirect_url || "/"
 
   return (
     <>
       <Head>
         <title>Login &#8226; digipass</title>
       </Head>
-      <ProtectedRoute allowed={!isAuthenticated} redirect="/">
+      <ProtectedRoute allowed={!isAuthenticated} redirect={redirectUrl as string}>
         <div className="flex flex-col max-w-3xl gap-5 p-4 mx-auto mt-10 border-2 rounded-lg border-primary">
           <h2>Login to digipass</h2>
           <h5>
