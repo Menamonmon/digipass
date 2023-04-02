@@ -1,8 +1,9 @@
 import { NextPage } from "next";
-import React from "react";
+import PendingPassWrapper from "../../components/PendingPassWrapper";
 
-const Page: NextPage<{}> = () => {
-  return <div>Page</div>;
+
+const PendingPass: NextPage<{}> = () => {
+    return <PendingPassWrapper />
 };
 
-export default Page;
+export default PendingPass;
