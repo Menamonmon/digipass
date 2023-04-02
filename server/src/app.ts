@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import express from "express";
 import "reflect-metadata";
 import cors from "cors";
@@ -7,9 +8,15 @@ import { expressjwt } from "express-jwt";
 import "./auth/authorizations";
 import api from "./api";
 import websockets from "./websockets";
+import http from "http";
+
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const main = async () => {
+  const prisma = new PrismaClient({
+    log: ["query", "info", "warn", "error"],
+  });
+
   const app = express();
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
@@ -31,17 +38,17 @@ const main = async () => {
     next();
   });
 
-  await api(app);
+  await api(prisma, app);
 
   const PORT = process.env.PORT || 4000;
+  const server = http.createServer(app);
 
-  const server = app.listen(PORT, () => {
+  await websockets(prisma, server);
+  server.listen(PORT, () => {
     console.log(
       `Apollo Server up and running at http://localhost:${PORT}/graphql`
     );
   });
-
-  websockets(server);
 };
 
 main();
