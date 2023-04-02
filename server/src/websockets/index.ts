@@ -8,8 +8,6 @@ interface ExpandedSocket extends Socket {
   userInfo: CurrentUserJwtInfo;
 }
 
-const classroomMaps = {};
-
 export default async (prisma: PrismaClient, expressServer: Server) => {
   const io = new SocketIOServer(expressServer, {
     cors: {
