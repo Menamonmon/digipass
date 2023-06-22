@@ -1,4 +1,4 @@
-import { CurrentUserJwtInfo } from "./../../../common/types";
+import { CurrentUserJwtInfo } from "../../common/types";
 import { Field, ObjectType } from "type-graphql";
 import { GraphQLContext } from "../types";
 
