@@ -2,7 +2,7 @@ import React from "react";
 import GoogleLogin, {
   GoogleLoginProps,
   GoogleLoginResponse,
-} from "react-google-login";
+} from "@leecheuk/react-google-login";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import dynamic from "next/dynamic";

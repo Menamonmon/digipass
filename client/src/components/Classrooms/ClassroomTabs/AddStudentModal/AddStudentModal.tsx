@@ -1,6 +1,6 @@
 import { Modal } from "@mui/material";
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { toast } from "react-toastify";
 import { graphql } from "relay-runtime";
@@ -83,6 +83,8 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
       variables: { query },
     }));
   }, [query]);
+
+  const debouncedRefetch = useMemo()
 
   const handleStudentChosen = (student: Student) => {
     setSelectedStudent(student);
