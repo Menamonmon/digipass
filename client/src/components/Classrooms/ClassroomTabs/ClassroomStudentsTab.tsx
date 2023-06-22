@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 import { ClassroomStudentsTab_teacherClassroom$key } from "./__generated__/ClassroomStudentsTab_teacherClassroom.graphql";
@@ -25,30 +25,20 @@ export const ClassroomStudentsTab: React.FC<ClassroomStudentsTabProps> = ({
   students,
 }) => {
   const data = useFragment(classroomStudentsFragment, students);
-  const [open, setOpen] = useState(false);
-
   const router = useRouter();
   const classroomId = router.query.classroomId;
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <button className="btn" onClick={handleOpen}>
-        Add Student
-      </button>
-      <AddStudentModal
-        classroomId={(classroomId as string) ?? ""}
-        open={open}
-        onClose={handleClose}
-      />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  );
+  try {
+    return (
+      <div>
+        {((classroomId as string) && (
+          <AddStudentModal classroomId={classroomId as string} />
+        )) ??
+          ""}
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
+    );
+  } catch (err) {
+    console.log(err);
+    return <div>GOOGLE</div>;
+  }
 };

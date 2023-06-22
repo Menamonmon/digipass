@@ -13,9 +13,7 @@ import {
 } from "./__generated__/AddStudentModalQuery.graphql";
 
 interface AddStudentModalProps {
-  open: boolean;
   classroomId: string;
-  onClose: () => void;
 }
 
 const searchStudentsQuery = graphql`
@@ -48,11 +46,16 @@ const addStudentToClassroomMutation = graphql`
   }
 `;
 
-const AddStudentModal: React.FC<AddStudentModalProps> = ({
-  open,
-  onClose,
-  classroomId,
-}) => {
+const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
+  const [open, setOpen] = useState(false);
+  const onOpen = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   const [query, setQuery] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<
     undefined | AddStudentModalQuery$data["searchStudents"][0]
@@ -114,72 +117,79 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({
   };
 
   useEffect(() => {
-    refetch();
+    if (query) {
+      refetch();
+    }
   }, [query]);
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <div className="inline-flex flex-col w-full h-full">
-        <div className="flex flex-col justify-between w-1/2 p-5 m-auto rounded-lg shadow-lg bg-zinc-700 h-1/2">
-          <h4>Add A Student</h4>
-          {/* Modal Content */}
-          <div className="h-72">
-            <input
-              className="w-full input"
-              placeholder="Lookup a student by name or email....."
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-            />
-            <StudentLookupList
-              students={searchStudents}
-              onChoose={handleStudentChosen}
-            />
-            <div>
-              {selectedStudent ? (
-                <>
-                  <h5>Selected Student:</h5>
-                  <div className="flex items-center justify-between px-3">
-                    <div>
-                      <p>
-                        {selectedStudent.firstName} {selectedStudent.lastName} (
-                        {selectedStudent.email})
-                      </p>
+    <>
+      <button className="btn" onClick={onOpen}>
+        Add Student
+      </button>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="inline-flex flex-col w-full h-full">
+          <div className="flex flex-col justify-between w-1/2 p-5 m-auto rounded-lg shadow-lg bg-zinc-700 h-1/2">
+            <h4>Add A Student</h4>
+            {/* Modal Content */}
+            <div className="h-72">
+              <input
+                className="w-full input"
+                placeholder="Lookup a student by name or email....."
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <StudentLookupList
+                students={searchStudents}
+                onChoose={handleStudentChosen}
+              />
+              <div>
+                {selectedStudent ? (
+                  <>
+                    <h5>Selected Student:</h5>
+                    <div className="flex items-center justify-between px-3">
+                      <div>
+                        <p>
+                          {selectedStudent.firstName} {selectedStudent.lastName}{" "}
+                          ({selectedStudent.email})
+                        </p>
+                      </div>
+                      <Image
+                        src={selectedStudent.pictureUrl}
+                        width="50px"
+                        height="50px"
+                        className="rounded-full"
+                      />
                     </div>
-                    <Image
-                      src={selectedStudent.pictureUrl}
-                      width="50px"
-                      height="50px"
-                      className="rounded-full"
-                    />
-                  </div>
-                </>
-              ) : (
-                <h5>No Student Selected!</h5>
-              )}
+                  </>
+                ) : (
+                  <h5>No Student Selected!</h5>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-row justify-end gap-3">
+              <button className="btn" onClick={onClose}>
+                Close
+              </button>
+              <button
+                className="btn"
+                onClick={handleSubmit}
+                disabled={!selectedStudent || addingStudent}
+              >
+                {addingStudent ? "Adding...." : "Add"}
+              </button>
             </div>
           </div>
-          <div className="flex flex-row justify-end gap-3">
-            <button className="btn" onClick={onClose}>
-              Close
-            </button>
-            <button
-              className="btn"
-              onClick={handleSubmit}
-              disabled={!selectedStudent || addingStudent}
-            >
-              {addingStudent ? "Adding...." : "Add"}
-            </button>
-          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 
