@@ -1,13 +1,18 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import GoogleLoginButton from "../components/Auth/GoogleLoginButton";
 import useAuth from "../hooks/useAuth";
 import { ProtectedRoute } from "../components/Layout";
 import { Checkbox } from "@mui/material";
+import LoginTypeCheckbox from "../components/Auth/LoginTypeCheckbox";
 
 const LoginPage: NextPage<{}> = () => {
   const { isAuthenticated, setUserType } = useAuth();
+
+  useEffect(() => {
+    setUserType("teacher");
+  }, []);
 
   return (
     <>
@@ -22,16 +27,7 @@ const LoginPage: NextPage<{}> = () => {
             for students and jcboe.org domain for teachers!
           </h5>
           <GoogleLoginButton />
-          <div className="flex items-center">
-            <Checkbox
-              onClick={() => {
-                setUserType((prev) =>
-                  prev === "student" ? "teacher" : "student"
-                );
-              }}
-            />
-            <h5>Login as a student</h5>
-          </div>
+          <LoginTypeCheckbox />
         </div>
       </ProtectedRoute>
     </>

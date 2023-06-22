@@ -1,4 +1,4 @@
-import { identifyEmailType } from "./userVerification";
+import { generateRandomString, identifyEmailType } from "./userVerification";
 import { GraphQLContext } from "./../types";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import jsonwebtoken from "jsonwebtoken";
@@ -81,7 +81,8 @@ class RegisterResolver {
           });
           accountStatus = "new_teacher";
         } else {
-          const studentId = email.split("@")[0];
+          //   const studentId = email.split("@")[0].slice(0, 6);
+          const studentId = generateRandomString(5);
           await prisma.student.create({
             data: { id: userProfile.id, studentId },
           });
