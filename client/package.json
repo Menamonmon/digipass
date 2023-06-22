@@ -19,6 +19,7 @@
     "@leecheuk/react-google-login": "^5.4.1",
     "@mui/material": "^5.10.0",
     "@tailwindcss/line-clamp": "~0.2.1",
+    "@types/lodash": "^4.14.195",
     "clsx": "^1.1.1",
     "crypto": "^1.0.1",
     "daisyui": "^2.17.0",

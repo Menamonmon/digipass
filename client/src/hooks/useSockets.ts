@@ -1,8 +1,13 @@
 import { config } from "./../../config";
 import { useState } from "react";
-import { CurrentUserJwtInfo } from "./../../../server/src/auth/types";
 import io, { Socket } from "socket.io-client";
 import useAuth from "./useAuth";
+
+export interface CurrentUserJwtInfo {
+  id: string;
+  email: string;
+  userType: "student" | "teacher";
+}
 
 interface ExpandedSocket extends Socket {
   userInfo: CurrentUserJwtInfo;

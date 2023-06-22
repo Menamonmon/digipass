@@ -11,6 +11,7 @@ import {
   AddStudentModalQuery,
   AddStudentModalQuery$data,
 } from "./__generated__/AddStudentModalQuery.graphql";
+import * as _ from "lodash";
 
 interface AddStudentModalProps {
   classroomId: string;
@@ -75,16 +76,14 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
     addStudentToClassroomMutation
   );
 
-  const refetch = useCallback(() => {
+  const refetch = useCallback((query: string) => {
     setSearchStudentsArgs((prev) => ({
       options: {
         fetchKey: (prev?.options.fetchKey ?? 0) + 1,
       },
       variables: { query },
     }));
-  }, [query]);
-
-  const debouncedRefetch = useMemo()
+  }, []);
 
   const handleStudentChosen = (student: Student) => {
     setSelectedStudent(student);
@@ -118,11 +117,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
     }
   };
 
-  useEffect(() => {
-    if (query) {
-      refetch();
-    }
-  }, [query]);
+  const debouncedRefetch = useCallback(_.debounce(refetch, 300), []);
 
   return (
     <>
@@ -145,7 +140,9 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
                 placeholder="Lookup a student by name or email....."
                 value={query}
                 onChange={(e) => {
-                  setQuery(e.target.value);
+                  const value = e.target.value;
+                  debouncedRefetch(value);
+                  setQuery(value);
                 }}
               />
               <StudentLookupList
