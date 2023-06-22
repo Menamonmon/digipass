@@ -1,5 +1,5 @@
+import { CurrentUserJwtInfo } from "./../../../common/types";
 import { Field, ObjectType } from "type-graphql";
-import { Student, Teacher } from "../../prisma/generated/type-graphql";
 import { GraphQLContext } from "../types";
 
 @ObjectType()
@@ -43,12 +43,8 @@ export class CurrentUser {
   @Field()
   pictureUrl: string;
 }
-
-export interface CurrentUserJwtInfo {
-  id: string;
-  email: string;
-  userType: "student" | "teacher";
-}
 export interface AuthenticatedGraphQLContext extends GraphQLContext {
   user: CurrentUserJwtInfo | null;
 }
+
+export { CurrentUserJwtInfo };

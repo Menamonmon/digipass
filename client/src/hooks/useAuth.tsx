@@ -1,11 +1,12 @@
 import React, {
+  PropsWithChildren,
   createContext,
   useContext,
   useEffect,
   useReducer,
   useState,
 } from "react";
-import { GoogleLoginResponse } from "react-google-login";
+import { GoogleLoginResponse } from "@leecheuk/react-google-login";
 import {
   AuthUserType,
   BasicUserType,
@@ -109,7 +110,9 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
   return updatedAuthState;
 };
 
-export const AuthContextProvider: React.FC = ({ children }) => {
+export const AuthContextProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
   const [commitSignUp, isSignUpInFlight] =
     useMutation<RegisterUserMutationType>(RegisterUserMutation);

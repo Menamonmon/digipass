@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import {
   clearPersistedState,
   persistState,
@@ -11,7 +11,7 @@ interface LockedRouteProps {
 }
 const LOCKED_ROUTE_KEY = "locked-route";
 
-export const LockedRoute: React.FC<LockedRouteProps> = ({
+export const LockedRoute: React.FC<PropsWithChildren<LockedRouteProps>> = ({
   isLocked,
   children,
 }) => {

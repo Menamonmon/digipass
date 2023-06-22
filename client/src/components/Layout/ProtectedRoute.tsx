@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { ReactNode, useEffect } from "react";
+import React, { PropsWithChildren, ReactNode, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 interface ProtectedRouteProps {
@@ -9,13 +9,9 @@ interface ProtectedRouteProps {
   allowed?: boolean;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  redirect,
-  allowed,
-  children,
-  override,
-  alternativeChildren,
-}) => {
+export const ProtectedRoute: React.FC<
+  PropsWithChildren<ProtectedRouteProps>
+> = ({ redirect, allowed, children, override, alternativeChildren }) => {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   let needToRedirect = true;

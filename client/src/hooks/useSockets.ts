@@ -1,6 +1,6 @@
+import { CurrentUserJwtInfo } from "./../../../common/types";
 import { config } from "./../../config";
 import { useState } from "react";
-import { CurrentUserJwtInfo } from "./../../../server/src/auth/types";
 import io, { Socket } from "socket.io-client";
 import useAuth from "./useAuth";
 
