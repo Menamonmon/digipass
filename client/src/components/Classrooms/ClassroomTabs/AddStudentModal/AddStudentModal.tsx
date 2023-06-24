@@ -54,6 +54,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
   };
 
   const onClose = () => {
+    cleanup();
     setOpen(false);
   };
 
@@ -90,6 +91,12 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
     setQuery("");
   };
 
+  const cleanup = () => {
+    setQuery("");
+    debouncedRefetch("");
+    setSelectedStudent(undefined);
+  };
+
   const handleSubmit = () => {
     if (selectedStudent?.id && classroomId) {
       addStudent({
@@ -121,7 +128,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
 
   return (
     <>
-      <button className="btn" onClick={onOpen}>
+      <button className="w-11/12 mx-auto my-4 btn" onClick={onOpen}>
         Add Student
       </button>
       <Modal
