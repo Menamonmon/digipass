@@ -22,7 +22,6 @@
     "prisma": "^4.1.1",
     "ts-node": "^10.7.0",
     "typegraphql-prisma": "^0.21.2",
-    "typescript": "^4.6.3"
   },
   "dependencies": {
     "@prisma/client": "^4.1.1",
@@ -46,6 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.6.1",
     "ts-node": "^10.7.0",
+    "typescript": "^4.6.3",
     "type-graphql": "^1.1.1",
     "ws": "^8.8.0"
   }
