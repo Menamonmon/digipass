@@ -37,7 +37,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/node": "18.0.35",
+    "@types/node": "^20.3.1",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.0",
     "@types/react-relay": "^13.0.2",
