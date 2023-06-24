@@ -4,6 +4,7 @@ import { graphql } from "relay-runtime";
 import { ClassroomStudentsTab_teacherClassroom$key } from "./__generated__/ClassroomStudentsTab_teacherClassroom.graphql";
 import { AddStudentModal } from "./AddStudentModal";
 import { useRouter } from "next/router";
+import ClassroomStudentsList from "./ClassroomStudentsList";
 
 const classroomStudentsFragment = graphql`
   fragment ClassroomStudentsTab_teacherClassroom on FullStudent
@@ -26,19 +27,14 @@ export const ClassroomStudentsTab: React.FC<ClassroomStudentsTabProps> = ({
 }) => {
   const data = useFragment(classroomStudentsFragment, students);
   const router = useRouter();
-  const classroomId = router.query.classroomId;
-  try {
-    return (
-      <div>
-        {((classroomId as string) && (
-          <AddStudentModal classroomId={classroomId as string} />
-        )) ??
-          ""}
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </div>
-    );
-  } catch (err) {
-    console.log(err);
-    return <div>GOOGLE</div>;
-  }
+  const classroomId = router.query.classroomId as string;
+  return (
+    <div className="flex flex-col justify-center">
+      {(classroomId && (
+        <AddStudentModal classroomId={classroomId as string} />
+      )) ??
+        ""}
+      <ClassroomStudentsList students={data} classroomId={classroomId} />
+    </div>
+  );
 };
