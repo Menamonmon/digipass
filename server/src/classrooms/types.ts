@@ -6,7 +6,7 @@ import {
   Student,
   StudentsOnClassrooms,
   User,
-} from "../../prisma/generated/type-graphql";
+} from "@generated/type-graphql";
 
 @InputType()
 export class TeacherClassroomUpdateInput {

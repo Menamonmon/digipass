@@ -2,7 +2,7 @@ import { Authorized } from "type-graphql";
 import {
   applyResolversEnhanceMap,
   ResolversEnhanceMap,
-} from "../../prisma/generated/type-graphql";
+} from "@generated/type-graphql";
 
 // Outline of permissions and authorizations
 

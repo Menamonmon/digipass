@@ -2,7 +2,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   CreateOneClassroomResolver,
   StudentsOnClassrooms,
-} from "../../prisma/generated/type-graphql";
+} from "@generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import {
   FullClassroom,
@@ -10,7 +10,7 @@ import {
   StudentsOnClassroomsWithAssociatedStudent,
   TeacherClassroomUpdateInput,
 } from "./types";
-import { User } from "../../prisma/generated/type-graphql";
+import { User } from "@generated/type-graphql";
 
 @Resolver()
 class ClassroomsResolvers {
