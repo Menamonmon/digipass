@@ -2,6 +2,7 @@ import React from "react";
 import { useFragment } from "react-relay";
 import { graphql } from "relay-runtime";
 import { ClassroomPassesTab_teacherClassroom$key } from "./__generated__/ClassroomPassesTab_teacherClassroom.graphql";
+import ClassroomPassesList from "./ClassroomPassesList";
 
 const classroomPassesFragment = graphql`
   fragment ClassroomPassesTab_teacherClassroom on Pass @relay(plural: true) {
@@ -24,5 +25,5 @@ export const ClassroomPassesTab: React.FC<ClassroomPassesTabProps> = ({
   passes,
 }) => {
   const data = useFragment(classroomPassesFragment, passes);
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return <ClassroomPassesList passes={data} />;
 };

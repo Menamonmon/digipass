@@ -148,6 +148,7 @@ const AddStudentModal: React.FC<AddStudentModalProps> = ({ classroomId }) => {
                 value={query}
                 onChange={(e) => {
                   const value = e.target.value;
+                  console.log(value);
                   debouncedRefetch(value);
                   setQuery(value);
                 }}
