@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Layout } from "../components/Layout";
 import useAuth from "../hooks/useAuth";
 import { FaHandshakeSlash } from "react-icons/fa";
 import { FiLock } from "react-icons/fi";
