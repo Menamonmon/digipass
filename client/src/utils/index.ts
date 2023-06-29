@@ -19,3 +19,12 @@ export const minuteValidator = (value: string | number) => {
 export const hourValidator = (value: string | number) => {
   return rangeValidator(value, 0, 24);
 };
+
+export const timeStringFromISODateTime = (datetime: string) => {
+  const date = new Date(datetime);
+  return date.toLocaleDateString("en-US", {
+    hour: "2-digit",
+    hour12: true,
+    minute: "2-digit",
+  });
+};
