@@ -2,7 +2,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import {
   CreateOneClassroomResolver,
   StudentsOnClassrooms,
-} from "../../prisma/generated/type-graphql";
+} from "@generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import {
   FullClassroom,
@@ -10,7 +10,7 @@ import {
   StudentsOnClassroomsWithAssociatedStudent,
   TeacherClassroomUpdateInput,
 } from "./types";
-import { User } from "../../prisma/generated/type-graphql";
+import { User } from "@generated/type-graphql";
 
 @Resolver()
 class ClassroomsResolvers {
@@ -237,7 +237,13 @@ class ClassroomsResolvers {
     @Arg("query", { nullable: true }) query: string
   ): Promise<User[]> {
     const searchValidationRegex = /^[A-Za-z.]+$/;
-    if (!query || !searchValidationRegex.test(query)) {
+    const uuidValidationRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    query = query.trim();
+    if (
+      !query ||
+      !(searchValidationRegex.test(query) || uuidValidationRegex.test(query))
+    ) {
       return [];
     }
     const queryOrStatements = [
@@ -255,6 +261,11 @@ class ClassroomsResolvers {
 		("public"."Student"."id") IN 
 			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
 				WHERE ("j0"."email"::text ILIKE '%${query}%' AND "t0"."id" IS NOT NULL))
+	  `,
+      `
+		("public"."Student"."id") IN 
+			(SELECT "t0"."id" FROM "public"."Student" AS "t0" INNER JOIN "public"."User" AS "j0" ON ("j0"."id") = ("t0"."id") 
+				WHERE ("j0"."id"::text = '${query}' AND "t0"."id" IS NOT NULL))
 	  `,
     ]
       .filter((value) => value.length !== 0)

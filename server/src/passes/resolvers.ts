@@ -1,6 +1,6 @@
 import { datastream } from "googleapis/build/src/apis/datastream";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { Pass } from "../../prisma/generated/type-graphql";
+import { Pass } from "@generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import { mapTimeToToday } from "./utilts";
 

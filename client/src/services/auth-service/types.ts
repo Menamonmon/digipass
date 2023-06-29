@@ -6,6 +6,8 @@ export interface UserProfile {
   pictureUrl: string;
 }
 
+export type BasicUserType = "student" | "teacher";
+
 export type AuthUserType =
   | "not_authenticated"
   | "new_student"

@@ -1,12 +1,17 @@
 import React, {
+  PropsWithChildren,
   createContext,
   useContext,
   useEffect,
   useReducer,
   useState,
 } from "react";
-import { GoogleLoginResponse } from "react-google-login";
-import { AuthUserType, UserProfile } from "../services/auth-service/types";
+import { GoogleLoginResponse } from "@leecheuk/react-google-login";
+import {
+  AuthUserType,
+  BasicUserType,
+  UserProfile,
+} from "../services/auth-service/types";
 import { useLazyLoadQuery, useMutation } from "react-relay";
 import { RegisterUserMutation } from "../graphql/mutations";
 import { CurrentUserQuery } from "../graphql/queries";
@@ -24,12 +29,8 @@ const AuthContext = createContext<AuthContextValues>({
   isAuthenticated: false,
   handleLogin: () => {},
   handleLogout: () => {},
-  setUserType: (
-    value:
-      | "student"
-      | "teacher"
-      | ((prev: "student" | "teacher") => "student" | "teacher")
-  ) => {},
+  userType: "teacher",
+  setUserType: () => {},
 });
 
 type AuthState = {
@@ -42,7 +43,8 @@ type AuthState = {
 export interface AuthContextValues extends AuthState {
   handleLogin: (response: GoogleLoginResponse) => void;
   handleLogout: () => void;
-  setUserType: React.Dispatch<React.SetStateAction<"student" | "teacher">>;
+  setUserType: React.Dispatch<React.SetStateAction<BasicUserType>>;
+  userType: BasicUserType;
 }
 
 type Action =
@@ -108,11 +110,13 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
   return updatedAuthState;
 };
 
-export const AuthContextProvider: React.FC = ({ children }) => {
+export const AuthContextProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [authState, dispatch] = useReducer(authReducer, initialAuthState);
   const [commitSignUp, isSignUpInFlight] =
     useMutation<RegisterUserMutationType>(RegisterUserMutation);
-  const [userType, setUserType] = useState<"student" | "teacher">("teacher");
+  const [userType, setUserType] = useState<BasicUserType>("teacher");
   const [currentUserDataFetchKey, setCurrentUserDataFetchKey] =
     useState<number>(0);
   const currentUserData = useLazyLoadQuery<CurrentUserQueryType>(
@@ -176,6 +180,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     handleLogin,
     handleLogout,
     setUserType,
+    userType,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

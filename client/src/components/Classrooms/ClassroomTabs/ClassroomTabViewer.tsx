@@ -34,12 +34,10 @@ export const ClassroomTabViewer: React.FC<ClassroomTabViewerProps> = ({
   classroomId,
 }) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<ClassroomTab>(currentActiveTab);
   const handleTabChange = (e: React.SyntheticEvent, newVal: ClassroomTab) => {
     const postfix = newVal === "classroom-info" ? "" : newVal;
     const newRoute = `/teacher/classrooms/${classroomId}/${postfix}`;
     router.push(newRoute);
-    setActiveTab(newVal);
   };
 
   const data = useLazyLoadQuery<ClassroomTabViewerQuery>(fullClassroomQuery, {
@@ -50,14 +48,14 @@ export const ClassroomTabViewer: React.FC<ClassroomTabViewerProps> = ({
       <Head>
         <title>
           Classroom |{" "}
-          {activeTab === "classroom-info"
+          {currentActiveTab === "classroom-info"
             ? "General Info"
-            : capitalize(activeTab)}
+            : capitalize(currentActiveTab)}
         </title>
       </Head>
       <div>
         <Tabs
-          value={activeTab}
+          value={currentActiveTab}
           onChange={handleTabChange}
           textColor="inherit"
           variant="fullWidth"
@@ -67,9 +65,9 @@ export const ClassroomTabViewer: React.FC<ClassroomTabViewerProps> = ({
           <Tab label="Passes" value="passes" />
         </Tabs>
         {data.teacherClassroom ? (
-          activeTab === "classroom-info" ? (
+          currentActiveTab === "classroom-info" ? (
             <ClassroomInfoTab classroomInfo={data.teacherClassroom} />
-          ) : activeTab === "passes" ? (
+          ) : currentActiveTab === "passes" ? (
             <ClassroomPassesTab passes={data.teacherClassroom.passes} />
           ) : (
             <ClassroomStudentsTab students={data.teacherClassroom.students} />
