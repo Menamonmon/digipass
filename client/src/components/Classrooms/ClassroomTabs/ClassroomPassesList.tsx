@@ -55,7 +55,7 @@ export const ClassroomPassesListItem: React.FC<{
         ) : (
           <div>Error Loading Student's Information</div>
         )}
-        <div className="flex-col justify-center flex-grow">
+        <div className="flex-col justify-center [&>div]:inline flex-grow">
           <Tooltipped className="line-clamp-1">
             Start:{" "}
             {startTime ? timeStringFromISODateTime(startTime) : "Not provided"}
@@ -64,7 +64,7 @@ export const ClassroomPassesListItem: React.FC<{
             End: {endTime ? timeStringFromISODateTime(endTime) : "Not provided"}
           </Tooltipped>
         </div>
-        <div className="flex-col justify-center flex-grow">
+        <div className="flex-col justify-center [&>div]:inline flex-grow">
           <Tooltipped className="line-clamp-1">Duration: {duration}</Tooltipped>
           <Tooltipped className="max-w-xs line-clamp-2">
             Reason: {reason}

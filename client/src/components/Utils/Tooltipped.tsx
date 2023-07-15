@@ -10,6 +10,7 @@ const Tooltipped: React.FC<PropsWithChildren<HTMLProps<HTMLDivElement>>> = ({
     /line-clamp-([1-9]|none)/g,
     ""
   );
+  console.log(classNameWithoutLineClamp);
   let tooltipText = children;
   if (Array.isArray(children)) {
     tooltipText = children.join("");
@@ -17,7 +18,8 @@ const Tooltipped: React.FC<PropsWithChildren<HTMLProps<HTMLDivElement>>> = ({
   return (
     <div
       data-tip={tooltipText}
-      className={clsx("tooltip", classNameWithoutLineClamp)}
+      className={clsx(classNameWithoutLineClamp, "tooltip")}
+      //   className={clsx("tooltip", classNameWithoutLineClamp)}
       {...rest}
     >
       <div className={className}>{children}</div>
