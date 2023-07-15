@@ -7,6 +7,7 @@ import { ClassroomStudentsListItem } from "./ClassroomStudentsList";
 import { timeStringFromISODateTime } from "../../../utils";
 import PassStatusButton from "../../Passes/PassStatusButton";
 import { format } from "timeago.js";
+import Tooltipped from "../../Utils/Tooltipped";
 
 const getStudentById = graphql`
   query ClassroomPassesListStudentMetadataQuery($query: String) {
@@ -55,23 +56,25 @@ export const ClassroomPassesListItem: React.FC<{
           <div>Error Loading Student's Information</div>
         )}
         <div className="flex-col justify-center flex-grow">
-          <div className="line-clamp-1">
+          <Tooltipped className="line-clamp-1">
             Start:{" "}
             {startTime ? timeStringFromISODateTime(startTime) : "Not provided"}
-          </div>
-          <div className="line-clamp-1">
+          </Tooltipped>
+          <Tooltipped className="line-clamp-1">
             End: {endTime ? timeStringFromISODateTime(endTime) : "Not provided"}
-          </div>
+          </Tooltipped>
         </div>
         <div className="flex-col justify-center flex-grow">
-          <div className="line-clamp-1">Duration: {duration}</div>
-          <div className="max-w-xs line-clamp-2">Reason: {reason}</div>
+          <Tooltipped className="line-clamp-1">Duration: {duration}</Tooltipped>
+          <Tooltipped className="max-w-xs line-clamp-2">
+            Reason: {reason}
+          </Tooltipped>
         </div>
         <PassStatusButton approved={approved} startTime={startTime} />
       </div>
-      <div className="text-xs text-right">
+      <Tooltipped className="inline ml-auto text-xs">
         Created: {format(new Date(createdAt), "en_US")}
-      </div>
+      </Tooltipped>
     </div>
   );
 };
