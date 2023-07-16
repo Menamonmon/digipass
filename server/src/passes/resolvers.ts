@@ -1,5 +1,13 @@
 import { datastream } from "googleapis/build/src/apis/datastream";
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { Pass } from "@generated/type-graphql";
 import { AuthenticatedGraphQLContext } from "../auth/types";
 import { mapTimeToToday } from "./utilts";
@@ -99,7 +107,8 @@ class PassMutationsResolver {
   async studentCreatePass(
     @Ctx() { prisma, user }: AuthenticatedGraphQLContext,
     @Arg("classroomId") classroomId: string,
-    @Arg("reason") reason: string
+    @Arg("reason") reason: string,
+    @Arg("duration", (type) => Int) duration: number
   ): Promise<Pass | null> {
     const { id } = user;
     const studentId = id;
@@ -110,32 +119,26 @@ class PassMutationsResolver {
     if (classroom && !classroom.archived) {
       // Checking if the student already has a pass for that specific class
 
-      const todayClassroomStartTime = mapTimeToToday(
-        classroom.startHour,
-        classroom.startMinute
-      );
-      const todayClassroomEndTime = mapTimeToToday(
-        classroom.endHour,
-        classroom.endMinute
-      );
+      const today = new Date();
+      const yesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
       const existingPassForToday = await prisma.pass.findFirst({
         where: {
           studentId,
           classroomId: classroom.id,
           createdAt: {
-            gt: todayClassroomStartTime,
-            lt: todayClassroomEndTime,
+            gt: yesterday,
+            lt: today,
           },
         },
       });
-      if (existingPassForToday) {
+      if (existingPassForToday != null) {
         return null;
       }
       const newPass = await prisma.pass.create({
         data: {
           studentId,
           classroomId: classroom.id,
-          duration: 7,
+          duration: duration,
           approved: false,
           reason: reason,
           issuerId: classroom.teacherId,

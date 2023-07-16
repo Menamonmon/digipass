@@ -1,12 +1,11 @@
 import clsx from "clsx";
-import { parse } from "path";
 import React, { useEffect, useRef, useState } from "react";
 
 interface InputFieldProps {
   value: string | number | undefined | null;
   name: string;
   onUpdate: (value: string | number, fieldName: string) => void;
-  disabled: boolean;
+  disabled?: boolean;
   required?: boolean;
   className?: string;
   component?: React.ElementType;
@@ -27,8 +26,6 @@ const InputField: React.FC<InputFieldProps> = ({
   errorMessage,
   type = "string",
 }) => {
-  const inputRef = useRef();
-
   const [outOfFocus, setOutOfFocus] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
