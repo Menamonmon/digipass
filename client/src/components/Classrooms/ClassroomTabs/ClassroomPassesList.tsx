@@ -1,7 +1,7 @@
 import React from "react";
 import { ClassroomPassesTab_teacherClassroom$data } from "./__generated__/ClassroomPassesTab_teacherClassroom.graphql";
 import { graphql } from "relay-runtime";
-import { useLazyLoadQuery, useMutation, useQueryLoader } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { ClassroomPassesListStudentMetadataQuery } from "./__generated__/ClassroomPassesListStudentMetadataQuery.graphql";
 import { ClassroomStudentsListItem } from "./ClassroomStudentsList";
 import { timeStringFromISODateTime } from "../../../utils";

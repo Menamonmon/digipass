@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           cleaner, faster, smarter:{" "}
           <span className="text-[#4f8ed8]">digipass</span> hall passes
         </h1>
-        <div className="m-20 text-center">
+        <div className="flex flex-col gap-3 m-20 text-center">
           <a
             className="text-[#2B303B] bg-[#BBC5DC] rounded p-2 hover:bg-blue-200"
             href={`${
@@ -40,6 +40,15 @@ const Home: NextPage = () => {
           >
             Go To Classrooms
           </a>
+
+          {authStatus.endsWith("student") && (
+            <a
+              href="student/request-pass/pre-request-pass"
+              className="text-[#2B303B] bg-[#BBC5DC] rounded p-2 hover:bg-blue-200"
+            >
+              Request A Pass
+            </a>
+          )}
           <div className="flex flex-row gap-10 my-10">
             {infoItems.map((items, key) => (
               <div
