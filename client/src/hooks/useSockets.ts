@@ -1,4 +1,4 @@
-import { CurrentUserJwtInfo } from "./../../../common/types";
+import { CurrentUserJwtInfo } from "./../../../server/common/types";
 import { config } from "./../../config";
 import { useState } from "react";
 import io, { Socket } from "socket.io-client";
