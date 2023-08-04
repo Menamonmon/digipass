@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 dist/src/app.js",
-    "prestart": "tsc && prisma migrate deploy",
+    "postinstall": "tsc",
+    "prestart": "prisma migrate deploy",
     "predev": "prisma generate",
     "dev": "nodemon -e ts --exec \"ts-node ./src/app.ts\"",
     "lint": "eslint . --ext .ts"
