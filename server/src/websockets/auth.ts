@@ -3,8 +3,10 @@ import { CurrentUserJwtInfo } from "../auth/types";
 import jsonwebtoken from "jsonwebtoken";
 
 export async function verifyConnection(
-  jwt: string
+  request: IncomingMessage
 ): Promise<CurrentUserJwtInfo | null> {
+  const url = new URL(request.url, "http://localhost:4000");
+  const jwt = url.searchParams.get("jwt");
   if (jwt) {
     try {
       const { id, email, userType } = jsonwebtoken.verify(
