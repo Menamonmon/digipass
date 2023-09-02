@@ -1,6 +1,7 @@
 import React from "react";
 import { StudentClassroomSelectorQuery$data } from "./__generated__/StudentClassroomSelectorQuery.graphql";
 import Tooltipped from "../Utils/Tooltipped";
+import Link from "next/link";
 
 interface StudentSelectedClassroomDetailsProps {
   selectedClassroom: NonNullable<
@@ -28,12 +29,12 @@ const StudentSelectedClassroomDetails: React.FC<
       <Tooltipped className="flex line-clamp-4">
         <strong>Description:</strong> {selectedClassroom.description}
       </Tooltipped>
-      <a
+      <Link
         href={`/student/request-pass/${selectedClassroom.id}`}
         className="inline-block px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
       >
         Proceed to Pass Request
-      </a>
+      </Link>
     </div>
   );
 };

@@ -1,18 +1,22 @@
 import { Server } from "http";
 import WebSocket from "ws";
 import { verifyConnection } from "./auth";
+import { PrismaClient } from "@prisma/client";
+import { attachLogger } from "./logger";
 
-export default (expressServer: Server) => {
-  const websocketServer = new WebSocket.Server({
+export default (prismaClient: PrismaClient, expressServer: Server) => {
+  const wss = new WebSocket.Server({
     noServer: true,
     path: "/websockets",
   });
 
+  attachLogger(wss);
+
   expressServer.on("upgrade", async (request, socket, head) => {
     const userInfo = await verifyConnection(request);
     if (userInfo) {
-      websocketServer.handleUpgrade(request, socket, head, (websocket) => {
-        websocketServer.emit("connection", websocket, request);
+      wss.handleUpgrade(request, socket, head, (websocket) => {
+        wss.emit("connection", websocket, request);
       });
     } else {
       socket.destroy();

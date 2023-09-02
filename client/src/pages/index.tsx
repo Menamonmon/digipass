@@ -4,9 +4,13 @@ import useAuth from "../hooks/useAuth";
 import { FaHandshakeSlash } from "react-icons/fa";
 import { FiLock } from "react-icons/fi";
 import { BsPersonCheckFill } from "react-icons/bs";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { genWsUrl } from "../services/ws";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { authStatus } = useAuth();
+  const { readyState } = useWebSocket(genWsUrl());
   const infoItems = [
     {
       title: "Secure",
@@ -24,7 +28,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Welcome to digipass!</title>
+        <title>Welcome to digipass! {readyState == ReadyState.OPEN}</title>
       </Head>
       <div className="mt-10">
         <h1 className="text-center">
@@ -32,22 +36,22 @@ const Home: NextPage = () => {
           <span className="text-[#4f8ed8]">digipass</span> hall passes
         </h1>
         <div className="flex flex-col gap-3 m-20 text-center">
-          <a
+          <Link
             className="text-[#2B303B] bg-[#BBC5DC] rounded p-2 hover:bg-blue-200"
             href={`${
               authStatus.endsWith("student") ? "student" : "teacher"
             }/classrooms`}
           >
             Go To Classrooms
-          </a>
+          </Link>
 
           {authStatus.endsWith("student") && (
-            <a
+            <Link
               href="student/request-pass/pre-request-pass"
               className="text-[#2B303B] bg-[#BBC5DC] rounded p-2 hover:bg-blue-200"
             >
               Request A Pass
-            </a>
+            </Link>
           )}
           <div className="flex flex-row gap-10 my-10">
             {infoItems.map((items, key) => (

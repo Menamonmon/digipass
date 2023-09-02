@@ -22,6 +22,9 @@ import {
   persistState,
   retrievePersistedState,
 } from "../services/auth-service";
+import { genWsUrl } from "../services/ws";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { JsonValue, WebSocketHook } from "react-use-websocket/dist/lib/types";
 
 const AuthContext = createContext<AuthContextValues>({
   authStatus: "not_authenticated",
@@ -31,6 +34,14 @@ const AuthContext = createContext<AuthContextValues>({
   handleLogout: () => {},
   userType: "teacher",
   setUserType: () => {},
+  ws: {
+    getWebSocket: () => null,
+    lastJsonMessage: {},
+    lastMessage: new MessageEvent(""),
+    readyState: ReadyState["CLOSED"],
+    sendJsonMessage: () => {},
+    sendMessage: () => {},
+  },
 });
 
 type AuthState = {
@@ -45,6 +56,7 @@ export interface AuthContextValues extends AuthState {
   handleLogout: () => void;
   setUserType: React.Dispatch<React.SetStateAction<BasicUserType>>;
   userType: BasicUserType;
+  ws: WebSocketHook<JsonValue | null, MessageEvent<any> | null>;
 }
 
 type Action =
@@ -71,6 +83,7 @@ const authReducerHandler = (state: AuthState, action: Action): AuthState => {
     return {
       isAuthenticated: false,
       userProfile: undefined,
+      jwt: undefined,
       authStatus: "not_authenticated",
     };
   } else if (action.type === "load_new_user_profile") {
@@ -113,12 +126,31 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
 export const AuthContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [authState, dispatch] = useReducer(authReducer, initialAuthState);
-  const [commitSignUp, isSignUpInFlight] =
-    useMutation<RegisterUserMutationType>(RegisterUserMutation);
+  const [wsUrl, setWsUrl] = useState("");
+  const [wsToConnect, setWsToConnect] = useState(false);
   const [userType, setUserType] = useState<BasicUserType>("teacher");
   const [currentUserDataFetchKey, setCurrentUserDataFetchKey] =
     useState<number>(0);
+  const [authState, dispatch] = useReducer(authReducer, initialAuthState);
+
+  const websocketInfo = useWebSocket(
+    wsUrl,
+    {
+      share: true,
+      queryParams: { jwt: authState.jwt ?? "" },
+      shouldReconnect: () => true,
+      reconnectInterval: 500,
+      retryOnError: true,
+      onOpen: () => {
+        console.log("A new connection opened");
+      },
+      onError: (err) => console.log(err),
+    },
+    wsToConnect
+  );
+
+  const [commitSignUp, isSignUpInFlight] =
+    useMutation<RegisterUserMutationType>(RegisterUserMutation);
   const currentUserData = useLazyLoadQuery<CurrentUserQueryType>(
     CurrentUserQuery,
     {},
@@ -152,6 +184,18 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = ({
     }
   }, [currentUserData]);
 
+  // an effect for handling websocket connection validation
+  useEffect(() => {
+    const { isAuthenticated } = authState;
+    if (!isAuthenticated) {
+      setWsUrl("");
+      setWsToConnect(false);
+    } else {
+      setWsUrl(genWsUrl());
+      setWsToConnect(true);
+    }
+  }, [authState.isAuthenticated]);
+
   const handleLogin = async (response: GoogleLoginResponse) => {
     const idToken = response.tokenObj.id_token;
     commitSignUp({
@@ -181,6 +225,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = ({
     handleLogout,
     setUserType,
     userType,
+    ws: websocketInfo,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
